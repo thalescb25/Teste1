@@ -665,14 +665,27 @@ const BuildingAdminPanel = ({ user, onLogout }) => {
                     <CardTitle>Relatório de Entregas</CardTitle>
                     <CardDescription>Histórico completo com filtros avançados</CardDescription>
                   </div>
-                  <Button
-                    onClick={() => exportToCSV()}
-                    variant="outline"
-                    data-testid="export-csv-button"
-                  >
-                    <History className="w-4 h-4 mr-2" />
-                    Exportar CSV
-                  </Button>
+                  <div className="flex gap-2">
+                    <Button
+                      onClick={exportToCSV}
+                      variant="outline"
+                      size="sm"
+                      data-testid="export-csv-button"
+                    >
+                      <History className="w-4 h-4 mr-2" />
+                      CSV
+                    </Button>
+                    <Button
+                      onClick={exportToExcel}
+                      variant="default"
+                      size="sm"
+                      className="bg-emerald-600 hover:bg-emerald-700"
+                      data-testid="export-excel-button"
+                    >
+                      <History className="w-4 h-4 mr-2" />
+                      Excel
+                    </Button>
+                  </div>
                 </div>
               </CardHeader>
               <CardContent className="space-y-4">
