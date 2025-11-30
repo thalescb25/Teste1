@@ -409,6 +409,70 @@ const SuperAdminPanel = ({ user, onLogout }) => {
           </CardContent>
         </Card>
       </div>
+
+      {/* Dialog de Edição */}
+      <Dialog open={showEditDialog} onOpenChange={setShowEditDialog}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Editar Prédio</DialogTitle>
+            <DialogDescription>Alterar informações do prédio</DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div>
+              <Label>Nome do Prédio</Label>
+              <Input
+                value={editBuilding.name}
+                onChange={(e) => setEditBuilding({ ...editBuilding, name: e.target.value })}
+                data-testid="edit-building-name"
+              />
+            </div>
+            <div>
+              <Label>Plano</Label>
+              <select
+                className="w-full h-10 px-3 border border-slate-300 rounded-md"
+                value={editBuilding.plan}
+                onChange={(e) => setEditBuilding({ ...editBuilding, plan: e.target.value })}
+                data-testid="edit-building-plan"
+              >
+                <option value="free">Free (100 mensagens/mês)</option>
+                <option value="basic">Basic (500 mensagens/mês)</option>
+                <option value="premium">Premium (2000 mensagens/mês)</option>
+              </select>
+            </div>
+            <Button onClick={handleEditBuilding} className="w-full bg-emerald-600 hover:bg-emerald-700" data-testid="save-edit-building">
+              Salvar Alterações
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Dialog de Confirmação de Exclusão */}
+      <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Deletar Prédio?</AlertDialogTitle>
+            <AlertDialogDescription>
+              Esta ação não pode ser desfeita. Isso irá deletar permanentemente o prédio "{selectedBuilding?.name}" e todos os dados associados:
+              <ul className="list-disc list-inside mt-2 text-sm">
+                <li>Todos os usuários (admins e porteiros)</li>
+                <li>Todos os apartamentos</li>
+                <li>Todos os telefones cadastrados</li>
+                <li>Histórico de entregas</li>
+              </ul>
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel data-testid="cancel-delete-building">Cancelar</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleDeleteBuilding}
+              className="bg-red-600 hover:bg-red-700"
+              data-testid="confirm-delete-building"
+            >
+              Deletar
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 };
