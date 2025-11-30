@@ -106,6 +106,23 @@ Atualizar prédio (super_admin only)
 
 **Response:** `Building`
 
+### DELETE /super-admin/buildings/{building_id}
+Deletar prédio e todos os dados relacionados (super_admin only)
+
+**Response:**
+```json
+{
+  "message": "Prédio deletado com sucesso"
+}
+```
+
+**Nota:** Esta ação deleta permanentemente:
+- O prédio
+- Todos os usuários (admins e porteiros)
+- Todos os apartamentos
+- Todos os telefones cadastrados
+- Histórico de entregas e logs WhatsApp
+
 ### GET /super-admin/stats
 Estatísticas globais da plataforma
 
