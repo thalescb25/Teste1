@@ -150,7 +150,84 @@ const BuildingAdminPanel = ({ user, onLogout }) => {
     link.download = `relatorio_entregas_${new Date().toISOString().split('T')[0]}.csv`;
     link.click();
     
-    toast.success('Relatório exportado!');
+    toast.success('Relatório CSV exportado!');
+  };
+
+  const exportToExcel = () => {
+    if (filteredDeliveries.length === 0) {
+      toast.error('Nenhuma entrega para exportar');
+      return;
+    }
+
+    // Importar dinamicamente a biblioteca xlsx
+    import('xlsx').then((XLSX) => {
+      // Preparar dados
+      const data = filteredDeliveries.map(d => ({
+        'Data/Hora': new Date(d.timestamp).toLocaleString('pt-BR', {
+          day: '2-digit',
+          month: '2-digit',
+          year: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit',
+        }),
+        'Apartamento': d.apartment_number,
+        'Porteiro': d.doorman_name,
+        'Status': d.status === 'success' ? 'Enviado' : 'Falhou',
+        'Telefones Notificados': d.phones_notified.length,
+        'Números': d.phones_notified.join(', '),
+      }));
+
+      // Criar workbook e worksheet
+      const wb = XLSX.utils.book_new();
+      const ws = XLSX.utils.json_to_sheet(data);
+
+      // Configurar largura das colunas
+      const colWidths = [
+        { wch: 18 }, // Data/Hora
+        { wch: 12 }, // Apartamento
+        { wch: 20 }, // Porteiro
+        { wch: 10 }, // Status
+        { wch: 18 }, // Telefones Notificados
+        { wch: 40 }, // Números
+      ];
+      ws['!cols'] = colWidths;
+
+      // Adicionar worksheet ao workbook
+      XLSX.utils.book_append_sheet(wb, ws, 'Entregas');
+
+      // Adicionar sheet de estatísticas se disponível
+      if (stats) {
+        const statsData = [
+          { Métrica: 'Total de Entregas', Valor: stats.total_deliveries },
+          { Métrica: 'Sucessos', Valor: stats.successful },
+          { Métrica: 'Falhas', Valor: stats.failed },
+          { Métrica: 'Telefones Notificados', Valor: stats.total_phones_notified },
+        ];
+
+        if (stats.top_apartments && stats.top_apartments.length > 0) {
+          statsData.push({ Métrica: '', Valor: '' });
+          statsData.push({ Métrica: 'Top Apartamentos', Valor: 'Entregas' });
+          stats.top_apartments.forEach(apt => {
+            statsData.push({ Métrica: `Apt ${apt.number}`, Valor: apt.count });
+          });
+        }
+
+        const statsWs = XLSX.utils.json_to_sheet(statsData);
+        statsWs['!cols'] = [{ wch: 25 }, { wch: 15 }];
+        XLSX.utils.book_append_sheet(wb, statsWs, 'Estatísticas');
+      }
+
+      // Gerar nome do arquivo
+      const fileName = `relatorio_entregas_${building?.name.replace(/\s+/g, '_')}_${new Date().toISOString().split('T')[0]}.xlsx`;
+
+      // Fazer download
+      XLSX.writeFile(wb, fileName);
+
+      toast.success('Relatório Excel exportado!');
+    }).catch((error) => {
+      console.error('Erro ao exportar Excel:', error);
+      toast.error('Erro ao exportar Excel');
+    });
   };
 
   const loadPhones = async (apartmentId) => {
