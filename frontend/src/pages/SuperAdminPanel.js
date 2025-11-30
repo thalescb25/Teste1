@@ -135,7 +135,9 @@ const SuperAdminPanel = ({ user, onLogout }) => {
     setSelectedBuilding(building);
     setEditBuilding({
       name: building.name,
+      address: building.address || '',
       plan: building.plan,
+      num_apartments: building.num_apartments,
     });
     setShowEditDialog(true);
   };
