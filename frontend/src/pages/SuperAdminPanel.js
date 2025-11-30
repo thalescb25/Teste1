@@ -188,6 +188,109 @@ const SuperAdminPanel = ({ user, onLogout }) => {
       </div>
 
       <div className="container mx-auto px-4 py-6">
+        {/* Dashboard Financeiro */}
+        {financialData && (
+          <Card className="mb-6 border-2 border-emerald-200">
+            <CardHeader className="bg-gradient-to-r from-emerald-50 to-teal-50">
+              <CardTitle className="text-emerald-900">Dashboard Financeiro</CardTitle>
+              <CardDescription>Controle de receitas e assinantes</CardDescription>
+            </CardHeader>
+            <CardContent className="pt-6">
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+                <Card className="border-l-4 border-l-green-600">
+                  <CardContent className="p-4">
+                    <p className="text-sm text-slate-600">Receita Mensal</p>
+                    <p className="text-3xl font-bold text-green-600">
+                      R$ {financialData.monthly_revenue.toFixed(2)}
+                    </p>
+                  </CardContent>
+                </Card>
+                <Card className="border-l-4 border-l-blue-600">
+                  <CardContent className="p-4">
+                    <p className="text-sm text-slate-600">Total Assinantes</p>
+                    <p className="text-3xl font-bold text-blue-600">
+                      {financialData.total_subscribers}
+                    </p>
+                  </CardContent>
+                </Card>
+                <Card className="border-l-4 border-l-purple-600">
+                  <CardContent className="p-4">
+                    <p className="text-sm text-slate-600">Mensagens Enviadas</p>
+                    <p className="text-3xl font-bold text-purple-600">
+                      {financialData.total_messages_sent.toLocaleString()}
+                    </p>
+                  </CardContent>
+                </Card>
+                <Card className="border-l-4 border-l-orange-600">
+                  <CardContent className="p-4">
+                    <p className="text-sm text-slate-600">Prédios Ativos</p>
+                    <p className="text-3xl font-bold text-orange-600">
+                      {financialData.active_buildings}
+                    </p>
+                  </CardContent>
+                </Card>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {/* Distribuição por Plano */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="text-base">Distribuição por Plano</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-3">
+                      {Object.entries(financialData.plan_distribution).map(([plan, count]) => {
+                        const planInfo = plans?.[plan];
+                        return (
+                          <div key={plan} className="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
+                            <div>
+                              <p className="font-semibold capitalize">{planInfo?.name || plan}</p>
+                              <p className="text-sm text-slate-600">
+                                R$ {planInfo?.price.toFixed(2)}/mês
+                              </p>
+                            </div>
+                            <div className="text-right">
+                              <p className="text-2xl font-bold text-emerald-600">{count}</p>
+                              <p className="text-xs text-slate-500">prédios</p>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* Entregas Mensais */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="text-base">Entregas (Últimos 6 Meses)</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-2">
+                      {financialData.monthly_deliveries.map((item, idx) => (
+                        <div key={idx} className="flex items-center justify-between">
+                          <span className="text-sm font-medium text-slate-700">{item.month}</span>
+                          <div className="flex items-center gap-2">
+                            <div className="w-32 bg-slate-200 rounded-full h-2">
+                              <div 
+                                className="bg-emerald-600 h-2 rounded-full transition-all"
+                                style={{ 
+                                  width: `${Math.min((item.count / Math.max(...financialData.monthly_deliveries.map(d => d.count))) * 100, 100)}%` 
+                                }}
+                              ></div>
+                            </div>
+                            <span className="text-sm font-bold text-slate-900 w-8 text-right">{item.count}</span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
         {/* Stats */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
           <Card className="border-l-4 border-l-emerald-600">
