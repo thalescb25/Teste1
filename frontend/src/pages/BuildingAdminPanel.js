@@ -21,6 +21,7 @@ const BuildingAdminPanel = ({ user, onLogout }) => {
   const [loading, setLoading] = useState(true);
   const [selectedApartment, setSelectedApartment] = useState(null);
   const [phones, setPhones] = useState([]);
+  const [allPhones, setAllPhones] = useState([]);
   const [customMessage, setCustomMessage] = useState('');
   const [copied, setCopied] = useState(false);
 
