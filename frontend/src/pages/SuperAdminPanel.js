@@ -46,13 +46,17 @@ const SuperAdminPanel = ({ user, onLogout }) => {
 
   const loadData = async () => {
     try {
-      const [buildingsRes, statsRes] = await Promise.all([
+      const [buildingsRes, statsRes, financialRes, plansRes] = await Promise.all([
         axios.get(`${API}/super-admin/buildings`),
         axios.get(`${API}/super-admin/stats`),
+        axios.get(`${API}/super-admin/financial-dashboard`),
+        axios.get(`${API}/super-admin/plans`),
       ]);
 
       setBuildings(buildingsRes.data);
       setStats(statsRes.data);
+      setFinancialData(financialRes.data);
+      setPlans(plansRes.data);
     } catch (error) {
       toast.error('Erro ao carregar dados');
     } finally {
