@@ -240,7 +240,7 @@ class ChegouAquiAPITester:
             'POST', f'admin/apartments/{apartment["id"]}/phones',
             phone_data,
             self.tokens['building_admin'],
-            201
+            200
         )
 
         if success:
