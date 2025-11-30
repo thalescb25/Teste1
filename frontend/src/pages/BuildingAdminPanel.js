@@ -61,7 +61,7 @@ const BuildingAdminPanel = ({ user, onLogout }) => {
     try {
       const [buildingRes, apartmentsRes, usersRes, deliveriesRes] = await Promise.all([
         axios.get(`${API}/admin/building`),
-        axios.get(`${API}/admin/apartments`),
+        axios.get(`${API}/admin/apartments-with-phones`),
         axios.get(`${API}/admin/users`),
         axios.get(`${API}/admin/deliveries`),
       ]);
@@ -77,6 +77,62 @@ const BuildingAdminPanel = ({ user, onLogout }) => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const downloadTemplate = async () => {
+    try {
+      const response = await axios.get(`${API}/admin/phones-template`, {
+        responseType: 'blob'
+      });
+      
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', 'template_telefones.csv');
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      
+      toast.success('Modelo baixado!');
+    } catch (error) {
+      toast.error('Erro ao baixar modelo');
+    }
+  };
+
+  const handleFileUpload = async (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    if (!file.name.endsWith('.csv')) {
+      toast.error('Por favor, selecione um arquivo CSV');
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('file', file);
+
+    try {
+      const response = await axios.post(`${API}/admin/import-phones`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+
+      if (response.data.success) {
+        toast.success(`${response.data.imported} telefone(s) importado(s)!`);
+        if (response.data.errors && response.data.errors.length > 0) {
+          console.log('Erros na importação:', response.data.errors);
+          toast.warning(`${response.data.errors.length} erro(s) encontrado(s). Verifique o console.`);
+        }
+        loadData();
+        loadAllPhones();
+      }
+    } catch (error) {
+      toast.error(error.response?.data?.detail || 'Erro ao importar planilha');
+    }
+
+    // Limpar input
+    event.target.value = '';
   };
 
   const applyFilters = async () => {
