@@ -200,32 +200,56 @@ async def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(s
 def generate_registration_code() -> str:
     return secrets.token_urlsafe(8).upper()
 
-# Planos e suas características
-PLANS = {
-    "basic": {
-        "name": "Basic",
-        "message_quota": 500,
-        "max_apartments": 50,
-        "price": 49.00,
-        "unlimited_messages": False
-    },
-    "standard": {
-        "name": "Standard",
-        "message_quota": 1500,
-        "max_apartments": 100,
-        "price": 99.00,
-        "unlimited_messages": False
-    },
-    "premium": {
-        "name": "Premium",
-        "message_quota": 999999,  # Ilimitado
-        "max_apartments": 999999,  # Ilimitado (300+)
-        "price": 199.00,
-        "unlimited_messages": True
+# Função para carregar planos do banco de dados
+async def get_plans_from_db():
+    plans_data = await db.plans.find_one({"_id": "plans_config"}, {"_id": 0})
+    if plans_data:
+        return plans_data.get("plans", {})
+    
+    # Planos padrão se não existir no DB
+    default_plans = {
+        "basic": {
+            "name": "Basic",
+            "message_quota": 500,
+            "max_apartments": 50,
+            "price": 49.00,
+            "unlimited_messages": False
+        },
+        "standard": {
+            "name": "Standard",
+            "message_quota": 1500,
+            "max_apartments": 100,
+            "price": 99.00,
+            "unlimited_messages": False
+        },
+        "premium": {
+            "name": "Premium",
+            "message_quota": 999999,
+            "max_apartments": 999999,
+            "price": 199.00,
+            "unlimited_messages": True
+        }
     }
-}
+    # Salvar no banco
+    await db.plans.update_one(
+        {"_id": "plans_config"},
+        {"$set": {"plans": default_plans}},
+        upsert=True
+    )
+    return default_plans
 
-PLAN_QUOTAS = {k: v["message_quota"] for k, v in PLANS.items()}
+# Cache de planos (atualizado quando modificado)
+PLANS_CACHE = {}
+
+async def get_plans():
+    global PLANS_CACHE
+    if not PLANS_CACHE:
+        PLANS_CACHE = await get_plans_from_db()
+    return PLANS_CACHE
+
+async def refresh_plans_cache():
+    global PLANS_CACHE
+    PLANS_CACHE = await get_plans_from_db()
 
 async def send_whatsapp_message(phone: str, message: str) -> tuple[bool, Optional[str]]:
     """
