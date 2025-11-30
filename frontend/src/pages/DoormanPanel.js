@@ -260,7 +260,7 @@ const DoormanPanel = ({ user, onLogout }) => {
             <div className="flex items-center gap-3">
               <Button
                 variant="outline"
-                onClick={loadHistory}
+                onClick={() => loadHistory(1)}
                 className="h-10"
                 data-testid="history-button"
               >
