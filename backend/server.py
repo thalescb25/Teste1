@@ -752,11 +752,28 @@ async def get_delivery_stats(
 # ==================== PLANS MANAGEMENT ====================
 
 @api_router.get("/super-admin/plans")
-async def get_plans(current_user: dict = Depends(get_current_user)):
+async def get_plans_endpoint(current_user: dict = Depends(get_current_user)):
     if current_user["role"] != "super_admin":
         raise HTTPException(status_code=403, detail="Acesso negado")
     
-    return PLANS
+    return await get_plans()
+
+@api_router.put("/super-admin/plans")
+async def update_plans(plans_update: dict, current_user: dict = Depends(get_current_user)):
+    if current_user["role"] != "super_admin":
+        raise HTTPException(status_code=403, detail="Acesso negado")
+    
+    # Atualizar no banco
+    await db.plans.update_one(
+        {"_id": "plans_config"},
+        {"$set": {"plans": plans_update}},
+        upsert=True
+    )
+    
+    # Refresh cache
+    await refresh_plans_cache()
+    
+    return {"message": "Planos atualizados com sucesso", "plans": await get_plans()}
 
 @api_router.get("/super-admin/financial-dashboard")
 async def get_financial_dashboard(current_user: dict = Depends(get_current_user)):
