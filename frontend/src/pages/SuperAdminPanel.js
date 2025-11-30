@@ -475,6 +475,11 @@ const SuperAdminPanel = ({ user, onLogout }) => {
                               {building.plan}
                             </Badge>
                           </div>
+                          {building.address && (
+                            <p className="text-sm text-slate-600 mb-2">
+                              📍 {building.address}
+                            </p>
+                          )}
                           <div className="grid grid-cols-3 gap-4 text-sm">
                             <div>
                               <p className="text-slate-600">Código de Registro</p>
@@ -487,7 +492,7 @@ const SuperAdminPanel = ({ user, onLogout }) => {
                             <div>
                               <p className="text-slate-600">Mensagens</p>
                               <p className="font-semibold">
-                                {building.messages_used} / {building.message_quota}
+                                {building.messages_used} / {building.message_quota >= 999999 ? '∞' : building.message_quota}
                               </p>
                             </div>
                           </div>
