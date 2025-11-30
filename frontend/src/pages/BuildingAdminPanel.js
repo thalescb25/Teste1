@@ -487,34 +487,93 @@ const BuildingAdminPanel = ({ user, onLogout }) => {
           <TabsContent value="apartments" className="space-y-4">
             <Card>
               <CardHeader>
-                <CardTitle>Gerenciar Telefones dos Moradores</CardTitle>
-                <CardDescription>Adicione ou remova telefones WhatsApp dos apartamentos</CardDescription>
+                <div className="flex items-center justify-between">
+                  <div>
+                    <CardTitle>Gerenciar Telefones dos Moradores</CardTitle>
+                    <CardDescription>Adicione ou remova telefones WhatsApp dos apartamentos</CardDescription>
+                  </div>
+                  <div className="flex gap-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={downloadTemplate}
+                      data-testid="download-template-button"
+                    >
+                      <History className="w-4 h-4 mr-2" />
+                      Baixar Modelo
+                    </Button>
+                    <Button
+                      variant="default"
+                      size="sm"
+                      onClick={() => document.getElementById('file-upload').click()}
+                      className="bg-emerald-600 hover:bg-emerald-700"
+                      data-testid="upload-csv-button"
+                    >
+                      <Plus className="w-4 h-4 mr-2" />
+                      Importar Planilha
+                    </Button>
+                    <input
+                      id="file-upload"
+                      type="file"
+                      accept=".csv"
+                      style={{ display: 'none' }}
+                      onChange={handleFileUpload}
+                    />
+                  </div>
+                </div>
               </CardHeader>
               <CardContent>
-                <div className="space-y-4">
-                  {apartments.map((apt) => (
-                    <Card key={apt.id} className="border-l-4 border-l-emerald-600">
-                      <CardContent className="p-4">
-                        <div className="flex items-center justify-between">
-                          <div>
-                            <p className="font-semibold text-lg">Apartamento {apt.number}</p>
+                <div className="space-y-3">
+                  {apartments.map((apt) => {
+                    const hasPhones = apt.phones && apt.phones.length > 0;
+                    
+                    return (
+                      <Card key={apt.id} className={`border-l-4 ${hasPhones ? 'border-l-emerald-600' : 'border-l-slate-300'}`}>
+                        <CardContent className="p-4">
+                          <div className="flex items-center justify-between">
+                            <div className="flex-1">
+                              <div className="flex items-center gap-3">
+                                <p className="font-semibold text-lg">Apartamento {apt.number}</p>
+                                {hasPhones ? (
+                                  <Badge variant="default" className="bg-emerald-100 text-emerald-700">
+                                    {apt.phones.length} telefone(s)
+                                  </Badge>
+                                ) : (
+                                  <Badge variant="secondary">Sem cadastro</Badge>
+                                )}
+                              </div>
+                              {hasPhones && (
+                                <div className="mt-2 text-sm text-slate-600 space-y-1">
+                                  {apt.phones.slice(0, 3).map((phone, idx) => (
+                                    <div key={idx} className="flex items-center gap-2">
+                                      <Phone className="w-3 h-3" />
+                                      <span className="font-medium">{phone.name || phone.whatsapp}</span>
+                                      {phone.name && <span className="text-slate-400 font-mono text-xs">{phone.whatsapp}</span>}
+                                    </div>
+                                  ))}
+                                  {apt.phones.length > 3 && (
+                                    <p className="text-xs text-slate-500 ml-5">+{apt.phones.length - 3} telefone(s) a mais</p>
+                                  )}
+                                </div>
+                              )}
+                            </div>
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={async () => {
+                                setSelectedApartment(apt);
+                                await loadPhones(apt.id);
+                              }}
+                              data-testid={`manage-phones-apt-${apt.number}`}
+                            >
+                              <Phone className="w-4 h-4 mr-2" />
+                              Gerenciar
+                            </Button>
                           </div>
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={async () => {
-                              setSelectedApartment(apt);
-                              await loadPhones(apt.id);
-                            }}
-                            data-testid={`manage-phones-apt-${apt.number}`}
-                          >
-                            <Phone className="w-4 h-4 mr-2" />
-                            Gerenciar Telefones
-                          </Button>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  ))}
+                        </CardContent>
+                      </Card>
+                    );
+                  })}
                 </div>
               </CardContent>
             </Card>
