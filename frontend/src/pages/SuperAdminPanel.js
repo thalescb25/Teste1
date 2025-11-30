@@ -507,17 +507,18 @@ const SuperAdminPanel = ({ user, onLogout }) => {
                                 data-testid={`toggle-active-${building.id}`}
                               />
                             </div>
-                            <select
-                              className="h-9 px-3 border border-slate-300 rounded-md text-sm"
-                              value={building.plan}
-                              onChange={(e) => handleUpdatePlan(building.id, e.target.value)}
-                              data-testid={`update-plan-${building.id}`}
-                            >
-                              <option value="free">Free</option>
-                              <option value="basic">Basic</option>
-                              <option value="premium">Premium</option>
-                            </select>
                             <div className="flex gap-2 mt-2">
+                              <Button
+                                size="sm"
+                                variant="outline"
+                                onClick={() => {
+                                  navigator.clipboard.writeText(`${window.location.origin}/registrar?codigo=${building.registration_code}`);
+                                  toast.success('Link copiado!');
+                                }}
+                                className="text-emerald-600"
+                              >
+                                <Copy className="w-4 h-4" />
+                              </Button>
                               <Button
                                 size="sm"
                                 variant="outline"
