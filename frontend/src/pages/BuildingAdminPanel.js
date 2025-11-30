@@ -232,6 +232,75 @@ const BuildingAdminPanel = ({ user, onLogout }) => {
             <TabsTrigger value="history">Histórico</TabsTrigger>
           </TabsList>
 
+          {/* Telefones Consolidados */}
+          <TabsContent value="phones" className="space-y-4">
+            <Card>
+              <CardHeader>
+                <CardTitle>Todos os Telefones Cadastrados</CardTitle>
+                <CardDescription>Lista consolidada de todos os WhatsApp do prédio</CardDescription>
+                <Button
+                  onClick={loadAllPhones}
+                  variant="outline"
+                  size="sm"
+                  className="w-fit"
+                  data-testid="refresh-all-phones"
+                >
+                  Atualizar Lista
+                </Button>
+              </CardHeader>
+              <CardContent>
+                {allPhones.length === 0 ? (
+                  <div className="text-center py-12">
+                    <Phone className="w-16 h-16 text-slate-300 mx-auto mb-4" />
+                    <p className="text-slate-600">Nenhum telefone cadastrado ainda</p>
+                    <p className="text-sm text-slate-500 mt-2">
+                      Adicione telefones na aba "Apartamentos" ou compartilhe o link de cadastro público
+                    </p>
+                  </div>
+                ) : (
+                  <div className="space-y-2">
+                    <div className="bg-slate-50 p-3 rounded-lg mb-4">
+                      <p className="text-sm font-semibold text-slate-700">
+                        Total: {allPhones.length} telefone(s) cadastrado(s)
+                      </p>
+                    </div>
+                    {allPhones.map((phone) => (
+                      <Card key={phone.id} className="border-l-4 border-l-blue-600">
+                        <CardContent className="p-4">
+                          <div className="flex items-center justify-between">
+                            <div>
+                              <div className="flex items-center gap-2">
+                                <Badge variant="outline" className="font-mono">
+                                  Apt {phone.apartment_number}
+                                </Badge>
+                                <p className="font-semibold text-lg">{phone.whatsapp}</p>
+                              </div>
+                              {phone.name && (
+                                <p className="text-sm text-slate-600 mt-1">{phone.name}</p>
+                              )}
+                              <p className="text-xs text-slate-500 mt-1">
+                                Cadastrado em: {new Date(phone.created_at).toLocaleDateString('pt-BR')}
+                              </p>
+                            </div>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => handleDeletePhone(phone.id)}
+                              className="text-red-600 hover:text-red-700 hover:bg-red-50"
+                              data-testid={`delete-phone-${phone.id}`}
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </Button>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          </TabsContent>
+
           {/* Apartamentos */}
           <TabsContent value="apartments" className="space-y-4">
             <Card>
