@@ -682,6 +682,160 @@ async def get_delivery_stats(
         "top_apartments": [{"number": apt, "count": count} for apt, count in top_apartments]
     }
 
+# ==================== PLANS MANAGEMENT ====================
+
+@api_router.get("/super-admin/plans")
+async def get_plans(current_user: dict = Depends(get_current_user)):
+    if current_user["role"] != "super_admin":
+        raise HTTPException(status_code=403, detail="Acesso negado")
+    
+    return PLANS
+
+@api_router.get("/super-admin/financial-dashboard")
+async def get_financial_dashboard(current_user: dict = Depends(get_current_user)):
+    if current_user["role"] != "super_admin":
+        raise HTTPException(status_code=403, detail="Acesso negado")
+    
+    # Buscar todos os prédios ativos
+    buildings = await db.buildings.find({"active": True}, {"_id": 0}).to_list(1000)
+    
+    # Calcular receita mensal
+    monthly_revenue = sum(PLANS.get(b.get("plan", "basic"), PLANS["basic"])["price"] for b in buildings)
+    
+    # Contar assinantes por plano
+    plan_distribution = {}
+    for building in buildings:
+        plan = building.get("plan", "basic")
+        plan_distribution[plan] = plan_distribution.get(plan, 0) + 1
+    
+    # Buscar entregas por mês (últimos 6 meses)
+    from datetime import datetime, timedelta
+    monthly_deliveries = []
+    for i in range(5, -1, -1):
+        month_start = (datetime.now(timezone.utc) - timedelta(days=30*i)).replace(day=1)
+        month_end = (month_start + timedelta(days=32)).replace(day=1)
+        
+        count = await db.deliveries.count_documents({
+            "timestamp": {
+                "$gte": month_start.isoformat(),
+                "$lt": month_end.isoformat()
+            }
+        })
+        
+        monthly_deliveries.append({
+            "month": month_start.strftime("%b/%y"),
+            "count": count
+        })
+    
+    # Total de mensagens enviadas
+    total_messages = sum(b.get("messages_used", 0) for b in buildings)
+    
+    return {
+        "monthly_revenue": monthly_revenue,
+        "total_subscribers": len(buildings),
+        "plan_distribution": plan_distribution,
+        "monthly_deliveries": monthly_deliveries,
+        "total_messages_sent": total_messages,
+        "active_buildings": len([b for b in buildings if b.get("active", False)])
+    }
+
+# ==================== PHONE IMPORT ====================
+
+from fastapi import UploadFile, File
+import csv
+import io
+
+@api_router.post("/admin/import-phones")
+async def import_phones_csv(
+    file: UploadFile = File(...),
+    current_user: dict = Depends(get_current_user)
+):
+    if current_user["role"] not in ["building_admin", "super_admin"]:
+        raise HTTPException(status_code=403, detail="Acesso negado")
+    
+    try:
+        # Ler arquivo CSV
+        content = await file.read()
+        decoded = content.decode('utf-8')
+        csv_reader = csv.DictReader(io.StringIO(decoded))
+        
+        imported = 0
+        errors = []
+        
+        for row in csv_reader:
+            try:
+                apt_number = row.get('apartamento', '').strip()
+                whatsapp = row.get('telefone', '').strip()
+                name = row.get('nome', '').strip()
+                
+                if not apt_number or not whatsapp:
+                    errors.append(f"Linha com dados faltando: {row}")
+                    continue
+                
+                # Buscar apartamento
+                building_id = current_user["building_id"] if current_user["role"] == "building_admin" else None
+                
+                query = {"number": apt_number}
+                if building_id:
+                    query["building_id"] = building_id
+                
+                apartment = await db.apartments.find_one(query, {"_id": 0})
+                
+                if not apartment:
+                    errors.append(f"Apartamento {apt_number} não encontrado")
+                    continue
+                
+                # Verificar se telefone já existe
+                existing = await db.resident_phones.find_one({
+                    "apartment_id": apartment["id"],
+                    "whatsapp": whatsapp
+                })
+                
+                if existing:
+                    continue  # Pular duplicados
+                
+                # Inserir telefone
+                phone_data = {
+                    "id": str(uuid.uuid4()),
+                    "apartment_id": apartment["id"],
+                    "whatsapp": whatsapp,
+                    "name": name if name else None,
+                    "created_at": datetime.now(timezone.utc).isoformat()
+                }
+                await db.resident_phones.insert_one(phone_data)
+                imported += 1
+                
+            except Exception as e:
+                errors.append(f"Erro na linha {row}: {str(e)}")
+        
+        return {
+            "success": True,
+            "imported": imported,
+            "errors": errors[:10]  # Limitar a 10 erros
+        }
+        
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=f"Erro ao processar arquivo: {str(e)}")
+
+@api_router.get("/admin/phones-template")
+async def download_phones_template(current_user: dict = Depends(get_current_user)):
+    if current_user["role"] not in ["building_admin", "super_admin"]:
+        raise HTTPException(status_code=403, detail="Acesso negado")
+    
+    from fastapi.responses import StreamingResponse
+    
+    # Criar CSV template
+    csv_content = "apartamento,telefone,nome\n"
+    csv_content += "101,(11) 99999-9999,João Silva\n"
+    csv_content += "102,(11) 88888-8888,Maria Santos\n"
+    csv_content += "103,(21) 77777-7777,Pedro Costa\n"
+    
+    return StreamingResponse(
+        io.StringIO(csv_content),
+        media_type="text/csv",
+        headers={"Content-Disposition": "attachment; filename=template_telefones.csv"}
+    )
+
 @api_router.get("/admin/all-phones")
 async def get_all_phones(current_user: dict = Depends(get_current_user)):
     if current_user["role"] != "building_admin":
