@@ -500,6 +500,18 @@ async def update_custom_message(message: str, current_user: dict = Depends(get_c
     
     return {"message": "Mensagem atualizada com sucesso"}
 
+@api_router.put("/admin/building/address")
+async def update_building_address(address: str, current_user: dict = Depends(get_current_user)):
+    if current_user["role"] != "building_admin":
+        raise HTTPException(status_code=403, detail="Acesso negado")
+    
+    await db.buildings.update_one(
+        {"id": current_user["building_id"]},
+        {"$set": {"address": address}}
+    )
+    
+    return {"message": "Endereço atualizado com sucesso"}
+
 @api_router.post("/admin/users", response_model=User)
 async def create_doorman(user: UserCreate, current_user: dict = Depends(get_current_user)):
     if current_user["role"] != "building_admin":
