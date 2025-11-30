@@ -55,10 +55,12 @@ class Building(BaseModel):
     model_config = ConfigDict(extra="ignore")
     id: str
     name: str
+    address: Optional[str] = None
     registration_code: str
     num_apartments: int
     plan: str
     message_quota: int
+    max_apartments: int
     messages_used: int
     active: bool
     custom_message: Optional[str] = None
