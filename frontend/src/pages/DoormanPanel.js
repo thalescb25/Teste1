@@ -41,24 +41,17 @@ const DoormanPanel = ({ user, onLogout }) => {
   const loadHistory = async (days = 1) => {
     try {
       setHistoryDays(days);
-      console.log(`Carregando histórico: ${days} dia(s)`);
-      
       let response;
       
       if (days === 1) {
-        console.log('Chamando:', `${API}/doorman/deliveries/today`);
         response = await axios.get(`${API}/doorman/deliveries/today`);
       } else {
-        console.log('Chamando:', `${API}/doorman/deliveries?days=${days}`);
         response = await axios.get(`${API}/doorman/deliveries?days=${days}`);
       }
       
-      console.log('Resposta recebida:', response.data);
       setTodayDeliveries(response.data);
       setShowHistory(true);
     } catch (error) {
-      console.error('Erro detalhado ao carregar histórico:', error);
-      console.error('Response:', error.response);
       toast.error(error.response?.data?.detail || 'Erro ao carregar histórico');
     }
   };
