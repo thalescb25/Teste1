@@ -61,11 +61,86 @@ const BuildingAdminPanel = ({ user, onLogout }) => {
       setApartments(apartmentsRes.data);
       setUsers(usersRes.data);
       setDeliveries(deliveriesRes.data);
+      setFilteredDeliveries(deliveriesRes.data);
     } catch (error) {
       toast.error('Erro ao carregar dados');
     } finally {
       setLoading(false);
     }
+  };
+
+  const applyFilters = async () => {
+    try {
+      const params = new URLSearchParams();
+      if (filters.startDate) params.append('start_date', new Date(filters.startDate).toISOString());
+      if (filters.endDate) params.append('end_date', new Date(filters.endDate).toISOString());
+      if (filters.apartmentNumber) params.append('apartment_number', filters.apartmentNumber);
+      if (filters.status) params.append('status', filters.status);
+
+      const [deliveriesRes, statsRes] = await Promise.all([
+        axios.get(`${API}/admin/deliveries?${params.toString()}`),
+        axios.get(`${API}/admin/deliveries/stats?${params.toString()}`)
+      ]);
+
+      setFilteredDeliveries(deliveriesRes.data);
+      setStats(statsRes.data);
+      toast.success('Filtros aplicados!');
+    } catch (error) {
+      toast.error('Erro ao aplicar filtros');
+    }
+  };
+
+  const clearFilters = () => {
+    setFilters({
+      startDate: '',
+      endDate: '',
+      apartmentNumber: '',
+      status: ''
+    });
+    setFilteredDeliveries(deliveries);
+    setStats(null);
+  };
+
+  const setQuickFilter = () => {
+    const today = new Date();
+    const thirtyDaysAgo = new Date(today);
+    thirtyDaysAgo.setDate(today.getDate() - 30);
+    
+    setFilters({
+      startDate: thirtyDaysAgo.toISOString().split('T')[0],
+      endDate: today.toISOString().split('T')[0],
+      apartmentNumber: '',
+      status: ''
+    });
+  };
+
+  const exportToCSV = () => {
+    if (filteredDeliveries.length === 0) {
+      toast.error('Nenhuma entrega para exportar');
+      return;
+    }
+
+    const headers = ['Data/Hora', 'Apartamento', 'Porteiro', 'Status', 'Telefones Notificados'];
+    const rows = filteredDeliveries.map(d => [
+      new Date(d.timestamp).toLocaleString('pt-BR'),
+      d.apartment_number,
+      d.doorman_name,
+      d.status === 'success' ? 'Enviado' : 'Falhou',
+      d.phones_notified.join('; ')
+    ]);
+
+    const csvContent = [
+      headers.join(','),
+      ...rows.map(row => row.map(cell => `"${cell}"`).join(','))
+    ].join('\n');
+
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = `relatorio_entregas_${new Date().toISOString().split('T')[0]}.csv`;
+    link.click();
+    
+    toast.success('Relatório exportado!');
   };
 
   const loadPhones = async (apartmentId) => {
