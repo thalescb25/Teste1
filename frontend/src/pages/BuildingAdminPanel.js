@@ -23,6 +23,7 @@ const BuildingAdminPanel = ({ user, onLogout }) => {
   const [phones, setPhones] = useState([]);
   const [allPhones, setAllPhones] = useState([]);
   const [customMessage, setCustomMessage] = useState('');
+  const [buildingAddress, setBuildingAddress] = useState('');
   const [copied, setCopied] = useState(false);
   
   // Filtros e estatísticas de histórico
