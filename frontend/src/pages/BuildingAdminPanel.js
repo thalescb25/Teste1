@@ -24,6 +24,16 @@ const BuildingAdminPanel = ({ user, onLogout }) => {
   const [allPhones, setAllPhones] = useState([]);
   const [customMessage, setCustomMessage] = useState('');
   const [copied, setCopied] = useState(false);
+  
+  // Filtros e estatísticas de histórico
+  const [filters, setFilters] = useState({
+    startDate: '',
+    endDate: '',
+    apartmentNumber: '',
+    status: ''
+  });
+  const [filteredDeliveries, setFilteredDeliveries] = useState([]);
+  const [stats, setStats] = useState(null);
 
   // Dialogs
   const [showAddUserDialog, setShowAddUserDialog] = useState(false);
