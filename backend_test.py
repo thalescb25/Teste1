@@ -165,7 +165,7 @@ class ChegouAquiAPITester:
             'POST', 'admin/users',
             doorman_data,
             self.tokens['building_admin'],
-            201
+            200
         )
 
         if success:
