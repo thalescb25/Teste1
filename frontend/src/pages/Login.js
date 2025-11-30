@@ -50,13 +50,14 @@ const Login = ({ onLogin }) => {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50 px-4">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-emerald-600 mb-4 shadow-lg">
-            <Package className="w-8 h-8 text-white" />
+          <div className="inline-flex items-center justify-center mb-4">
+            <img 
+              src="/logo-chegouaqui.png" 
+              alt="ChegouAqui Logo" 
+              className="h-24 w-auto"
+            />
           </div>
-          <h1 className="text-4xl font-bold text-slate-900 mb-2" style={{ fontFamily: 'Work Sans, sans-serif' }}>
-            ChegouAqui
-          </h1>
-          <p className="text-slate-600">Sistema de notificação de encomendas</p>
+          <p className="text-slate-600 text-lg">Sistema de notificação de encomendas</p>
         </div>
 
         <Card className="shadow-xl border-0">
