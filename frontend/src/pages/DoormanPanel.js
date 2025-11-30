@@ -26,7 +26,7 @@ const DoormanPanel = ({ user, onLogout }) => {
     try {
       const [buildingRes, apartmentsRes] = await Promise.all([
         axios.get(`${API}/admin/building`),
-        axios.get(`${API}/admin/apartments`),
+        axios.get(`${API}/admin/apartments-with-phones`),
       ]);
 
       setBuilding(buildingRes.data);
