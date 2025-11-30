@@ -299,6 +299,17 @@ async def create_building(building: BuildingCreate, current_user: dict = Depends
     if current_user["role"] != "super_admin":
         raise HTTPException(status_code=403, detail="Acesso negado")
     
+    # Validar limites do plano
+    plan_info = PLANS.get(building.plan)
+    if not plan_info:
+        raise HTTPException(status_code=400, detail="Plano inválido")
+    
+    if building.num_apartments > plan_info["max_apartments"]:
+        raise HTTPException(
+            status_code=400, 
+            detail=f"Número de apartamentos excede o limite do plano {plan_info['name']} ({plan_info['max_apartments']} apts)"
+        )
+    
     # Criar prédio
     building_id = str(uuid.uuid4())
     registration_code = generate_registration_code()
@@ -306,10 +317,12 @@ async def create_building(building: BuildingCreate, current_user: dict = Depends
     building_data = {
         "id": building_id,
         "name": building.name,
+        "address": building.address,
         "registration_code": registration_code,
         "num_apartments": building.num_apartments,
         "plan": building.plan,
-        "message_quota": PLAN_QUOTAS.get(building.plan, 100),
+        "message_quota": plan_info["message_quota"],
+        "max_apartments": plan_info["max_apartments"],
         "messages_used": 0,
         "active": True,
         "custom_message": None,
