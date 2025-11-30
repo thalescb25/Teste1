@@ -409,14 +409,18 @@ const BuildingAdminPanel = ({ user, onLogout }) => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
           <Card>
             <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-slate-600">Plano</p>
-                  <p className="text-2xl font-bold text-slate-900 capitalize">{building?.plan}</p>
+              <div>
+                <div className="flex items-center justify-between mb-2">
+                  <p className="text-sm text-slate-600">Plano Contratado</p>
+                  <Badge className="bg-emerald-100 text-emerald-700 hover:bg-emerald-100">
+                    {building?.active ? 'Ativo' : 'Inativo'}
+                  </Badge>
                 </div>
-                <Badge className="bg-emerald-100 text-emerald-700 hover:bg-emerald-100">
-                  {building?.active ? 'Ativo' : 'Inativo'}
-                </Badge>
+                <p className="text-2xl font-bold text-slate-900 capitalize mb-1">{building?.plan}</p>
+                <div className="text-xs text-slate-500 space-y-0.5">
+                  <p>💬 {building?.message_quota >= 999999 ? 'Mensagens ilimitadas' : `${building?.message_quota} mensagens/mês`}</p>
+                  <p>🏢 {building?.max_apartments >= 999999 ? 'Apartamentos ilimitados' : `Até ${building?.max_apartments} apartamentos`}</p>
+                </div>
               </div>
             </CardContent>
           </Card>
