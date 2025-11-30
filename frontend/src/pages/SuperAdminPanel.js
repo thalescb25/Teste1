@@ -207,9 +207,9 @@ const SuperAdminPanel = ({ user, onLogout }) => {
                 </Card>
                 <Card className="border-l-4 border-l-blue-600">
                   <CardContent className="p-4">
-                    <p className="text-sm text-slate-600">Total Assinantes</p>
+                    <p className="text-sm text-slate-600">Receita Anual (Projeção)</p>
                     <p className="text-3xl font-bold text-blue-600">
-                      {financialData.total_subscribers}
+                      R$ {(financialData.monthly_revenue * 12).toFixed(2)}
                     </p>
                   </CardContent>
                 </Card>
