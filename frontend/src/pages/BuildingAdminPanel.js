@@ -488,34 +488,182 @@ const BuildingAdminPanel = ({ user, onLogout }) => {
           <TabsContent value="history" className="space-y-4">
             <Card>
               <CardHeader>
-                <CardTitle>Histórico de Entregas</CardTitle>
-                <CardDescription>Todas as notificações enviadas</CardDescription>
+                <div className="flex items-center justify-between">
+                  <div>
+                    <CardTitle>Relatório de Entregas</CardTitle>
+                    <CardDescription>Histórico completo com filtros avançados</CardDescription>
+                  </div>
+                  <Button
+                    onClick={() => exportToCSV()}
+                    variant="outline"
+                    data-testid="export-csv-button"
+                  >
+                    <History className="w-4 h-4 mr-2" />
+                    Exportar CSV
+                  </Button>
+                </div>
               </CardHeader>
-              <CardContent>
-                {deliveries.length === 0 ? (
+              <CardContent className="space-y-4">
+                {/* Filtros */}
+                <div className="bg-slate-50 p-4 rounded-lg space-y-3">
+                  <h3 className="font-semibold text-sm">Filtros</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
+                    <div>
+                      <Label className="text-xs">Data Início</Label>
+                      <Input
+                        type="date"
+                        value={filters.startDate}
+                        onChange={(e) => setFilters({ ...filters, startDate: e.target.value })}
+                        className="h-9"
+                        data-testid="filter-start-date"
+                      />
+                    </div>
+                    <div>
+                      <Label className="text-xs">Data Fim</Label>
+                      <Input
+                        type="date"
+                        value={filters.endDate}
+                        onChange={(e) => setFilters({ ...filters, endDate: e.target.value })}
+                        className="h-9"
+                        data-testid="filter-end-date"
+                      />
+                    </div>
+                    <div>
+                      <Label className="text-xs">Apartamento</Label>
+                      <select
+                        className="w-full h-9 px-3 border border-slate-300 rounded-md text-sm"
+                        value={filters.apartmentNumber}
+                        onChange={(e) => setFilters({ ...filters, apartmentNumber: e.target.value })}
+                        data-testid="filter-apartment"
+                      >
+                        <option value="">Todos</option>
+                        {apartments.map((apt) => (
+                          <option key={apt.id} value={apt.number}>
+                            Apt {apt.number}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                    <div>
+                      <Label className="text-xs">Status</Label>
+                      <select
+                        className="w-full h-9 px-3 border border-slate-300 rounded-md text-sm"
+                        value={filters.status}
+                        onChange={(e) => setFilters({ ...filters, status: e.target.value })}
+                        data-testid="filter-status"
+                      >
+                        <option value="">Todos</option>
+                        <option value="success">Sucesso</option>
+                        <option value="failed">Falhou</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div className="flex gap-2">
+                    <Button onClick={applyFilters} size="sm" data-testid="apply-filters-button">
+                      Aplicar Filtros
+                    </Button>
+                    <Button onClick={clearFilters} size="sm" variant="outline" data-testid="clear-filters-button">
+                      Limpar
+                    </Button>
+                    <Button onClick={setQuickFilter} size="sm" variant="outline" data-testid="quick-filter-30days">
+                      Últimos 30 dias
+                    </Button>
+                  </div>
+                </div>
+
+                {/* Estatísticas */}
+                {stats && (
+                  <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
+                    <Card className="border-l-4 border-l-emerald-600">
+                      <CardContent className="p-3">
+                        <p className="text-xs text-slate-600">Total</p>
+                        <p className="text-2xl font-bold">{stats.total_deliveries}</p>
+                      </CardContent>
+                    </Card>
+                    <Card className="border-l-4 border-l-green-600">
+                      <CardContent className="p-3">
+                        <p className="text-xs text-slate-600">Sucesso</p>
+                        <p className="text-2xl font-bold text-green-600">{stats.successful}</p>
+                      </CardContent>
+                    </Card>
+                    <Card className="border-l-4 border-l-red-600">
+                      <CardContent className="p-3">
+                        <p className="text-xs text-slate-600">Falhas</p>
+                        <p className="text-2xl font-bold text-red-600">{stats.failed}</p>
+                      </CardContent>
+                    </Card>
+                    <Card className="border-l-4 border-l-blue-600">
+                      <CardContent className="p-3">
+                        <p className="text-xs text-slate-600">Telefones</p>
+                        <p className="text-2xl font-bold text-blue-600">{stats.total_phones_notified}</p>
+                      </CardContent>
+                    </Card>
+                    <Card className="border-l-4 border-l-purple-600">
+                      <CardContent className="p-3">
+                        <p className="text-xs text-slate-600">Mais Ativo</p>
+                        <p className="text-2xl font-bold text-purple-600">
+                          {stats.top_apartments?.[0]?.number || '-'}
+                        </p>
+                      </CardContent>
+                    </Card>
+                  </div>
+                )}
+
+                {/* Lista de Entregas */}
+                {filteredDeliveries.length === 0 ? (
                   <div className="text-center py-12">
                     <History className="w-16 h-16 text-slate-300 mx-auto mb-4" />
-                    <p className="text-slate-600">Nenhuma entrega registrada ainda</p>
+                    <p className="text-slate-600">Nenhuma entrega encontrada</p>
+                    <p className="text-sm text-slate-500 mt-2">Tente ajustar os filtros</p>
                   </div>
                 ) : (
-                  <div className="space-y-3">
-                    {deliveries.map((delivery) => (
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between mb-2">
+                      <p className="text-sm text-slate-600">
+                        Mostrando {filteredDeliveries.length} entrega(s)
+                      </p>
+                    </div>
+                    {filteredDeliveries.map((delivery) => (
                       <Card key={delivery.id} className="border-l-4 border-l-emerald-600">
                         <CardContent className="p-4">
                           <div className="flex items-center justify-between">
-                            <div>
-                              <p className="font-semibold">Apartamento {delivery.apartment_number}</p>
-                              <p className="text-sm text-slate-600">
-                                {new Date(delivery.timestamp).toLocaleString('pt-BR')}
-                              </p>
-                              <p className="text-xs text-slate-500 mt-1">Porteiro: {delivery.doorman_name}</p>
-                              <p className="text-xs text-slate-500">
-                                Telefones notificados: {delivery.phones_notified.length}
-                              </p>
+                            <div className="flex-1">
+                              <div className="flex items-center gap-2">
+                                <p className="font-semibold text-lg">Apartamento {delivery.apartment_number}</p>
+                                <Badge variant={delivery.status === 'success' ? 'default' : 'destructive'}>
+                                  {delivery.status === 'success' ? 'Enviado' : 'Falhou'}
+                                </Badge>
+                              </div>
+                              <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mt-2 text-sm">
+                                <div>
+                                  <p className="text-xs text-slate-500">Data/Hora</p>
+                                  <p className="font-medium">
+                                    {new Date(delivery.timestamp).toLocaleString('pt-BR', {
+                                      day: '2-digit',
+                                      month: '2-digit',
+                                      year: 'numeric',
+                                      hour: '2-digit',
+                                      minute: '2-digit'
+                                    })}
+                                  </p>
+                                </div>
+                                <div>
+                                  <p className="text-xs text-slate-500">Porteiro</p>
+                                  <p className="font-medium">{delivery.doorman_name}</p>
+                                </div>
+                                <div>
+                                  <p className="text-xs text-slate-500">Telefones Notificados</p>
+                                  <p className="font-medium">{delivery.phones_notified.length}</p>
+                                </div>
+                                <div>
+                                  <p className="text-xs text-slate-500">Números</p>
+                                  <p className="text-xs font-mono">
+                                    {delivery.phones_notified.slice(0, 2).join(', ')}
+                                    {delivery.phones_notified.length > 2 && ` +${delivery.phones_notified.length - 2}`}
+                                  </p>
+                                </div>
+                              </div>
                             </div>
-                            <Badge variant={delivery.status === 'success' ? 'default' : 'destructive'}>
-                              {delivery.status === 'success' ? 'Enviado' : 'Falhou'}
-                            </Badge>
                           </div>
                         </CardContent>
                       </Card>
