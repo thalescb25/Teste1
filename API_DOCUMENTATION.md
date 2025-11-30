@@ -256,6 +256,25 @@ Histórico de entregas do prédio (building_admin only)
 ]
 ```
 
+### GET /admin/all-phones
+Lista consolidada de todos os telefones cadastrados no prédio (building_admin only)
+
+**Response:**
+```json
+[
+  {
+    "id": "uuid",
+    "apartment_id": "uuid",
+    "apartment_number": "101",
+    "whatsapp": "(11) 99999-9999",
+    "name": "Maria Silva",
+    "created_at": "2025-11-30T15:00:00Z"
+  }
+]
+```
+
+**Nota:** Retorna todos os telefones de todos os apartamentos, ordenados por número do apartamento.
+
 ---
 
 ## 🚪 Doorman Endpoints
