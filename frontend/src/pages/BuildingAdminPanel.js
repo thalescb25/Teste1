@@ -224,8 +224,9 @@ const BuildingAdminPanel = ({ user, onLogout }) => {
 
         {/* Tabs */}
         <Tabs defaultValue="apartments" className="space-y-4">
-          <TabsList className="grid w-full grid-cols-4 lg:w-auto">
+          <TabsList className="grid w-full grid-cols-5 lg:w-auto">
             <TabsTrigger value="apartments">Apartamentos</TabsTrigger>
+            <TabsTrigger value="phones">Telefones</TabsTrigger>
             <TabsTrigger value="users">Usuários</TabsTrigger>
             <TabsTrigger value="message">Mensagem</TabsTrigger>
             <TabsTrigger value="history">Histórico</TabsTrigger>
