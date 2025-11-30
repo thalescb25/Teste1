@@ -515,16 +515,96 @@ async def delete_resident_phone(phone_id: str, current_user: dict = Depends(get_
     return {"message": "Telefone removido com sucesso"}
 
 @api_router.get("/admin/deliveries", response_model=List[Delivery])
-async def get_building_deliveries(current_user: dict = Depends(get_current_user)):
+async def get_building_deliveries(
+    current_user: dict = Depends(get_current_user),
+    start_date: Optional[str] = None,
+    end_date: Optional[str] = None,
+    apartment_number: Optional[str] = None,
+    status: Optional[str] = None,
+    limit: int = 1000
+):
     if current_user["role"] != "building_admin":
         raise HTTPException(status_code=403, detail="Acesso negado")
     
+    # Construir filtro
+    query = {"building_id": current_user["building_id"]}
+    
+    # Filtro de data
+    if start_date or end_date:
+        date_filter = {}
+        if start_date:
+            date_filter["$gte"] = start_date
+        if end_date:
+            # Adicionar um dia ao end_date para incluir todo o dia
+            from datetime import datetime, timedelta, timezone
+            end_dt = datetime.fromisoformat(end_date.replace('Z', '+00:00'))
+            end_dt = end_dt + timedelta(days=1)
+            date_filter["$lt"] = end_dt.isoformat()
+        query["timestamp"] = date_filter
+    
+    # Filtro de apartamento
+    if apartment_number:
+        query["apartment_number"] = apartment_number
+    
+    # Filtro de status
+    if status:
+        query["status"] = status
+    
     deliveries = await db.deliveries.find(
-        {"building_id": current_user["building_id"]},
+        query,
         {"_id": 0}
-    ).sort("timestamp", -1).to_list(1000)
+    ).sort("timestamp", -1).to_list(limit)
     
     return [Delivery(**d) for d in deliveries]
+
+@api_router.get("/admin/deliveries/stats")
+async def get_delivery_stats(
+    current_user: dict = Depends(get_current_user),
+    start_date: Optional[str] = None,
+    end_date: Optional[str] = None
+):
+    if current_user["role"] != "building_admin":
+        raise HTTPException(status_code=403, detail="Acesso negado")
+    
+    # Construir filtro
+    query = {"building_id": current_user["building_id"]}
+    
+    if start_date or end_date:
+        date_filter = {}
+        if start_date:
+            date_filter["$gte"] = start_date
+        if end_date:
+            from datetime import datetime, timedelta, timezone
+            end_dt = datetime.fromisoformat(end_date.replace('Z', '+00:00'))
+            end_dt = end_dt + timedelta(days=1)
+            date_filter["$lt"] = end_dt.isoformat()
+        query["timestamp"] = date_filter
+    
+    # Estatísticas
+    deliveries = await db.deliveries.find(query, {"_id": 0}).to_list(10000)
+    
+    total = len(deliveries)
+    success = len([d for d in deliveries if d.get("status") == "success"])
+    failed = len([d for d in deliveries if d.get("status") == "failed"])
+    
+    # Apartamentos mais ativos
+    apt_counts = {}
+    for d in deliveries:
+        apt_num = d.get("apartment_number")
+        apt_counts[apt_num] = apt_counts.get(apt_num, 0) + 1
+    
+    top_apartments = sorted(apt_counts.items(), key=lambda x: x[1], reverse=True)[:5]
+    
+    # Total de telefones notificados
+    total_phones = sum(len(d.get("phones_notified", [])) for d in deliveries)
+    
+    return {
+        "total_deliveries": total,
+        "successful": success,
+        "failed": failed,
+        "total_phones_notified": total_phones,
+        "top_apartments": [{"number": apt, "count": count} for apt, count in top_apartments]
+    }
 
 @api_router.get("/admin/all-phones")
 async def get_all_phones(current_user: dict = Depends(get_current_user)):
