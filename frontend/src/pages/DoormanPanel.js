@@ -57,6 +57,14 @@ const DoormanPanel = ({ user, onLogout }) => {
   };
 
   const handleApartmentClick = async (apartment) => {
+    // Verificar se tem telefones cadastrados
+    if (!apartment.phones || apartment.phones.length === 0) {
+      toast.error(`Apartamento ${apartment.number} não tem telefones cadastrados. Nenhuma notificação será enviada.`, {
+        duration: 5000
+      });
+      return;
+    }
+
     setSelectedApartment(apartment);
     setSending(true);
 
