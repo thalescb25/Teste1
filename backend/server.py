@@ -154,7 +154,9 @@ class UsageStats(BaseModel):
 
 class BuildingUpdate(BaseModel):
     name: Optional[str] = None
+    address: Optional[str] = None
     plan: Optional[str] = None
+    num_apartments: Optional[int] = None
     active: Optional[bool] = None
     custom_message: Optional[str] = None
 
