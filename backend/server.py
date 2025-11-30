@@ -195,11 +195,29 @@ async def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(s
 def generate_registration_code() -> str:
     return secrets.token_urlsafe(8).upper()
 
-PLAN_QUOTAS = {
-    "free": 100,
-    "basic": 500,
-    "premium": 2000
+# Planos e suas características
+PLANS = {
+    "basic": {
+        "name": "Basic",
+        "message_quota": 500,
+        "max_apartments": 50,
+        "price": 49.00
+    },
+    "standard": {
+        "name": "Standard",
+        "message_quota": 1500,
+        "max_apartments": 150,
+        "price": 99.00
+    },
+    "premium": {
+        "name": "Premium",
+        "message_quota": 5000,
+        "max_apartments": 500,
+        "price": 199.00
+    }
 }
+
+PLAN_QUOTAS = {k: v["message_quota"] for k, v in PLANS.items()}
 
 async def send_whatsapp_message(phone: str, message: str) -> tuple[bool, Optional[str]]:
     """
