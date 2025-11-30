@@ -45,11 +45,12 @@ api_router = APIRouter(prefix="/api")
 
 class BuildingCreate(BaseModel):
     name: str
+    address: str
     admin_name: str
     admin_email: EmailStr
     admin_password: str
     num_apartments: int
-    plan: str = "free"  # free, basic, premium
+    plan: str = "basic"  # basic, standard, premium
 
 class Building(BaseModel):
     model_config = ConfigDict(extra="ignore")
