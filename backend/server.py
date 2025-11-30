@@ -728,6 +728,28 @@ async def get_today_deliveries(current_user: dict = Depends(get_current_user)):
     
     return [Delivery(**d) for d in deliveries]
 
+@api_router.get("/doorman/deliveries", response_model=List[Delivery])
+async def get_doorman_deliveries(
+    current_user: dict = Depends(get_current_user),
+    days: int = 7
+):
+    if current_user["role"] != "doorman":
+        raise HTTPException(status_code=403, detail="Acesso negado")
+    
+    # Buscar entregas dos últimos N dias
+    from datetime import datetime, timedelta, timezone
+    start_date = (datetime.now(timezone.utc) - timedelta(days=days)).isoformat()
+    
+    deliveries = await db.deliveries.find(
+        {
+            "building_id": current_user["building_id"],
+            "timestamp": {"$gte": start_date}
+        },
+        {"_id": 0}
+    ).sort("timestamp", -1).to_list(1000)
+    
+    return [Delivery(**d) for d in deliveries]
+
 # ==================== PUBLIC ENDPOINTS ====================
 
 @api_router.post("/public/register")
