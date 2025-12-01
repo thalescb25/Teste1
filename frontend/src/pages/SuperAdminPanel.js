@@ -149,6 +149,57 @@ const SuperAdminPanel = ({ user, onLogout }) => {
     setShowDeleteDialog(true);
   };
 
+  const handleOpenEditPlans = () => {
+    setEditPlans(JSON.parse(JSON.stringify(plans)));
+    setShowEditPlansDialog(true);
+  };
+
+  const handleSavePlans = async () => {
+    try {
+      await axios.put(`${API}/super-admin/plans`, editPlans);
+      toast.success('Planos atualizados com sucesso!');
+      setShowEditPlansDialog(false);
+      loadData();
+    } catch (error) {
+      toast.error(error.response?.data?.detail || 'Erro ao atualizar planos');
+    }
+  };
+
+  const handleExportFinancialData = () => {
+    if (!financialData) return;
+    
+    const csvContent = [
+      'Métrica,Valor',
+      `Receita Mensal,R$ ${financialData.monthly_revenue.toFixed(2)}`,
+      `Receita Anual (Projeção),R$ ${(financialData.monthly_revenue * 12).toFixed(2)}`,
+      `Mensagens Enviadas,${financialData.total_messages_sent}`,
+      `Prédios Ativos,${financialData.active_buildings}`,
+      '',
+      'Distribuição por Plano',
+      'Plano,Quantidade de Prédios,Preço Mensal',
+      ...Object.entries(financialData.plan_distribution || {}).map(([plan, count]) => {
+        const planInfo = plans[plan];
+        return `${planInfo?.name || plan},${count},R$ ${planInfo?.price?.toFixed(2) || 0}`;
+      }),
+      '',
+      'Novos Assinantes (Últimos 6 Meses)',
+      'Mês,Quantidade',
+      ...financialData.monthly_subscribers.map(item => `${item.month},${item.count}`)
+    ].join('\n');
+    
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+    link.setAttribute('href', url);
+    link.setAttribute('download', `relatorio_financeiro_${new Date().toISOString().split('T')[0]}.csv`);
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    
+    toast.success('Dados financeiros exportados!');
+  };
+
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
