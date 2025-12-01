@@ -797,22 +797,26 @@ const BuildingAdminPanel = ({ user, onLogout }) => {
             </Card>
           </TabsContent>
 
-          {/* Mensagem */}
+          {/* Cadastro do Prédio */}
           <TabsContent value="message" className="space-y-4">
             <Card>
               <CardHeader>
-                <CardTitle>Configurações do Prédio</CardTitle>
+                <CardTitle>Dados Cadastrais do Prédio</CardTitle>
                 <CardDescription>
-                  Configure endereço e mensagem personalizada
+                  Configure as informações básicas e mensagem personalizada
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
+                {/* Endereço */}
                 <div>
-                  <Label>Endereço Completo do Prédio</Label>
+                  <Label className="text-base font-semibold">Endereço Completo</Label>
+                  <p className="text-xs text-slate-500 mt-1 mb-2">
+                    Endereço oficial do prédio para identificação
+                  </p>
                   <Input
                     value={buildingAddress}
                     onChange={(e) => setBuildingAddress(e.target.value)}
-                    placeholder="Rua Example, 123 - Bairro - Cidade/UF"
+                    placeholder="Rua Example, 123 - Bairro - Cidade/UF - CEP"
                     className="mt-2"
                     data-testid="building-address-input"
                   />
@@ -824,10 +828,12 @@ const BuildingAdminPanel = ({ user, onLogout }) => {
 
                 <Separator />
 
+                {/* Mensagem Personalizada */}
                 <div>
-                  <Label>Mensagem WhatsApp Personalizada</Label>
+                  <Label className="text-base font-semibold">Mensagem de Notificação</Label>
                   <p className="text-xs text-slate-500 mt-1 mb-2">
-                    Use [numero] para inserir o número do apartamento automaticamente
+                    Personalize a mensagem que será enviada aos moradores via WhatsApp.<br/>
+                    Use <span className="font-mono bg-slate-100 px-1 rounded">[numero]</span> para inserir o número do apartamento automaticamente.
                   </p>
                   <Textarea
                     value={customMessage}
@@ -837,22 +843,25 @@ const BuildingAdminPanel = ({ user, onLogout }) => {
                     className="mt-2"
                     data-testid="custom-message-input"
                   />
+                  <Button onClick={handleUpdateMessage} className="mt-2" data-testid="save-message-button">
+                    <CheckCircle className="w-4 h-4 mr-2" />
+                    Salvar Mensagem
+                  </Button>
                 </div>
-                <Button onClick={handleUpdateMessage} data-testid="save-message-button">
-                  <CheckCircle className="w-4 h-4 mr-2" />
-                  Salvar Mensagem
-                </Button>
 
-                <Separator className="my-6" />
+                <Separator />
 
+                {/* Link de Cadastro */}
                 <div>
                   <Label className="text-base font-semibold">Link de Cadastro para Moradores</Label>
-                  <p className="text-sm text-slate-600 mb-3">Compartilhe este link para que os moradores cadastrem seus WhatsApp:</p>
+                  <p className="text-sm text-slate-600 mb-3">
+                    Compartilhe este link para que os moradores cadastrem seus números de WhatsApp:
+                  </p>
                   <div className="flex gap-2">
                     <Input
                       value={`${window.location.origin}/registrar?codigo=${building?.registration_code}`}
                       readOnly
-                      className="font-mono text-sm"
+                      className="font-mono text-sm bg-slate-50"
                       data-testid="registration-link"
                     />
                     <Button onClick={copyRegistrationLink} variant="outline" data-testid="copy-link-button">
@@ -860,8 +869,21 @@ const BuildingAdminPanel = ({ user, onLogout }) => {
                     </Button>
                   </div>
                   <p className="text-xs text-slate-500 mt-2">
-                    Código do prédio: <span className="font-mono font-semibold">{building?.registration_code}</span>
+                    Código único do prédio: <span className="font-mono font-semibold text-emerald-600">{building?.registration_code}</span>
                   </p>
+                </div>
+
+                <Separator />
+
+                {/* Info do Plano */}
+                <div className="bg-blue-50 p-4 rounded-lg">
+                  <Label className="text-base font-semibold text-blue-900">Informações do Plano</Label>
+                  <div className="mt-3 space-y-2 text-sm text-blue-800">
+                    <p>📦 <strong>Plano Contratado:</strong> {building?.plan?.charAt(0).toUpperCase() + building?.plan?.slice(1)}</p>
+                    <p>💬 <strong>Mensagens Usadas:</strong> {building?.messages_used || 0} / {building?.message_quota >= 999999 ? '∞' : building?.message_quota}</p>
+                    <p>🏢 <strong>Apartamentos:</strong> {building?.num_apartments} / {building?.max_apartments >= 999999 ? '∞' : building?.max_apartments}</p>
+                    <p>✅ <strong>Status:</strong> {building?.active ? 'Ativo' : 'Inativo'}</p>
+                  </div>
                 </div>
               </CardContent>
             </Card>
