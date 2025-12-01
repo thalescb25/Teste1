@@ -186,6 +186,9 @@ const Login = ({ onLogin }) => {
           </p>
         </div>
       </div>
+      
+      {/* Botão Fale Conosco */}
+      <ContactButton variant="fixed" />
     </div>
   );
 };
