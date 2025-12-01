@@ -22,6 +22,8 @@ const SuperAdminPanel = ({ user, onLogout }) => {
   const [selectedBuilding, setSelectedBuilding] = useState(null);
   const [financialData, setFinancialData] = useState(null);
   const [plans, setPlans] = useState(null);
+  const [showEditPlansDialog, setShowEditPlansDialog] = useState(false);
+  const [editPlans, setEditPlans] = useState(null);
 
   const [newBuilding, setNewBuilding] = useState({
     name: '',
