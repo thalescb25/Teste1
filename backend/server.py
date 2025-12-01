@@ -67,6 +67,10 @@ class Building(BaseModel):
     custom_message: Optional[str] = None
     created_at: str
     trial_ends_at: Optional[str] = None
+    sindico_name: Optional[str] = None
+    sindico_apartment: Optional[str] = None
+    sindico_phone: Optional[str] = None
+    sindico_email: Optional[str] = None
 
 class UserCreate(BaseModel):
     email: EmailStr
