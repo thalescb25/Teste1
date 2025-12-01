@@ -398,118 +398,289 @@ const BuildingAdminPanel = ({ user, onLogout }) => {
   };
 
   const handlePrintQRCode = () => {
-    const printWindow = window.open('', '', 'height=600,width=800');
+    const printWindow = window.open('', '', 'height=842,width=595');
     const link = `${window.location.origin}/registrar?codigo=${building.registration_code}`;
     
     printWindow.document.write(`
       <html>
         <head>
-          <title>QR Code - Cadastro de Moradores</title>
+          <title>Folheto de Cadastro - ChegouAqui</title>
           <style>
+            @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
+            
+            * {
+              margin: 0;
+              padding: 0;
+              box-sizing: border-box;
+            }
+            
             body {
               font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-              display: flex;
-              justify-content: center;
-              align-items: center;
-              min-height: 100vh;
-              margin: 0;
+              background: white;
+              padding: 40px;
+              line-height: 1.6;
+            }
+            
+            .page {
+              max-width: 595px;
+              margin: 0 auto;
               background: white;
             }
-            .container {
+            
+            .header {
               text-align: center;
-              padding: 40px;
-              max-width: 600px;
-            }
-            .logo {
-              max-width: 200px;
-              margin-bottom: 30px;
-            }
-            h1 {
-              color: #2A2A2A;
-              font-size: 32px;
-              margin-bottom: 10px;
-              font-weight: bold;
-            }
-            .subtitle {
-              color: #9A9A9A;
-              font-size: 18px;
+              border-bottom: 4px solid #FFD839;
+              padding-bottom: 30px;
               margin-bottom: 40px;
             }
-            .qr-container {
-              background: white;
-              padding: 30px;
-              border: 3px solid #FFD839;
-              border-radius: 12px;
-              display: inline-block;
-              margin-bottom: 30px;
-            }
-            .instructions {
-              background: #F5F5F5;
+            
+            .logo-container {
+              background: #2A2A2A;
               padding: 20px;
-              border-radius: 8px;
-              text-align: left;
-              margin-top: 30px;
-            }
-            .instructions h3 {
-              color: #2A2A2A;
-              margin-bottom: 15px;
-              font-size: 20px;
-            }
-            .instructions ol {
-              color: #3A3A3A;
-              line-height: 1.8;
-              padding-left: 20px;
-            }
-            .building-name {
-              color: #FFD839;
-              font-weight: bold;
-              font-size: 24px;
+              border-radius: 16px;
+              display: inline-block;
               margin-bottom: 20px;
             }
+            
+            .logo {
+              height: 100px;
+              width: auto;
+            }
+            
+            h1 {
+              color: #2A2A2A;
+              font-size: 36px;
+              font-weight: 800;
+              margin-bottom: 10px;
+              text-transform: uppercase;
+              letter-spacing: -1px;
+            }
+            
+            .tagline {
+              color: #9A9A9A;
+              font-size: 16px;
+              font-weight: 600;
+            }
+            
+            .building-banner {
+              background: linear-gradient(135deg, #FFD839 0%, #FFE666 100%);
+              color: #2A2A2A;
+              padding: 20px;
+              border-radius: 12px;
+              text-align: center;
+              margin-bottom: 30px;
+              box-shadow: 0 4px 12px rgba(255, 216, 57, 0.3);
+            }
+            
+            .building-banner h2 {
+              font-size: 28px;
+              font-weight: 800;
+              margin-bottom: 5px;
+            }
+            
+            .building-banner p {
+              font-size: 14px;
+              opacity: 0.8;
+            }
+            
+            .what-section {
+              background: #F5F5F5;
+              padding: 25px;
+              border-radius: 12px;
+              margin-bottom: 30px;
+              border-left: 5px solid #00E2C6;
+            }
+            
+            .what-section h3 {
+              color: #2A2A2A;
+              font-size: 20px;
+              font-weight: 700;
+              margin-bottom: 15px;
+            }
+            
+            .what-section p {
+              color: #3A3A3A;
+              font-size: 15px;
+              line-height: 1.7;
+            }
+            
+            .qr-section {
+              text-align: center;
+              margin: 40px 0;
+            }
+            
+            .qr-section h3 {
+              color: #2A2A2A;
+              font-size: 24px;
+              font-weight: 700;
+              margin-bottom: 20px;
+            }
+            
+            .qr-container {
+              background: white;
+              padding: 25px;
+              border: 4px solid #FFD839;
+              border-radius: 16px;
+              display: inline-block;
+              box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+            }
+            
+            .instructions {
+              background: white;
+              border: 2px solid #F5F5F5;
+              padding: 25px;
+              border-radius: 12px;
+              margin-top: 30px;
+            }
+            
+            .instructions h3 {
+              color: #2A2A2A;
+              font-size: 20px;
+              font-weight: 700;
+              margin-bottom: 20px;
+              display: flex;
+              align-items: center;
+              gap: 10px;
+            }
+            
+            .instructions ol {
+              color: #3A3A3A;
+              font-size: 16px;
+              line-height: 2;
+              padding-left: 25px;
+              counter-reset: item;
+              list-style: none;
+            }
+            
+            .instructions ol li {
+              counter-increment: item;
+              margin-bottom: 12px;
+              position: relative;
+              padding-left: 10px;
+            }
+            
+            .instructions ol li:before {
+              content: counter(item);
+              background: #FFD839;
+              color: #2A2A2A;
+              font-weight: 700;
+              width: 28px;
+              height: 28px;
+              border-radius: 50%;
+              display: inline-flex;
+              align-items: center;
+              justify-content: center;
+              margin-right: 12px;
+              position: absolute;
+              left: -38px;
+              font-size: 14px;
+            }
+            
+            .footer {
+              text-align: center;
+              margin-top: 40px;
+              padding-top: 25px;
+              border-top: 2px solid #F5F5F5;
+            }
+            
+            .code-box {
+              background: #2A2A2A;
+              color: #FFD839;
+              padding: 15px 25px;
+              border-radius: 8px;
+              display: inline-block;
+              font-size: 18px;
+              font-weight: 700;
+              letter-spacing: 3px;
+              margin-bottom: 15px;
+            }
+            
+            .footer p {
+              color: #9A9A9A;
+              font-size: 13px;
+            }
+            
             @media print {
-              body { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+              body { 
+                print-color-adjust: exact; 
+                -webkit-print-color-adjust: exact;
+                padding: 20px;
+              }
+              .page {
+                page-break-inside: avoid;
+              }
             }
           </style>
         </head>
         <body>
-          <div class="container">
-            <img src="/logo-chegouaqui.png" class="logo" alt="ChegouAqui" />
-            <h1>Cadastre seu WhatsApp</h1>
-            <div class="building-name">${building?.name}</div>
-            <p class="subtitle">Escaneie o QR Code abaixo com seu celular</p>
-            
-            <div class="qr-container">
-              <div id="qr"></div>
+          <div class="page">
+            <!-- Header -->
+            <div class="header">
+              <div class="logo-container">
+                <img src="https://customer-assets.emergentagent.com/job_5c7bcef9-c9d5-4ba7-9010-4e415f73f052/artifacts/045tlgpf_Gemini_Generated_Image_siyn74siyn74siyn_branco%20%20v2.png" class="logo" alt="ChegouAqui" />
+              </div>
+              <h1>ChegouAqui</h1>
+              <p class="tagline">Notificação Inteligente de Encomendas</p>
             </div>
             
+            <!-- Building Banner -->
+            <div class="building-banner">
+              <h2>${building?.name}</h2>
+              <p>Sistema de Avisos Automatizado</p>
+            </div>
+            
+            <!-- O que é -->
+            <div class="what-section">
+              <h3>📦 O que é o ChegouAqui?</h3>
+              <p>
+                É um sistema que <strong>avisa você automaticamente via WhatsApp</strong> quando uma encomenda chega na portaria. 
+                Sem mais esquecimentos! Receba a notificação na hora e retire seu pacote rapidamente.
+              </p>
+            </div>
+            
+            <!-- QR Code -->
+            <div class="qr-section">
+              <h3>📱 Cadastre-se agora!</h3>
+              <p style="color: #9A9A9A; margin-bottom: 20px;">Escaneie o QR Code com a câmera do seu celular</p>
+              <div class="qr-container">
+                <div id="qr"></div>
+              </div>
+            </div>
+            
+            <!-- Instructions -->
             <div class="instructions">
-              <h3>📱 Como cadastrar:</h3>
+              <h3>✨ Como funciona?</h3>
               <ol>
-                <li>Abra a câmera do seu celular</li>
-                <li>Aponte para o QR Code acima</li>
-                <li>Toque na notificação que aparecer</li>
-                <li>Preencha o formulário com seu WhatsApp</li>
+                <li>Escaneie o QR Code acima com seu celular</li>
+                <li>Informe seu apartamento e número de WhatsApp</li>
+                <li>Pronto! Você receberá avisos automáticos</li>
+                <li>Retire sua encomenda sem atrasos</li>
               </ol>
             </div>
             
-            <p style="margin-top: 30px; color: #9A9A9A; font-size: 14px;">
-              Código do prédio: <strong>${building?.registration_code}</strong>
-            </p>
+            <!-- Footer -->
+            <div class="footer">
+              <div class="code-box">${building?.registration_code}</div>
+              <p>Código do prédio para cadastro manual</p>
+              <p style="margin-top: 20px; font-size: 11px;">
+                © 2025 ChegouAqui - Sistema de Gestão de Encomendas
+              </p>
+            </div>
           </div>
           
           <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
           <script>
             new QRCode(document.getElementById("qr"), {
               text: "${link}",
-              width: 300,
-              height: 300,
+              width: 250,
+              height: 250,
               colorDark: "#2A2A2A",
               colorLight: "#ffffff",
             });
             
             setTimeout(() => {
               window.print();
-            }, 500);
+            }, 800);
           </script>
         </body>
       </html>
