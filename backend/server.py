@@ -66,6 +66,7 @@ class Building(BaseModel):
     active: bool
     custom_message: Optional[str] = None
     created_at: str
+    trial_ends_at: Optional[str] = None
 
 class UserCreate(BaseModel):
     email: EmailStr
