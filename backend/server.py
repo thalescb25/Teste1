@@ -341,7 +341,8 @@ async def create_building(building: BuildingCreate, current_user: dict = Depends
         raise HTTPException(status_code=403, detail="Acesso negado")
     
     # Validar limites do plano
-    plan_info = PLANS.get(building.plan)
+    plans = await get_plans()
+    plan_info = plans.get(building.plan)
     if not plan_info:
         raise HTTPException(status_code=400, detail="Plano inválido")
     
