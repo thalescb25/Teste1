@@ -122,6 +122,9 @@ const PublicRegistration = () => {
             </div>
           </CardContent>
         </Card>
+        
+        {/* Botão Fale Conosco */}
+        <ContactButton variant="fixed" />
       </div>
     );
   }
