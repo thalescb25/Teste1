@@ -137,11 +137,11 @@ const PublicRegistration = () => {
       <div className="w-full max-w-md">
         {/* Logo e Título */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center mb-4 bg-white p-8 rounded-2xl shadow-lg">
+          <div className="inline-flex items-center justify-center mb-4 bg-white p-3 rounded-2xl shadow-lg">
             <img 
               src="/logo-chegouaqui.png" 
               alt="ChegouAqui" 
-              className="h-64 w-auto"
+              className="h-80 w-auto"
             />
           </div>
           <h1 
