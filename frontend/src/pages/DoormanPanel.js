@@ -268,7 +268,7 @@ const DoormanPanel = ({ user, onLogout }) => {
               <img 
                 src="/logo-chegouaqui.png" 
                 alt="ChegouAqui" 
-                className="h-16 w-auto rounded-lg p-2"
+                className="h-20 w-auto rounded-lg p-2"
                 style={{ backgroundColor: colors.white }}
               />
               <div className="border-l-2 pl-4" style={{ borderColor: colors.yellow }}>
