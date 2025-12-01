@@ -1029,7 +1029,8 @@ async def register_delivery(delivery: DeliveryCreate, current_user: dict = Depen
     
     # Verificar quota (exceto para planos ilimitados)
     building = await db.buildings.find_one({"id": current_user["building_id"]}, {"_id": 0})
-    plan_info = PLANS.get(building.get("plan", "basic"))
+    plans = await get_plans()
+    plan_info = plans.get(building.get("plan", "basic"))
     
     if not plan_info.get("unlimited_messages", False):
         if building["messages_used"] >= building["message_quota"]:
