@@ -973,26 +973,64 @@ const BuildingAdminPanel = ({ user, onLogout }) => {
 
                 <Separator />
 
-                {/* Link de Cadastro */}
+                {/* Link de Cadastro com QR Code */}
                 <div>
-                  <Label className="text-base font-semibold">Link de Cadastro para Moradores</Label>
-                  <p className="text-sm text-slate-600 mb-3">
-                    Compartilhe este link para que os moradores cadastrem seus números de WhatsApp:
+                  <Label className="text-base font-semibold">Cadastro de Moradores</Label>
+                  <p className="text-sm text-slate-600 mb-4">
+                    Compartilhe o link ou QR Code para que os moradores cadastrem seus WhatsApp
                   </p>
-                  <div className="flex gap-2">
-                    <Input
-                      value={`${window.location.origin}/registrar?codigo=${building?.registration_code}`}
-                      readOnly
-                      className="font-mono text-sm bg-slate-50"
-                      data-testid="registration-link"
-                    />
-                    <Button onClick={copyRegistrationLink} variant="outline" data-testid="copy-link-button">
-                      {copied ? <CheckCircle className="w-5 h-5 text-emerald-600" /> : <Copy className="w-5 h-5" />}
-                    </Button>
+                  
+                  <div className="grid md:grid-cols-2 gap-6">
+                    {/* QR Code */}
+                    <div className="flex flex-col items-center justify-center bg-slate-50 p-6 rounded-lg border-2 border-slate-200">
+                      <QRCodeSVG
+                        value={`${window.location.origin}/registrar?codigo=${building?.registration_code}`}
+                        size={200}
+                        level="H"
+                        includeMargin={true}
+                        bgColor="#ffffff"
+                        fgColor="#2A2A2A"
+                      />
+                      <p className="text-xs text-slate-500 mt-3 text-center">
+                        Escaneie com a câmera do celular
+                      </p>
+                      <Button 
+                        onClick={handlePrintQRCode} 
+                        className="mt-3 w-full"
+                        variant="outline"
+                        data-testid="print-qr-button"
+                      >
+                        <Printer className="w-4 h-4 mr-2" />
+                        Imprimir para Elevador
+                      </Button>
+                    </div>
+                    
+                    {/* Link */}
+                    <div className="flex flex-col justify-between">
+                      <div>
+                        <Label className="text-sm font-semibold">Link Direto</Label>
+                        <div className="flex gap-2 mt-2">
+                          <Input
+                            value={`${window.location.origin}/registrar?codigo=${building?.registration_code}`}
+                            readOnly
+                            className="font-mono text-xs bg-slate-50"
+                            data-testid="registration-link"
+                          />
+                          <Button onClick={copyRegistrationLink} variant="outline" data-testid="copy-link-button">
+                            {copied ? <CheckCircle className="w-5 h-5 text-emerald-600" /> : <Copy className="w-5 h-5" />}
+                          </Button>
+                        </div>
+                      </div>
+                      
+                      <div className="mt-4 bg-emerald-50 p-4 rounded-lg">
+                        <p className="text-sm font-semibold text-emerald-900 mb-2">Código do Prédio</p>
+                        <p className="text-2xl font-mono font-bold text-emerald-600">{building?.registration_code}</p>
+                        <p className="text-xs text-emerald-700 mt-2">
+                          Os moradores podem usar este código para se cadastrar manualmente
+                        </p>
+                      </div>
+                    </div>
                   </div>
-                  <p className="text-xs text-slate-500 mt-2">
-                    Código único do prédio: <span className="font-mono font-semibold text-emerald-600">{building?.registration_code}</span>
-                  </p>
                 </div>
 
                 <Separator />
