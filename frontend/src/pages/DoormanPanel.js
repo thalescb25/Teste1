@@ -262,50 +262,50 @@ const DoormanPanel = ({ user, onLogout }) => {
   return (
     <div className="min-h-screen" style={{ backgroundColor: colors.lightGray }}>
       <div style={{ backgroundColor: colors.black, color: colors.white }} className="shadow-lg">
-        <div className="container mx-auto px-4 py-6">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
+        <div className="container mx-auto px-4 py-4 md:py-6">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+            <div className="flex items-center gap-3 md:gap-4 w-full md:w-auto">
               <img 
                 src="/logo-chegouaqui.png" 
                 alt="ChegouAqui" 
-                className="h-36 w-auto rounded-lg p-3"
+                className="h-20 md:h-36 w-auto rounded-lg p-2 md:p-3"
                 style={{ backgroundColor: colors.white }}
               />
-              <div className="border-l-2 pl-4" style={{ borderColor: colors.yellow }}>
-                <h1 className="text-2xl font-bold">Painel do Porteiro</h1>
-                <p className="text-sm" style={{ color: colors.grayMetal }}>{building?.name}</p>
+              <div className="border-l-2 pl-3 md:pl-4" style={{ borderColor: colors.yellow }}>
+                <h1 className="text-lg md:text-2xl font-bold">Painel do Porteiro</h1>
+                <p className="text-xs md:text-sm" style={{ color: colors.grayMetal }}>{building?.name}</p>
               </div>
             </div>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2 md:gap-3 w-full md:w-auto justify-end">
               <Button
                 variant="ghost"
                 onClick={() => loadHistory(1)}
                 style={{ color: colors.yellow }}
-                className="hover:bg-white/10"
+                className="hover:bg-white/10 text-xs md:text-sm px-2 md:px-4"
                 data-testid="doorman-history-button"
               >
-                <History className="w-5 h-5 mr-2" />
-                Histórico
+                <History className="w-4 h-4 md:w-5 md:h-5 md:mr-2" />
+                <span className="hidden md:inline">Histórico</span>
               </Button>
               <Button
                 variant="ghost"
                 onClick={() => window.location.href = 'mailto:neuraone.ai@gmail.com?subject=Contato ChegouAqui'}
                 style={{ color: colors.yellow }}
-                className="hover:bg-white/10"
+                className="hover:bg-white/10 text-xs md:text-sm px-2 md:px-4"
                 data-testid="doorman-contact-button"
               >
-                <MessageCircle className="w-5 h-5 mr-2" />
-                Fale Conosco
+                <MessageCircle className="w-4 h-4 md:w-5 md:h-5 md:mr-2" />
+                <span className="hidden md:inline">Fale Conosco</span>
               </Button>
               <Button
                 variant="ghost"
                 onClick={onLogout}
                 style={{ color: colors.grayMetal }}
-                className="hover:bg-white/10"
+                className="hover:bg-white/10 text-xs md:text-sm px-2 md:px-4"
                 data-testid="doorman-logout-button"
               >
-                <LogOut className="w-5 h-5 mr-2" />
-                Sair
+                <LogOut className="w-4 h-4 md:w-5 md:h-5 md:mr-2" />
+                <span className="hidden md:inline">Sair</span>
               </Button>
             </div>
           </div>
