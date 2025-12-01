@@ -736,7 +736,7 @@ const SuperAdminPanel = ({ user, onLogout }) => {
           </DialogHeader>
           {editPlans && (
             <div className="space-y-6">
-              {['basic', 'standard', 'premium'].map(planKey => {
+              {['trial', 'basic', 'standard', 'premium'].map(planKey => {
                 const plan = editPlans[planKey];
                 if (!plan) return null;
                 
