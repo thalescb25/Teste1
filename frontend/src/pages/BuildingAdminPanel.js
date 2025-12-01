@@ -397,6 +397,127 @@ const BuildingAdminPanel = ({ user, onLogout }) => {
     setTimeout(() => setCopied(false), 2000);
   };
 
+  const handlePrintQRCode = () => {
+    const printWindow = window.open('', '', 'height=600,width=800');
+    const link = `${window.location.origin}/registrar?codigo=${building.registration_code}`;
+    
+    printWindow.document.write(`
+      <html>
+        <head>
+          <title>QR Code - Cadastro de Moradores</title>
+          <style>
+            body {
+              font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              min-height: 100vh;
+              margin: 0;
+              background: white;
+            }
+            .container {
+              text-align: center;
+              padding: 40px;
+              max-width: 600px;
+            }
+            .logo {
+              max-width: 200px;
+              margin-bottom: 30px;
+            }
+            h1 {
+              color: #2A2A2A;
+              font-size: 32px;
+              margin-bottom: 10px;
+              font-weight: bold;
+            }
+            .subtitle {
+              color: #9A9A9A;
+              font-size: 18px;
+              margin-bottom: 40px;
+            }
+            .qr-container {
+              background: white;
+              padding: 30px;
+              border: 3px solid #FFD839;
+              border-radius: 12px;
+              display: inline-block;
+              margin-bottom: 30px;
+            }
+            .instructions {
+              background: #F5F5F5;
+              padding: 20px;
+              border-radius: 8px;
+              text-align: left;
+              margin-top: 30px;
+            }
+            .instructions h3 {
+              color: #2A2A2A;
+              margin-bottom: 15px;
+              font-size: 20px;
+            }
+            .instructions ol {
+              color: #3A3A3A;
+              line-height: 1.8;
+              padding-left: 20px;
+            }
+            .building-name {
+              color: #FFD839;
+              font-weight: bold;
+              font-size: 24px;
+              margin-bottom: 20px;
+            }
+            @media print {
+              body { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+            }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            <img src="/logo-chegouaqui.png" class="logo" alt="ChegouAqui" />
+            <h1>Cadastre seu WhatsApp</h1>
+            <div class="building-name">${building?.name}</div>
+            <p class="subtitle">Escaneie o QR Code abaixo com seu celular</p>
+            
+            <div class="qr-container">
+              <div id="qr"></div>
+            </div>
+            
+            <div class="instructions">
+              <h3>📱 Como cadastrar:</h3>
+              <ol>
+                <li>Abra a câmera do seu celular</li>
+                <li>Aponte para o QR Code acima</li>
+                <li>Toque na notificação que aparecer</li>
+                <li>Preencha o formulário com seu WhatsApp</li>
+              </ol>
+            </div>
+            
+            <p style="margin-top: 30px; color: #9A9A9A; font-size: 14px;">
+              Código do prédio: <strong>${building?.registration_code}</strong>
+            </p>
+          </div>
+          
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+          <script>
+            new QRCode(document.getElementById("qr"), {
+              text: "${link}",
+              width: 300,
+              height: 300,
+              colorDark: "#2A2A2A",
+              colorLight: "#ffffff",
+            });
+            
+            setTimeout(() => {
+              window.print();
+            }, 500);
+          </script>
+        </body>
+      </html>
+    `);
+    
+    printWindow.document.close();
+  };
+
   const handleOpenEditApartment = (apartment) => {
     setEditingApartment(apartment);
     setEditApartmentNumber(apartment.number);
