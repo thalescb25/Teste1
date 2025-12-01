@@ -418,9 +418,12 @@ async def update_building(building_id: str, update: BuildingUpdate, current_user
     
     update_data = {k: v for k, v in update.model_dump().items() if v is not None}
     
+    # Obter planos atualizados
+    plans = await get_plans()
+    
     # Atualizar quotas se plano mudou
     if "plan" in update_data:
-        plan_info = PLANS.get(update_data["plan"])
+        plan_info = plans.get(update_data["plan"])
         if not plan_info:
             raise HTTPException(status_code=400, detail="Plano inválido")
         update_data["message_quota"] = plan_info["message_quota"]
@@ -437,7 +440,7 @@ async def update_building(building_id: str, update: BuildingUpdate, current_user
     # Validar mudança de num_apartments
     if "num_apartments" in update_data:
         plan = update_data.get("plan", current_building.get("plan"))
-        plan_info = PLANS.get(plan)
+        plan_info = plans.get(plan)
         if update_data["num_apartments"] > plan_info["max_apartments"]:
             raise HTTPException(
                 status_code=400,
