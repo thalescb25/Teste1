@@ -729,7 +729,7 @@ const BuildingAdminPanel = ({ user, onLogout }) => {
                 <img 
                   src="/logo-chegouaqui.png" 
                   alt="ChegouAqui" 
-                  className="h-56 w-auto"
+                  className="h-52 w-auto"
                 />
               </div>
               <div className="border-l-2 pl-4" style={{ borderColor: '#FFD839' }}>
