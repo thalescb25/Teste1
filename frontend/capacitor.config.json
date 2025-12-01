@@ -1,5 +1,16 @@
 {
   "appId": "com.chegouaqui.app",
   "appName": "ChegouAqui",
-  "webDir": "build"
+  "webDir": "build",
+  "server": {
+    "androidScheme": "https",
+    "cleartext": true
+  },
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 2000,
+      "backgroundColor": "#FFD839",
+      "showSpinner": false
+    }
+  }
 }
