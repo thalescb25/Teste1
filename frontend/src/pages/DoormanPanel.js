@@ -359,17 +359,17 @@ const DoormanPanel = ({ user, onLogout }) => {
                 
                 <div className="text-center">
                   <Package 
-                    className="w-8 h-8 mx-auto mb-2" 
+                    className="w-6 h-6 md:w-8 md:h-8 mx-auto mb-1 md:mb-2" 
                     style={{ color: hasPhones ? colors.yellow : colors.grayMetal }}
                   />
                   <p 
-                    className="text-2xl font-bold mb-1"
+                    className="text-xl md:text-2xl font-bold mb-1"
                     style={{ color: hasPhones ? colors.black : colors.grayMetal }}
                   >
                     {apt.number}
                   </p>
                   {hasPhones ? (
-                    <div className="text-xs space-y-0.5" style={{ color: colors.grayMetal }}>
+                    <div className="text-[10px] md:text-xs space-y-0.5" style={{ color: colors.grayMetal }}>
                       {apt.phones.slice(0, 2).map((phone, idx) => (
                         <p key={idx} className="truncate px-1">
                           {phone.name || phone.whatsapp}
@@ -380,7 +380,7 @@ const DoormanPanel = ({ user, onLogout }) => {
                       )}
                     </div>
                   ) : (
-                    <p className="text-xs" style={{ color: colors.grayMetal }}>
+                    <p className="text-[10px] md:text-xs" style={{ color: colors.grayMetal }}>
                       Sem cadastro
                     </p>
                   )}
