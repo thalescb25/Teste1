@@ -8,6 +8,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { toast } from 'sonner';
 import { Phone, CheckCircle, Bell } from 'lucide-react';
 import { colors } from '../theme';
+import ContactButton from '../components/ContactButton';
 
 const PublicRegistration = () => {
   const [registrationCode, setRegistrationCode] = useState('');
