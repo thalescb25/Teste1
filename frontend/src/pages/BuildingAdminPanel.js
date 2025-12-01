@@ -396,6 +396,30 @@ const BuildingAdminPanel = ({ user, onLogout }) => {
     setTimeout(() => setCopied(false), 2000);
   };
 
+  const handleOpenEditApartment = (apartment) => {
+    setEditingApartment(apartment);
+    setEditApartmentNumber(apartment.number);
+    setShowEditApartmentDialog(true);
+  };
+
+  const handleSaveApartmentNumber = async () => {
+    if (!editApartmentNumber.trim()) {
+      toast.error('Número do apartamento não pode estar vazio');
+      return;
+    }
+
+    try {
+      await axios.put(`${API}/admin/apartments/${editingApartment.id}`, {
+        number: editApartmentNumber.trim()
+      });
+      toast.success('Número do apartamento atualizado!');
+      setShowEditApartmentDialog(false);
+      loadData();
+    } catch (error) {
+      toast.error(error.response?.data?.detail || 'Erro ao atualizar apartamento');
+    }
+  };
+
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
