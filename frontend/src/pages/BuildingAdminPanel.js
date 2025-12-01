@@ -39,10 +39,13 @@ const BuildingAdminPanel = ({ user, onLogout }) => {
   // Dialogs
   const [showAddUserDialog, setShowAddUserDialog] = useState(false);
   const [showAddPhoneDialog, setShowAddPhoneDialog] = useState(false);
+  const [showEditApartmentDialog, setShowEditApartmentDialog] = useState(false);
+  const [editingApartment, setEditingApartment] = useState(null);
 
   // Form states
   const [newUser, setNewUser] = useState({ name: '', email: '', password: '', role: 'doorman' });
   const [newPhone, setNewPhone] = useState({ whatsapp: '', name: '' });
+  const [editApartmentNumber, setEditApartmentNumber] = useState('');
 
   useEffect(() => {
     loadData();
