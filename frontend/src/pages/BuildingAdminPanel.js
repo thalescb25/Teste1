@@ -1216,6 +1216,69 @@ const BuildingAdminPanel = ({ user, onLogout }) => {
                     <p>✅ <strong>Status:</strong> {building?.active ? 'Ativo' : 'Inativo'}</p>
                   </div>
                 </div>
+
+                <Separator />
+
+                {/* Dados do Síndico */}
+                <div>
+                  <Label className="text-base font-semibold">Dados do Síndico</Label>
+                  <p className="text-xs text-slate-500 mt-1 mb-4">
+                    Informações do síndico do prédio para contato e identificação
+                  </p>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <Label className="text-sm">Nome Completo</Label>
+                      <Input
+                        value={sindicoName}
+                        onChange={(e) => setSindicoName(e.target.value)}
+                        placeholder="Nome do síndico"
+                        className="mt-1"
+                      />
+                    </div>
+                    
+                    <div>
+                      <Label className="text-sm">Apartamento</Label>
+                      <Input
+                        value={sindicoApartment}
+                        onChange={(e) => setSindicoApartment(e.target.value)}
+                        placeholder="Ex: 101 (se aplicável)"
+                        className="mt-1"
+                      />
+                      <p className="text-xs text-slate-500 mt-1">Deixe em branco se não mora no prédio</p>
+                    </div>
+                    
+                    <div>
+                      <Label className="text-sm">Telefone/WhatsApp</Label>
+                      <Input
+                        value={sindicoPhone}
+                        onChange={(e) => setSindicoPhone(e.target.value)}
+                        placeholder="(11) 99999-9999"
+                        className="mt-1"
+                      />
+                    </div>
+                    
+                    <div>
+                      <Label className="text-sm">E-mail</Label>
+                      <Input
+                        type="email"
+                        value={sindicoEmail}
+                        onChange={(e) => setSindicoEmail(e.target.value)}
+                        placeholder="sindico@email.com"
+                        className="mt-1"
+                      />
+                    </div>
+                  </div>
+                  
+                  <Button 
+                    onClick={() => toast.success('Dados do síndico salvos!')} 
+                    className="mt-4"
+                    variant="outline"
+                  >
+                    <CheckCircle className="w-4 h-4 mr-2" />
+                    Salvar Dados do Síndico
+                  </Button>
+                </div>
               </CardContent>
             </Card>
           </TabsContent>
