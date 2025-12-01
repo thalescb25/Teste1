@@ -434,17 +434,10 @@ const BuildingAdminPanel = ({ user, onLogout }) => {
               margin-bottom: 40px;
             }
             
-            .logo-container {
-              background: #2A2A2A;
-              padding: 20px;
-              border-radius: 16px;
-              display: inline-block;
-              margin-bottom: 20px;
-            }
-            
             .logo {
-              height: 100px;
+              height: 180px;
               width: auto;
+              margin-bottom: 20px;
             }
             
             h1 {
