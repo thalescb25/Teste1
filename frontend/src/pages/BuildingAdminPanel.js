@@ -402,6 +402,21 @@ const BuildingAdminPanel = ({ user, onLogout }) => {
     }
   };
 
+  const handleUpdateSindico = async () => {
+    try {
+      await axios.put(`${API}/admin/building/sindico`, {
+        sindico_name: sindicoName || null,
+        sindico_apartment: sindicoApartment || null,
+        sindico_phone: sindicoPhone || null,
+        sindico_email: sindicoEmail || null
+      });
+      toast.success('Dados do síndico salvos com sucesso!');
+      loadData(); // Recarregar dados para confirmar a persistência
+    } catch (error) {
+      toast.error('Erro ao salvar dados do síndico');
+    }
+  };
+
   const copyRegistrationLink = () => {
     const link = `${window.location.origin}/registrar?codigo=${building.registration_code}`;
     navigator.clipboard.writeText(link);
