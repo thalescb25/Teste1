@@ -296,6 +296,9 @@ const PublicRegistration = () => {
           </p>
         </div>
       </div>
+      
+      {/* Botão Fale Conosco */}
+      <ContactButton variant="fixed" />
     </div>
   );
 };
