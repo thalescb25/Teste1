@@ -12,7 +12,7 @@ import BuildingAdminPanel from './pages/BuildingAdminPanel';
 import SuperAdminPanel from './pages/SuperAdminPanel';
 import PublicRegistration from './pages/PublicRegistration';
 
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || window.location.origin;
 export const API = `${BACKEND_URL}/api`;
 
 // Axios interceptor para adicionar token
