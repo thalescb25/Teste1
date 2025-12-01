@@ -6,7 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { toast } from 'sonner';
-import { Bell, CheckCircle, LogOut, History, Home, ArrowLeft, Package } from 'lucide-react';
+import { Bell, CheckCircle, LogOut, History, Home, ArrowLeft, Package, MessageCircle } from 'lucide-react';
 import { colors } from '../theme';
 
 const DoormanPanel = ({ user, onLogout }) => {
