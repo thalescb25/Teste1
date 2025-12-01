@@ -208,6 +208,14 @@ async def get_plans_from_db():
     
     # Planos padrão se não existir no DB
     default_plans = {
+        "trial": {
+            "name": "Trial Gratuito",
+            "message_quota": 100,
+            "max_apartments": 20,
+            "price": 0.00,
+            "unlimited_messages": False,
+            "trial_days": 30
+        },
         "basic": {
             "name": "Basic",
             "message_quota": 500,
