@@ -215,11 +215,11 @@ const SuperAdminPanel = ({ user, onLogout }) => {
         <div className="container mx-auto px-4 py-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
-              <div className="bg-white rounded-lg p-6">
+              <div className="bg-white rounded-lg p-3">
                 <img 
                   src="/logo-chegouaqui.png" 
                   alt="ChegouAqui" 
-                  className="h-56 w-auto"
+                  className="h-64 w-auto"
                 />
               </div>
               <div className="border-l-2 pl-4" style={{ borderColor: '#FFD839' }}>
