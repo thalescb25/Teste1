@@ -2,7 +2,7 @@
 
 ## Base URL
 ```
-https://buildingbox.preview.emergentagent.com/api
+https://notifyme-12.preview.emergentagent.com/api
 ```
 
 ## Autenticação
@@ -462,25 +462,25 @@ Validar código de prédio (sem autenticação)
 
 ```bash
 # 1. Porteiro faz login
-TOKEN=$(curl -s -X POST "https://buildingbox.preview.emergentagent.com/api/auth/login" \
+TOKEN=$(curl -s -X POST "https://notifyme-12.preview.emergentagent.com/api/auth/login" \
   -H "Content-Type: application/json" \
   -d '{"email":"joao@sunset.com","password":"joao123"}' \
   | jq -r '.access_token')
 
 # 2. Buscar apartamentos
-APARTMENTS=$(curl -s "https://buildingbox.preview.emergentagent.com/api/admin/apartments" \
+APARTMENTS=$(curl -s "https://notifyme-12.preview.emergentagent.com/api/admin/apartments" \
   -H "Authorization: Bearer $TOKEN")
 
 APT_ID=$(echo $APARTMENTS | jq -r '.[0].id')
 
 # 3. Registrar entrega
-curl -X POST "https://buildingbox.preview.emergentagent.com/api/doorman/delivery" \
+curl -X POST "https://notifyme-12.preview.emergentagent.com/api/doorman/delivery" \
   -H "Authorization: Bearer $TOKEN" \
   -H "Content-Type: application/json" \
   -d "{\"apartment_id\":\"$APT_ID\"}"
 
 # 4. Ver histórico do dia
-curl "https://buildingbox.preview.emergentagent.com/api/doorman/deliveries/today" \
+curl "https://notifyme-12.preview.emergentagent.com/api/doorman/deliveries/today" \
   -H "Authorization: Bearer $TOKEN"
 ```
 
@@ -488,10 +488,10 @@ curl "https://buildingbox.preview.emergentagent.com/api/doorman/deliveries/today
 
 ```bash
 # 1. Validar código do prédio
-curl "https://buildingbox.preview.emergentagent.com/api/public/building/ABC123XY"
+curl "https://notifyme-12.preview.emergentagent.com/api/public/building/ABC123XY"
 
 # 2. Cadastrar telefone
-curl -X POST "https://buildingbox.preview.emergentagent.com/api/public/register" \
+curl -X POST "https://notifyme-12.preview.emergentagent.com/api/public/register" \
   -H "Content-Type: application/json" \
   -d '{
     "registration_code": "ABC123XY",
