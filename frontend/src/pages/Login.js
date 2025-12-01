@@ -7,7 +7,8 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { toast } from 'sonner';
-import { Package, Lock, Mail, LogIn } from 'lucide-react';
+import { Bell, Lock, Mail, LogIn } from 'lucide-react';
+import { colors } from '../theme';
 
 const Login = ({ onLogin }) => {
   const [email, setEmail] = useState('');
@@ -31,7 +32,6 @@ const Login = ({ onLogin }) => {
       
       toast.success('Login realizado com sucesso!');
       
-      // Redirecionar baseado no role
       if (user.role === 'super_admin') {
         navigate('/super-admin');
       } else if (user.role === 'building_admin') {
@@ -47,30 +47,60 @@ const Login = ({ onLogin }) => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50 px-4">
+    <div 
+      className="min-h-screen flex items-center justify-center px-4"
+      style={{ backgroundColor: colors.lightGray }}
+    >
       <div className="w-full max-w-md">
+        {/* Logo e Título */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center mb-4">
+          <div className="inline-flex items-center justify-center mb-4 bg-white p-4 rounded-2xl shadow-lg">
             <img 
               src="/logo-chegouaqui.png" 
-              alt="ChegouAqui Logo" 
-              className="h-24 w-auto"
+              alt="ChegouAqui" 
+              className="h-28 w-auto"
             />
           </div>
-          <p className="text-slate-600 text-lg">Sistema de notificação de encomendas</p>
+          <h1 
+            className="text-3xl font-bold mb-2"
+            style={{ color: colors.black }}
+          >
+            ChegouAqui
+          </h1>
+          <p style={{ color: colors.grayMetal }}>
+            Sistema de notificação de encomendas
+          </p>
         </div>
 
-        <Card className="shadow-xl border-0">
-          <CardHeader className="space-y-1 pb-6">
-            <CardTitle className="text-2xl font-semibold">Entrar</CardTitle>
-            <CardDescription>Digite suas credenciais para acessar o sistema</CardDescription>
+        {/* Card de Login */}
+        <Card 
+          className="shadow-2xl"
+          style={{ borderWidth: '3px', borderColor: colors.yellow }}
+        >
+          <CardHeader 
+            className="space-y-1 pb-6"
+            style={{ backgroundColor: colors.white }}
+          >
+            <CardTitle 
+              className="text-2xl font-bold"
+              style={{ color: colors.black }}
+            >
+              Entrar
+            </CardTitle>
+            <CardDescription style={{ color: colors.grayMetal }}>
+              Digite suas credenciais para acessar o sistema
+            </CardDescription>
           </CardHeader>
-          <CardContent>
+          <CardContent style={{ backgroundColor: colors.white }}>
             <form onSubmit={handleSubmit} className="space-y-4">
+              {/* Email */}
               <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
+                <Label htmlFor="email" style={{ color: colors.black }}>Email</Label>
                 <div className="relative">
-                  <Mail className="absolute left-3 top-3 h-5 w-5 text-slate-400" />
+                  <Mail 
+                    className="absolute left-3 top-3 h-5 w-5" 
+                    style={{ color: colors.grayMetal }}
+                  />
                   <Input
                     id="email"
                     type="email"
@@ -78,16 +108,20 @@ const Login = ({ onLogin }) => {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
-                    className="pl-10 h-11"
-                    data-testid="login-email-input"
+                    className="pl-10"
+                    style={{ borderColor: colors.grayMetal }}
                   />
                 </div>
               </div>
 
+              {/* Senha */}
               <div className="space-y-2">
-                <Label htmlFor="password">Senha</Label>
+                <Label htmlFor="password" style={{ color: colors.black }}>Senha</Label>
                 <div className="relative">
-                  <Lock className="absolute left-3 top-3 h-5 w-5 text-slate-400" />
+                  <Lock 
+                    className="absolute left-3 top-3 h-5 w-5" 
+                    style={{ color: colors.grayMetal }}
+                  />
                   <Input
                     id="password"
                     type="password"
@@ -95,24 +129,32 @@ const Login = ({ onLogin }) => {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
-                    className="pl-10 h-11"
-                    data-testid="login-password-input"
+                    className="pl-10"
+                    style={{ borderColor: colors.grayMetal }}
                   />
                 </div>
               </div>
 
+              {/* Botão de Login */}
               <Button
                 type="submit"
-                className="w-full h-11 bg-emerald-600 hover:bg-emerald-700 text-white font-medium"
+                className="w-full text-lg font-bold py-6"
                 disabled={loading}
-                data-testid="login-submit-button"
+                style={{
+                  backgroundColor: colors.yellow,
+                  color: colors.black,
+                }}
               >
                 {loading ? (
-                  <div className="flex items-center justify-center">
-                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+                  <div className="flex items-center gap-2">
+                    <div 
+                      className="animate-spin rounded-full h-5 w-5 border-2 border-t-transparent"
+                      style={{ borderColor: colors.black }}
+                    />
+                    Entrando...
                   </div>
                 ) : (
-                  <div className="flex items-center justify-center gap-2">
+                  <div className="flex items-center gap-2">
                     <LogIn className="w-5 h-5" />
                     Entrar
                   </div>
@@ -120,19 +162,40 @@ const Login = ({ onLogin }) => {
               </Button>
             </form>
 
-            <div className="mt-6 pt-6 border-t border-slate-200">
-              <p className="text-sm text-center text-slate-600">
-                Morador?{' '}
-                <a href="/registrar" className="text-emerald-600 hover:text-emerald-700 font-medium">
+            {/* Link para Cadastro Público */}
+            <div className="mt-6 pt-6 border-t text-center">
+              <p className="text-sm" style={{ color: colors.grayMetal }}>
+                Morador? 
+                <a 
+                  href="/registrar" 
+                  className="font-semibold ml-1 hover:underline"
+                  style={{ color: colors.yellow }}
+                >
                   Cadastre seu WhatsApp aqui
                 </a>
+              </p>
+            </div>
+
+            {/* Credenciais de Teste */}
+            <div 
+              className="mt-6 p-4 rounded-lg text-xs"
+              style={{ backgroundColor: colors.lightGray }}
+            >
+              <p className="font-semibold mb-2" style={{ color: colors.black }}>
+                Credenciais de teste:
+              </p>
+              <p style={{ color: colors.grayMetal }}>
+                <strong>Super Admin padrão:</strong> admin@chegouaqui.com / admin123
               </p>
             </div>
           </CardContent>
         </Card>
 
-        <div className="mt-6 text-center text-sm text-slate-500">
-          <p>Super Admin padrão: admin@chegouaqui.com / admin123</p>
+        {/* Footer */}
+        <div className="text-center mt-8">
+          <p className="text-sm" style={{ color: colors.grayMetal }}>
+            © 2025 ChegouAqui. Todos os direitos reservados.
+          </p>
         </div>
       </div>
     </div>
