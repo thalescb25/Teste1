@@ -219,7 +219,7 @@ const SuperAdminPanel = ({ user, onLogout }) => {
                 <img 
                   src="/logo-chegouaqui.png" 
                   alt="ChegouAqui" 
-                  className="h-28 w-auto"
+                  className="h-36 w-auto"
                 />
               </div>
               <div className="border-l-2 pl-4" style={{ borderColor: '#FFD839' }}>
