@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="ChegouAqui - Sistema inteligente de notificação de encomendas via WhatsApp para condomínios">
+    <title>ChegouAqui - Notificação Inteligente de Encomendas</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --yellow: #FFD839;
+            --black: #2A2A2A;
+            --gray-metal: #9A9A9A;
+            --tech-teal: #00E2C6;
+            --white: #FFFFFF;
+            --light-gray: #F5F5F5;
+            --dark-gray: #3A3A3A;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: var(--black);
+            background-color: var(--white);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: var(--black);
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            height: 60px;
+            background: var(--white);
+            padding: 8px 16px;
+            border-radius: 8px;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 12px 28px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: var(--yellow);
+            color: var(--black);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 216, 57, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--white);
+            border: 2px solid var(--white);
+        }
+
+        .btn-secondary:hover {
+            background: var(--white);
+            color: var(--black);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--black) 0%, var(--dark-gray) 100%);
+            color: var(--white);
+            padding: 100px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(135deg, transparent 0%, rgba(0, 226, 198, 0.1) 100%);
+        }
+
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-text h1 {
+            font-size: 56px;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
+
+        .hero-text .highlight {
+            color: var(--yellow);
+        }
+
+        .hero-text p {
+            font-size: 20px;
+            color: var(--gray-metal);
+            margin-bottom: 30px;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .hero-image {
+            text-align: center;
+        }
+
+        .hero-image img {
+            max-width: 100%;
+            height: auto;
+            filter: drop-shadow(0 20px 40px rgba(255, 216, 57, 0.3));
+        }
+
+        /* Features Section */
+        .features {
+            padding: 100px 0;
+            background: var(--light-gray);
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-title h2 {
+            font-size: 42px;
+            font-weight: 800;
+            margin-bottom: 15px;
+        }
+
+        .section-title p {
+            font-size: 18px;
+            color: var(--gray-metal);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .feature-card {
+            background: var(--white);
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            transition: transform 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--yellow);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .feature-card p {
+            color: var(--gray-metal);
+            line-height: 1.7;
+        }
+
+        /* How It Works */
+        .how-it-works {
+            padding: 100px 0;
+            background: var(--white);
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+        }
+
+        .step {
+            text-align: center;
+            position: relative;
+        }
+
+        .step-number {
+            width: 80px;
+            height: 80px;
+            background: var(--yellow);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            font-weight: 800;
+            margin: 0 auto 20px;
+            color: var(--black);
+        }
+
+        .step h3 {
+            font-size: 22px;
+            margin-bottom: 10px;
+        }
+
+        .step p {
+            color: var(--gray-metal);
+        }
+
+        /* Pricing */
+        .pricing {
+            padding: 100px 0;
+            background: var(--light-gray);
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .pricing-card {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            transition: transform 0.3s;
+            border: 3px solid transparent;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--yellow);
+        }
+
+        .pricing-card.featured {
+            border-color: var(--yellow);
+            box-shadow: 0 8px 30px rgba(255, 216, 57, 0.3);
+        }
+
+        .pricing-badge {
+            background: var(--yellow);
+            color: var(--black);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+
+        .pricing-card h3 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .pricing-price {
+            font-size: 48px;
+            font-weight: 800;
+            color: var(--black);
+            margin: 20px 0;
+        }
+
+        .pricing-price span {
+            font-size: 18px;
+            color: var(--gray-metal);
+        }
+
+        .pricing-features {
+            list-style: none;
+            margin: 30px 0;
+            text-align: left;
+        }
+
+        .pricing-features li {
+            padding: 12px 0;
+            border-bottom: 1px solid var(--light-gray);
+            color: var(--gray-metal);
+        }
+
+        .pricing-features li:before {
+            content: "✓";
+            color: var(--yellow);
+            font-weight: 700;
+            margin-right: 10px;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 100px 0;
+            background: var(--black);
+            color: var(--white);
+            text-align: center;
+        }
+
+        .cta-section h2 {
+            font-size: 42px;
+            margin-bottom: 20px;
+        }
+
+        .cta-section p {
+            font-size: 20px;
+            color: var(--gray-metal);
+            margin-bottom: 40px;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark-gray);
+            color: var(--white);
+            padding: 60px 0 30px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-section h4 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: var(--yellow);
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-section a {
+            color: var(--gray-metal);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: var(--yellow);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: var(--gray-metal);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-text h1 {
+                font-size: 36px;
+            }
+
+            .nav-buttons {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .section-title h2 {
+                font-size: 32px;
+            }
+
+            .pricing-price {
+                font-size: 36px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <img src="https://customer-assets.emergentagent.com/job_5c7bcef9-c9d5-4ba7-9010-4e415f73f052/artifacts/8ntz19mv_Gemini_Generated_Image_siyn74siyn74siyn_branco%20%20v2.png" alt="ChegouAqui" class="logo">
+                <div class="nav-buttons">
+                    <a href="#pricing" class="btn btn-secondary">Ver Planos</a>
+                    <a href="/login" class="btn btn-primary">Entrar</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>Nunca mais perca uma <span class="highlight">encomenda</span></h1>
+                    <p>Sistema inteligente de notificação via WhatsApp para condomínios. Seus moradores recebem avisos automáticos sempre que uma encomenda chega.</p>
+                    <div class="hero-cta">
+                        <a href="#pricing" class="btn btn-primary">Começar Grátis - 30 Dias</a>
+                        <a href="#how-it-works" class="btn btn-secondary">Como Funciona</a>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <img src="https://customer-assets.emergentagent.com/job_5c7bcef9-c9d5-4ba7-9010-4e415f73f052/artifacts/8ntz19mv_Gemini_Generated_Image_siyn74siyn74siyn_branco%20%20v2.png" alt="ChegouAqui App">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section class="features" id="features">
+        <div class="container">
+            <div class="section-title">
+                <h2>Por que escolher o ChegouAqui?</h2>
+                <p>Simplifique a gestão de encomendas do seu condomínio</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3>Notificação Instantânea</h3>
+                    <p>Aviso automático via WhatsApp assim que a encomenda chega na portaria.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Ultra Simples</h3>
+                    <p>Interface intuitiva para porteiros. Um clique e pronto, morador avisado.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🏢</div>
+                    <h3>Multi-Prédio</h3>
+                    <p>Gerencie vários condomínios em uma única plataforma SaaS.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Relatórios Completos</h3>
+                    <p>Histórico detalhado de todas as entregas e notificações enviadas.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <h3>Seguro e Confiável</h3>
+                    <p>Dados protegidos e sistema estável, disponível 24/7.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💰</div>
+                    <h3>Custo-Benefício</h3>
+                    <p>Planos acessíveis e teste grátis de 30 dias. Cancele quando quiser.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="how-it-works" id="how-it-works">
+        <div class="container">
+            <div class="section-title">
+                <h2>Como funciona?</h2>
+                <p>3 passos simples para nunca mais perder uma encomenda</p>
+            </div>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Cadastro Rápido</h3>
+                    <p>Moradores cadastram seus WhatsApp via QR Code ou link. Rápido e fácil.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Encomenda Chega</h3>
+                    <p>Porteiro vê a encomenda no painel e clica no apartamento correspondente.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Morador Avisado</h3>
+                    <p>Notificação automática enviada para todos os WhatsApp cadastrados no apartamento.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing -->
+    <section class="pricing" id="pricing">
+        <div class="container">
+            <div class="section-title">
+                <h2>Planos que cabem no seu bolso</h2>
+                <p>Escolha o melhor plano para o seu condomínio</p>
+            </div>
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <div class="pricing-badge">30 DIAS GRÁTIS</div>
+                    <h3>Trial Gratuito</h3>
+                    <div class="pricing-price">R$ 0<span>/mês</span></div>
+                    <ul class="pricing-features">
+                        <li>100 mensagens/mês</li>
+                        <li>Até 20 apartamentos</li>
+                        <li>1 porteiro</li>
+                        <li>Suporte por e-mail</li>
+                    </ul>
+                    <a href="/login" class="btn btn-secondary">Começar Agora</a>
+                </div>
+
+                <div class="pricing-card">
+                    <h3>Basic</h3>
+                    <div class="pricing-price">R$ 49<span>/mês</span></div>
+                    <ul class="pricing-features">
+                        <li>500 mensagens/mês</li>
+                        <li>Até 50 apartamentos</li>
+                        <li>Porteiros ilimitados</li>
+                        <li>Relatórios básicos</li>
+                        <li>Suporte por e-mail</li>
+                    </ul>
+                    <a href="/login" class="btn btn-primary">Contratar</a>
+                </div>
+
+                <div class="pricing-card featured">
+                    <div class="pricing-badge">MAIS POPULAR</div>
+                    <h3>Standard</h3>
+                    <div class="pricing-price">R$ 99<span>/mês</span></div>
+                    <ul class="pricing-features">
+                        <li>1.500 mensagens/mês</li>
+                        <li>Até 100 apartamentos</li>
+                        <li>Porteiros ilimitados</li>
+                        <li>Relatórios completos</li>
+                        <li>Exportação Excel/CSV</li>
+                        <li>Suporte prioritário</li>
+                    </ul>
+                    <a href="/login" class="btn btn-primary">Contratar</a>
+                </div>
+
+                <div class="pricing-card">
+                    <h3>Premium</h3>
+                    <div class="pricing-price">R$ 199<span>/mês</span></div>
+                    <ul class="pricing-features">
+                        <li>Mensagens ilimitadas</li>
+                        <li>Apartamentos ilimitados</li>
+                        <li>Multi-prédio</li>
+                        <li>Personalização total</li>
+                        <li>API integração</li>
+                        <li>Suporte 24/7</li>
+                    </ul>
+                    <a href="/login" class="btn btn-primary">Contratar</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Final -->
+    <section class="cta-section">
+        <div class="container">
+            <h2>Pronto para modernizar seu condomínio?</h2>
+            <p>Comece grátis hoje. Sem cartão de crédito. Cancele quando quiser.</p>
+            <a href="/login" class="btn btn-primary" style="font-size: 20px; padding: 18px 40px;">Começar Teste Grátis</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>ChegouAqui</h4>
+                    <p>Sistema inteligente de notificação de encomendas via WhatsApp para condomínios.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Produto</h4>
+                    <ul>
+                        <li><a href="#features">Funcionalidades</a></li>
+                        <li><a href="#pricing">Planos</a></li>
+                        <li><a href="#how-it-works">Como Funciona</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Empresa</h4>
+                    <ul>
+                        <li><a href="mailto:neuraone.ai@gmail.com">Contato</a></li>
+                        <li><a href="#">Termos de Uso</a></li>
+                        <li><a href="#">Privacidade</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Suporte</h4>
+                    <ul>
+                        <li><a href="mailto:neuraone.ai@gmail.com">neuraone.ai@gmail.com</a></li>
+                        <li><a href="/login">Central do Cliente</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 ChegouAqui. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
