@@ -725,7 +725,7 @@ const BuildingAdminPanel = ({ user, onLogout }) => {
         <div className="container mx-auto px-4 py-5">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
-              <div className="bg-white rounded-lg p-2">
+              <div className="bg-white rounded-lg p-6">
                 <img 
                   src="/logo-chegouaqui.png" 
                   alt="ChegouAqui" 
