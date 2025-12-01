@@ -11,7 +11,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { toast } from 'sonner';
-import { Building, Users, Phone, MessageSquare, History, LogOut, Plus, Trash2, Copy, CheckCircle } from 'lucide-react';
+import { Building, Users, Phone, MessageSquare, History, LogOut, Plus, Trash2, Copy, CheckCircle, Edit } from 'lucide-react';
 
 const BuildingAdminPanel = ({ user, onLogout }) => {
   const [building, setBuilding] = useState(null);
