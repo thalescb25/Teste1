@@ -245,8 +245,20 @@ const SuperAdminPanel = ({ user, onLogout }) => {
         {financialData && (
           <Card className="mb-6 border-2 border-emerald-200">
             <CardHeader className="bg-gradient-to-r from-emerald-50 to-teal-50">
-              <CardTitle className="text-emerald-900">Dashboard Financeiro</CardTitle>
-              <CardDescription>Controle de receitas e assinantes</CardDescription>
+              <div className="flex items-center justify-between">
+                <div>
+                  <CardTitle className="text-emerald-900">Dashboard Financeiro</CardTitle>
+                  <CardDescription>Controle de receitas e assinantes</CardDescription>
+                </div>
+                <Button 
+                  onClick={handleExportFinancialData}
+                  className="bg-emerald-600 hover:bg-emerald-700"
+                  data-testid="export-financial-data"
+                >
+                  <TrendingUp className="w-4 h-4 mr-2" />
+                  Exportar Dados
+                </Button>
+              </div>
             </CardHeader>
             <CardContent className="pt-6">
               <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
