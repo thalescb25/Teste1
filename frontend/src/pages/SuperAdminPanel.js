@@ -382,12 +382,13 @@ const SuperAdminPanel = ({ user, onLogout }) => {
               </div>
             </CardHeader>
             <CardContent className="pt-6">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                {['basic', 'standard', 'premium'].map(planKey => {
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                {['trial', 'basic', 'standard', 'premium'].map(planKey => {
                   const plan = plans[planKey];
                   if (!plan) return null;
                   
                   const colors = {
+                    trial: 'border-green-300 bg-green-50',
                     basic: 'border-blue-300 bg-blue-50',
                     standard: 'border-purple-300 bg-purple-50',
                     premium: 'border-amber-300 bg-amber-50'
@@ -398,8 +399,17 @@ const SuperAdminPanel = ({ user, onLogout }) => {
                       <CardHeader>
                         <CardTitle className="text-lg">{plan.name}</CardTitle>
                         <div className="text-3xl font-bold text-slate-900">
-                          R$ {plan.price.toFixed(2)}<span className="text-sm text-slate-600">/mês</span>
+                          {plan.price === 0 ? (
+                            <span className="text-2xl">GRÁTIS</span>
+                          ) : (
+                            <>R$ {plan.price.toFixed(2)}<span className="text-sm text-slate-600">/mês</span></>
+                          )}
                         </div>
+                        {plan.trial_days && (
+                          <Badge className="bg-green-600 text-white mt-2">
+                            {plan.trial_days} dias grátis
+                          </Badge>
+                        )}
                       </CardHeader>
                       <CardContent>
                         <ul className="space-y-2 text-sm">
