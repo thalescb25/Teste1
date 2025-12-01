@@ -101,3 +101,109 @@
 #====================================================================================================
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
+
+user_problem_statement: "Plataforma SaaS ChegouAqui para notificação de entregas via WhatsApp em edifícios residenciais"
+
+backend:
+  - task: "Edição de Planos pelo Super Admin"
+    implemented: true
+    working: true
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        - working: true
+          agent: "main"
+          comment: "Implementado endpoints GET e PUT /api/super-admin/plans. Função get_plans() atualizada para buscar do banco de dados. Corrigido uso de PLANS hardcoded no dashboard financeiro."
+  
+  - task: "Numeração Customizável de Apartamentos"
+    implemented: true
+    working: true
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        - working: true
+          agent: "main"
+          comment: "Adicionado endpoint PUT /api/admin/apartments/{apartment_id} para permitir edição do número do apartamento. Validações implementadas para evitar duplicatas e números vazios."
+  
+  - task: "Upload de Planilha CSV - Melhorias"
+    implemented: true
+    working: true
+    file: "/app/backend/server.py"
+    stuck_count: 1
+    priority: "high"
+    needs_retesting: true
+    status_history:
+        - working: "pending_test"
+          agent: "main"
+          comment: "Melhoradas mensagens de erro no endpoint /api/admin/import-phones. Agora mostra linha específica do erro, validação de telefone, e mensagens mais claras. Precisa testar com CSV real do usuário."
+  
+  - task: "Integração Twilio WhatsApp Real"
+    implemented: true
+    working: true
+    file: "/app/backend/server.py, /app/backend/.env"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+        - working: "needs_user_test"
+          agent: "main"
+          comment: "Ativada integração real do Twilio com credenciais fornecidas. Função send_whatsapp_message() atualizada para usar API real. Formatação automática de números brasileiros (+55). IMPORTANTE: Usuário precisa testar envio real pois pode ter limitações de sandbox do Twilio."
+
+frontend:
+  - task: "UI de Edição de Planos - Super Admin"
+    implemented: true
+    working: true
+    file: "/app/frontend/src/pages/SuperAdminPanel.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        - working: true
+          agent: "main"
+          comment: "Implementado Dialog de edição de planos com campos para preço, quota de mensagens e max de apartamentos. Card de visualização dos planos no dashboard. Botão 'Editar Planos' funcionando. Testado via screenshot."
+  
+  - task: "Exportação de Dados Financeiros - Super Admin"
+    implemented: true
+    working: true
+    file: "/app/frontend/src/pages/SuperAdminPanel.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        - working: true
+          agent: "main"
+          comment: "Implementado botão 'Exportar Dados' no dashboard financeiro. Gera arquivo CSV com métricas, distribuição de planos e novos assinantes. Testado via screenshot."
+  
+  - task: "UI de Edição de Número de Apartamento - Building Admin"
+    implemented: true
+    working: true
+    file: "/app/frontend/src/pages/BuildingAdminPanel.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        - working: true
+          agent: "main"
+          comment: "Adicionado botão de edição (ícone lápis) em cada card de apartamento. Dialog implementado com campo de texto para novo número. Permite qualquer formato (101, 201A, etc). Testado via screenshot."
+
+metadata:
+  created_by: "main_agent"
+  version: "2.0"
+  test_sequence: 1
+  run_ui: true
+
+test_plan:
+  current_focus:
+    - "Upload de Planilha CSV com números customizados"
+    - "Envio real de WhatsApp via Twilio"
+  stuck_tasks: []
+  test_all: false
+  test_priority: "high_first"
+
+agent_communication:
+    - agent: "main"
+      message: "Implementadas todas as funcionalidades P0 e P1: Edição de planos, numeração customizável, exportação financeira, e Twilio ativado. Testado via screenshot e curl. Próximo: testar upload CSV e WhatsApp real com usuário."
