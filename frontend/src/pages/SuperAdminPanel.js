@@ -304,7 +304,7 @@ const SuperAdminPanel = ({ user, onLogout }) => {
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-3">
-                      {plans && ['basic', 'standard', 'premium'].map(planKey => {
+                      {plans && ['trial', 'basic', 'standard', 'premium'].map(planKey => {
                         const count = financialData.plan_distribution[planKey] || 0;
                         const planInfo = plans[planKey];
                         if (!planInfo) return null;
