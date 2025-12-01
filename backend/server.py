@@ -887,14 +887,25 @@ async def import_phones_csv(
         imported = 0
         errors = []
         
+        row_num = 1
         for row in csv_reader:
+            row_num += 1
             try:
                 apt_number = row.get('apartamento', '').strip()
                 whatsapp = row.get('telefone', '').strip()
                 name = row.get('nome', '').strip()
                 
-                if not apt_number or not whatsapp:
-                    errors.append(f"Linha com dados faltando: {row}")
+                if not apt_number:
+                    errors.append(f"Linha {row_num}: Campo 'apartamento' vazio")
+                    continue
+                
+                if not whatsapp:
+                    errors.append(f"Linha {row_num}: Campo 'telefone' vazio para apartamento {apt_number}")
+                    continue
+                
+                # Validar formato de telefone básico
+                if len(whatsapp.replace('(', '').replace(')', '').replace(' ', '').replace('-', '')) < 10:
+                    errors.append(f"Linha {row_num}: Telefone '{whatsapp}' inválido para apartamento {apt_number}")
                     continue
                 
                 # Buscar apartamento
@@ -907,7 +918,7 @@ async def import_phones_csv(
                 apartment = await db.apartments.find_one(query, {"_id": 0})
                 
                 if not apartment:
-                    errors.append(f"Apartamento {apt_number} não encontrado")
+                    errors.append(f"Linha {row_num}: Apartamento '{apt_number}' não encontrado no sistema")
                     continue
                 
                 # Verificar se telefone já existe
