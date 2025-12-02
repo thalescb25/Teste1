@@ -184,7 +184,7 @@ const DoormanPanel = ({ user, onLogout }) => {
                 </div>
               ) : (
                 <div className="space-y-3">
-                  {todayNotifications.map((notif, idx) => (
+                  {(todayNotifications || []).map((notif, idx) => (
                     <div
                       key={idx}
                       className="p-4 rounded-lg border-l-4"
@@ -202,7 +202,7 @@ const DoormanPanel = ({ user, onLogout }) => {
                             {new Date(notif.timestamp).toLocaleString('pt-BR')}
                           </p>
                           <p className="text-xs mt-1" style={{ color: colors.grayMetal }}>
-                            {notif.phones_notified?.length || 0} telefone(s) notificado(s)
+                            {(notif.phones_notified || []).length} telefone(s) notificado(s)
                           </p>
                         </div>
                         <Badge
