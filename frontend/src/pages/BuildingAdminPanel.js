@@ -77,7 +77,6 @@ const BuildingAdminPanel = ({ user, onLogout }) => {
       ]);
 
       setBuilding(buildingRes.data);
-      setSelectedTemplate(buildingRes.data.message_template || 'template1');
       setBuildingAddress(buildingRes.data.address || '');
       
       // Carregar dados do síndico
