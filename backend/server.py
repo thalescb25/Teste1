@@ -207,10 +207,25 @@ async def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(s
         if user_id is None:
             raise HTTPException(status_code=401, detail="Token inválido")
         
+        # Tentar buscar como usuário normal
         user = await db.users.find_one({"id": user_id}, {"_id": 0})
-        if user is None:
-            raise HTTPException(status_code=401, detail="Usuário não encontrado")
-        return user
+        if user:
+            return user
+        
+        # Tentar buscar como morador
+        resident = await db.phones.find_one({"id": user_id}, {"_id": 0})
+        if resident:
+            apartment = await db.apartments.find_one({"id": resident["apartment_id"]}, {"_id": 0})
+            return {
+                "id": resident["id"],
+                "name": resident.get("name", "Morador"),
+                "email": resident["number"],
+                "role": "resident",
+                "building_id": apartment["building_id"] if apartment else None,
+                "active": True
+            }
+        
+        raise HTTPException(status_code=401, detail="Usuário não encontrado")
     except jwt.ExpiredSignatureError:
         raise HTTPException(status_code=401, detail="Token expirado")
     except jwt.JWTError:
