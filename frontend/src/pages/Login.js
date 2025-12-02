@@ -165,17 +165,10 @@ const Login = ({ onLogin }) => {
               </Button>
             </form>
 
-            {/* Link para Cadastro Público */}
+            {/* Info para Morador */}
             <div className="mt-6 pt-6 border-t text-center">
               <p className="text-sm" style={{ color: colors.grayMetal }}>
-                Morador? 
-                <a 
-                  href="/registrar" 
-                  className="font-semibold ml-1 hover:underline"
-                  style={{ color: colors.yellow }}
-                >
-                  Cadastre seu WhatsApp aqui
-                </a>
+                <strong>Morador?</strong> Peça o link de cadastro ao administrador do seu prédio
               </p>
             </div>
           </CardContent>
