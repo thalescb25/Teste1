@@ -39,6 +39,8 @@ const Login = ({ onLogin }) => {
         navigate('/admin');
       } else if (user.role === 'doorman') {
         navigate('/porteiro');
+      } else if (user.role === 'resident') {
+        navigate('/morador');
       }
     } catch (error) {
       toast.error(error.response?.data?.detail || 'Erro ao fazer login');
