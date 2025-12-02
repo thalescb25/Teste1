@@ -118,6 +118,15 @@ function App() {
             }
           />
           
+          <Route
+            path="/morador"
+            element={
+              <ProtectedRoute allowedRoles={['resident']}>
+                <ResidentPanel user={user} onLogout={handleLogout} />
+              </ProtectedRoute>
+            }
+          />
+          
           <Route path="/" element={<Navigate to="/login" />} />
         </Routes>
       </BrowserRouter>
