@@ -231,9 +231,9 @@ const PublicRegistration = () => {
                 />
               </div>
 
-              {/* WhatsApp */}
+              {/* Telefone */}
               <div className="space-y-2">
-                <Label htmlFor="whatsapp" style={{ color: colors.black }}>WhatsApp</Label>
+                <Label htmlFor="whatsapp" style={{ color: colors.black }}>Telefone</Label>
                 <div className="relative">
                   <Phone 
                     className="absolute left-3 top-3 h-5 w-5" 
@@ -252,6 +252,41 @@ const PublicRegistration = () => {
                 </div>
                 <p className="text-xs" style={{ color: colors.grayMetal }}>
                   Digite com DDD. Ex: (11) 99999-9999
+                </p>
+              </div>
+
+              {/* Email */}
+              <div className="space-y-2">
+                <Label htmlFor="email" style={{ color: colors.black }}>Email</Label>
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder="seu@email.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  style={{ borderColor: colors.grayMetal }}
+                />
+                <p className="text-xs" style={{ color: colors.grayMetal }}>
+                  Use este email para fazer login no app
+                </p>
+              </div>
+
+              {/* Senha */}
+              <div className="space-y-2">
+                <Label htmlFor="password" style={{ color: colors.black }}>Senha</Label>
+                <Input
+                  id="password"
+                  type="password"
+                  placeholder="Mínimo 6 caracteres"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  minLength={6}
+                  style={{ borderColor: colors.grayMetal }}
+                />
+                <p className="text-xs" style={{ color: colors.grayMetal }}>
+                  Crie uma senha para acessar suas notificações
                 </p>
               </div>
 
