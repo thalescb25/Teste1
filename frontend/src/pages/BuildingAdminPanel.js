@@ -1096,7 +1096,7 @@ const BuildingAdminPanel = ({ user, onLogout }) => {
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
-                  {users.map((u) => (
+                  {(users || []).map((u) => (
                     <Card key={u.id} className="border-l-4 border-l-blue-600">
                       <CardContent className="p-4">
                         <div className="flex items-center justify-between">
