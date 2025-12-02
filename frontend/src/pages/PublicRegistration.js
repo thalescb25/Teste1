@@ -100,8 +100,8 @@ const PublicRegistration = () => {
               <p className="text-xl font-bold" style={{ color: colors.black }}>{buildingName}</p>
               <p className="text-sm mt-3 mb-1" style={{ color: colors.grayMetal }}>Apartamento</p>
               <p className="text-3xl font-bold" style={{ color: colors.black }}>{apartmentNumber}</p>
-              <p className="text-sm mt-3 mb-1" style={{ color: colors.grayMetal }}>WhatsApp</p>
-              <p className="text-lg font-bold" style={{ color: colors.black }}>{whatsapp}</p>
+              <p className="text-sm mt-3 mb-1" style={{ color: colors.grayMetal }}>Email</p>
+              <p className="text-lg font-bold" style={{ color: colors.black }}>{email}</p>
             </div>
 
             <div 
