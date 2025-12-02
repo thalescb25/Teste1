@@ -380,16 +380,6 @@ const BuildingAdminPanel = ({ user, onLogout }) => {
     }
   };
 
-  const handleUpdateMessageTemplate = async () => {
-    try {
-      await axios.put(`${API}/admin/building/message-template?template_id=${selectedTemplate}`);
-      toast.success('Template de mensagem atualizado!');
-      loadData();
-    } catch (error) {
-      toast.error('Erro ao atualizar template de mensagem');
-    }
-  };
-
   const handleUpdateAddress = async () => {
     try {
       await axios.put(`${API}/admin/building/address?address=${encodeURIComponent(buildingAddress)}`);
