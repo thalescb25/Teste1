@@ -644,7 +644,7 @@ const BuildingAdminPanel = ({ user, onLogout }) => {
             <div class="what-section">
               <h3>📦 O que é o ChegouAqui?</h3>
               <p>
-                É um sistema que <strong>avisa você automaticamente via WhatsApp</strong> quando uma encomenda chega na portaria. 
+                É um sistema que <strong>avisa você automaticamente</strong> quando uma encomenda chega na portaria. 
                 Sem mais esquecimentos! Receba a notificação na hora e retire seu pacote rapidamente.
               </p>
             </div>
@@ -663,7 +663,7 @@ const BuildingAdminPanel = ({ user, onLogout }) => {
               <h3>✨ Como funciona?</h3>
               <ol>
                 <li>Escaneie o QR Code acima com seu celular</li>
-                <li>Informe seu apartamento e número de WhatsApp</li>
+                <li>Informe seu apartamento e telefone de contato</li>
                 <li>Pronto! Você receberá avisos automáticos</li>
                 <li>Retire sua encomenda sem atrasos</li>
               </ol>
