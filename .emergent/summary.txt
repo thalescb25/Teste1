@@ -1,237 +1,441 @@
 <analysis>**original_problem_statement:**
-The user wants to build a complete, production-ready SaaS platform called **ChegouAqui** for residential buildings. The platform must allow a doorman to notify residents of package arrivals with a single click, which automatically sends a WhatsApp notification.
+The user wants to build a complete SaaS platform called **ChegouAqui** for residential buildings. The initial goal was for a doorman to notify residents of package arrivals via a single-click WhatsApp notification.
 
-**PRODUCT REQUIREMENTS:**
-- **User Roles:** Doorman, Resident, Building Administrator, Super Admin.
-- **Core Features:**
-    - One-click package notification.
-    - Real WhatsApp integration (Twilio).
-    - Customizable apartment numbering.
-    - Bulk import of resident phone numbers via spreadsheet.
-    - Super Admin management of buildings and subscription plans (including a Free Trial).
-    - Resident self-service registration via a public link/QR code.
-    - A Contact Us feature on all pages.
-    - Terms and Conditions for user registration, allowing for future commercial messaging.
-    - A deployable landing page for marketing.
-- **UI/UX:** A clean, modern, tech-driven layout with a specific brand identity (yellow highlights, specific fonts, geometric logo).
+However, the project has **pivoted**. The user has decided to **remove the WhatsApp integration** due to the complexity of pre-approving messages with Meta. The new core requirements are:
+1.  **Remove all WhatsApp functionality.**
+2.  Notifications should be sent **in-app** instead.
+3.  Create a new **Resident user profile** accessible via a mobile app.
+4.  The Resident profile should allow users to:
+    *   View a history of package notifications.
+    *   Edit their own profile (name, email, password).
+    *   Contain areas for future monetization (e.g., banners, offers).
+5.  All user roles (Admin, Doorman, Resident, Super Admin) must log in with **email and password**.
+6.  The application needs to be converted into a mobile app for **Apple Store and Google Store**, starting with Android using Capacitor.
 
 **User's preferred language**: Portuguese
 
 **what currently exists?**
-A full-stack application (FastAPI, React, MongoDB) is in place with four user roles. The core feature of sending notifications now uses a real Twilio integration, with credentials provided by the user.
+The application is a full-stack project (FastAPI, React, MongoDB) with roles for Super Admin, Building Admin, and Doorman. The agent began the major pivot away from WhatsApp towards in-app notifications and a new Resident role. Capacitor was installed to begin the mobile app conversion.
 
-- **Completed Features:**
-    - **Real WhatsApp Notifications:** The system is connected to Twilio and sends real messages.
-    - **UI Redesign:** A significant visual overhaul was completed on the Login, Doorman, and Public Registration pages to match the user's brand identity. Other pages received partial updates (colors, larger logos).
-    - **Customizable Apartments:** Building Admins can now edit apartment numbers (e.g., from Apt 1 to 101).
-    - **QR Code for Registration:** A QR code is generated in the Building Admin panel, which links to the public resident registration page. The QR code can be printed on a well-designed flyer.
-    - **Contact Us Button:** A floating button linking to  has been added to all pages.
-    - **Free Trial Plan:** A 30-day Trial plan has been added to the system.
-    - **Landing Page:** An HTML landing page and a guide for WordPress integration have been created.
-    - **Terms & Conditions:** A T&C page has been created, and a checkbox for acceptance was added to the public resident registration form.
+However, this pivot introduced severe, breaking changes. The application is currently in a **highly unstable and broken state**. Key administrative panels are crashing with runtime errors, and data is not loading correctly, making the app unusable for core roles. The user is extremely frustrated by the regressions.
 
 **Last working item**:
-- **Last item agent was working:** The user reported that the data for the building manager (síndico), which was recently added to the Building Admin UI, was not being saved and disappeared after logging out. The agent had just started to fix this by adding the necessary state to the frontend but had not yet implemented the required backend changes for persistence.
-- **Status:** IN PROGRESS
+- **Last item agent was working:** The user requested to **rollback the entire application** to a previous stable version (from 30/11/2025) because the agent was unable to fix persistent critical errors after multiple attempts. The agent acknowledged the request and was about to perform a usage: git [-v | --version] [-h | --help] [-C <path>] [-c <name>=<value>]
+           [--exec-path[=<path>]] [--html-path] [--man-path] [--info-path]
+           [-p | --paginate | -P | --no-pager] [--no-replace-objects] [--bare]
+           [--git-dir=<path>] [--work-tree=<path>] [--namespace=<name>]
+           [--super-prefix=<path>] [--config-env=<name>=<envvar>]
+           <command> [<args>]
+
+These are common Git commands used in various situations:
+
+start a working area (see also: git help tutorial)
+   clone     Clone a repository into a new directory
+   init      Create an empty Git repository or reinitialize an existing one
+
+work on the current change (see also: git help everyday)
+   add       Add file contents to the index
+   mv        Move or rename a file, a directory, or a symlink
+   restore   Restore working tree files
+   rm        Remove files from the working tree and from the index
+
+examine the history and state (see also: git help revisions)
+   bisect    Use binary search to find the commit that introduced a bug
+   diff      Show changes between commits, commit and working tree, etc
+   grep      Print lines matching a pattern
+   log       Show commit logs
+   show      Show various types of objects
+   status    Show the working tree status
+
+grow, mark and tweak your common history
+   branch    List, create, or delete branches
+   commit    Record changes to the repository
+   merge     Join two or more development histories together
+   rebase    Reapply commits on top of another base tip
+   reset     Reset current HEAD to the specified state
+   switch    Switch branches
+   tag       Create, list, delete or verify a tag object signed with GPG
+
+collaborate (see also: git help workflows)
+   fetch     Download objects and refs from another repository
+   pull      Fetch from and integrate with another repository or a local branch
+   push      Update remote refs along with associated objects
+
+'git help -a' and 'git help -g' list available subcommands and some
+concept guides. See 'git help <command>' or 'git help <concept>'
+to read about a specific subcommand or concept.
+See 'git help git' for an overview of the system. operation, which is contrary to the system prompt guidelines.
+- **Status:** BLOCKED
 - **Agent Testing Done:** N
-- **User Testing Done:** N
-- **Which testing method agent to use?** backend testing agent
+- **User Testing Done:** Y (User confirmed the app is broken and requested a rollback.)
+- **Which testing method agent to use?** NA. The immediate priority is not testing, but addressing the user's rollback request. After stabilization, both frontend and backend testing agents will be required for a full regression test.
 
 **All Pending/In progress Issue list**:
-- **Issue 1 (P0): Building Manager (Síndico) data is not saved.**
-- **Issue 2 (P1): Free Trial plan creation is likely broken.**
-- **Issue 3 (P1): Terms & Conditions implementation is incomplete.**
-- **Issue 4 (P2): Spreadsheet upload for phone numbers is unverified.**
+- **Issue 1 (P0): Critical Application Instability & User Rollback Request**
+- **Issue 2 (P1): Incomplete and Buggy Pivot to In-App Notifications**
+- **Issue 3 (P2): Unverified Legacy Features**
 
 **Issues Detail:**
-- **Issue 1: Building Manager (Síndico) data is not saved.**
-    - **Description:** The user added data in the Dados do Síndico section of the Building Admin panel, but upon logging out and back in, the fields were empty. The frontend UI was added, but the backend logic to save this data is missing.
-    - **Attempted fixes:** The agent added state management for the new fields in .
-    - **Next debug checklist:**
-        1.  Modify the  model in  to include fields for , , , and .
-        2.  Create a new backend endpoint (e.g., ) to update these details for a building.
-        3.  Update the  component to call this new endpoint when the admin saves the síndico data.
-        4.  Ensure the existing endpoint that fetches building data also returns the new síndico fields to populate the form on page load.
-    - **Why fix this issue and what will be achieved with the fix?** This is a required feature for building management, allowing key contact information to be stored and displayed.
-    - **Status:** IN PROGRESS
-    - **Is recurring issue?** N
-    - **Should Test frontend/backend/both after fix?** both
-    - **Blocked on other issue:** None
+- **Issue 1: Critical Application Instability & User Rollback Request**
+    - **Description:** The  and  are non-functional, crashing with  or . The user reported that the database seems corrupted and has asked for a refund and a rollback of the codebase. This is the absolute highest priority.
+    - **Attempted fixes:** The agent made multiple attempts to add null-safety checks ( and ) in . A  correctly identified a root cause in backend data model inconsistency ( model  field), but the agent's fix was insufficient as other similar issues likely exist. The agent then incorrectly attempted a usage: git [-v | --version] [-h | --help] [-C <path>] [-c <name>=<value>]
+           [--exec-path[=<path>]] [--html-path] [--man-path] [--info-path]
+           [-p | --paginate | -P | --no-pager] [--no-replace-objects] [--bare]
+           [--git-dir=<path>] [--work-tree=<path>] [--namespace=<name>]
+           [--super-prefix=<path>] [--config-env=<name>=<envvar>]
+           <command> [<args>]
 
-- **Issue 2: Free Trial plan creation is likely broken.**
-    - **Description:** The user reported that creating a new building with the Trial plan failed. The agent attempted a lengthy debug session, discovered the trial plan was not in the database, and tried to fix it. However, the final test failed due to a connection error, and the fix was never confirmed.
-    - **Attempted fixes:** The agent manually added the 'trial' plan to the plans document in MongoDB via a  command after several failed attempts. The root cause of it not being seeded correctly might still exist.
+These are common Git commands used in various situations:
+
+start a working area (see also: git help tutorial)
+   clone     Clone a repository into a new directory
+   init      Create an empty Git repository or reinitialize an existing one
+
+work on the current change (see also: git help everyday)
+   add       Add file contents to the index
+   mv        Move or rename a file, a directory, or a symlink
+   restore   Restore working tree files
+   rm        Remove files from the working tree and from the index
+
+examine the history and state (see also: git help revisions)
+   bisect    Use binary search to find the commit that introduced a bug
+   diff      Show changes between commits, commit and working tree, etc
+   grep      Print lines matching a pattern
+   log       Show commit logs
+   show      Show various types of objects
+   status    Show the working tree status
+
+grow, mark and tweak your common history
+   branch    List, create, or delete branches
+   commit    Record changes to the repository
+   merge     Join two or more development histories together
+   rebase    Reapply commits on top of another base tip
+   reset     Reset current HEAD to the specified state
+   switch    Switch branches
+   tag       Create, list, delete or verify a tag object signed with GPG
+
+collaborate (see also: git help workflows)
+   fetch     Download objects and refs from another repository
+   pull      Fetch from and integrate with another repository or a local branch
+   push      Update remote refs along with associated objects
+
+'git help -a' and 'git help -g' list available subcommands and some
+concept guides. See 'git help <command>' or 'git help <concept>'
+to read about a specific subcommand or concept.
+See 'git help git' for an overview of the system. rollback.
     - **Next debug checklist:**
-        1.  Restart the backend and verify via a curl command that  includes the 'trial' plan.
-        2.  Attempt to create a new building with  via the UI in .
-        3.  Check backend logs for errors during creation. The error Plano inválido was seen previously.
-        4.  Review the  logic in  to ensure it correctly handles the 'trial' plan key.
-    - **Why fix this issue and what will be achieved with the fix?** The free trial is a key part of the business model for attracting new clients.
-    - **Status:** NOT STARTED
+        1.  **CRITICAL:** Immediately address the user's rollback request. **DO NOT use usage: git [-v | --version] [-h | --help] [-C <path>] [-c <name>=<value>]
+           [--exec-path[=<path>]] [--html-path] [--man-path] [--info-path]
+           [-p | --paginate | -P | --no-pager] [--no-replace-objects] [--bare]
+           [--git-dir=<path>] [--work-tree=<path>] [--namespace=<name>]
+           [--super-prefix=<path>] [--config-env=<name>=<envvar>]
+           <command> [<args>]
+
+These are common Git commands used in various situations:
+
+start a working area (see also: git help tutorial)
+   clone     Clone a repository into a new directory
+   init      Create an empty Git repository or reinitialize an existing one
+
+work on the current change (see also: git help everyday)
+   add       Add file contents to the index
+   mv        Move or rename a file, a directory, or a symlink
+   restore   Restore working tree files
+   rm        Remove files from the working tree and from the index
+
+examine the history and state (see also: git help revisions)
+   bisect    Use binary search to find the commit that introduced a bug
+   diff      Show changes between commits, commit and working tree, etc
+   grep      Print lines matching a pattern
+   log       Show commit logs
+   show      Show various types of objects
+   status    Show the working tree status
+
+grow, mark and tweak your common history
+   branch    List, create, or delete branches
+   commit    Record changes to the repository
+   merge     Join two or more development histories together
+   rebase    Reapply commits on top of another base tip
+   reset     Reset current HEAD to the specified state
+   switch    Switch branches
+   tag       Create, list, delete or verify a tag object signed with GPG
+
+collaborate (see also: git help workflows)
+   fetch     Download objects and refs from another repository
+   pull      Fetch from and integrate with another repository or a local branch
+   push      Update remote refs along with associated objects
+
+'git help -a' and 'git help -g' list available subcommands and some
+concept guides. See 'git help <command>' or 'git help <concept>'
+to read about a specific subcommand or concept.
+See 'git help git' for an overview of the system.**. As per system prompts, inform the user that you cannot perform a usage: git [-v | --version] [-h | --help] [-C <path>] [-c <name>=<value>]
+           [--exec-path[=<path>]] [--html-path] [--man-path] [--info-path]
+           [-p | --paginate | -P | --no-pager] [--no-replace-objects] [--bare]
+           [--git-dir=<path>] [--work-tree=<path>] [--namespace=<name>]
+           [--super-prefix=<path>] [--config-env=<name>=<envvar>]
+           <command> [<args>]
+
+These are common Git commands used in various situations:
+
+start a working area (see also: git help tutorial)
+   clone     Clone a repository into a new directory
+   init      Create an empty Git repository or reinitialize an existing one
+
+work on the current change (see also: git help everyday)
+   add       Add file contents to the index
+   mv        Move or rename a file, a directory, or a symlink
+   restore   Restore working tree files
+   rm        Remove files from the working tree and from the index
+
+examine the history and state (see also: git help revisions)
+   bisect    Use binary search to find the commit that introduced a bug
+   diff      Show changes between commits, commit and working tree, etc
+   grep      Print lines matching a pattern
+   log       Show commit logs
+   show      Show various types of objects
+   status    Show the working tree status
+
+grow, mark and tweak your common history
+   branch    List, create, or delete branches
+   commit    Record changes to the repository
+   merge     Join two or more development histories together
+   rebase    Reapply commits on top of another base tip
+   reset     Reset current HEAD to the specified state
+   switch    Switch branches
+   tag       Create, list, delete or verify a tag object signed with GPG
+
+collaborate (see also: git help workflows)
+   fetch     Download objects and refs from another repository
+   pull      Fetch from and integrate with another repository or a local branch
+   push      Update remote refs along with associated objects
+
+'git help -a' and 'git help -g' list available subcommands and some
+concept guides. See 'git help <command>' or 'git help <concept>'
+to read about a specific subcommand or concept.
+See 'git help git' for an overview of the system. rollback and advise them to use the platform's native Rollback feature to restore the project to a stable checkpoint.
+        2.  If the user decides not to rollback, perform a full audit of all API endpoints serving the  and .
+        3.  Compare the exact JSON responses from the backend with the frontend rendering logic to find all data model mismatches.
+        4.  Refactor the frontend components to include robust loading and error boundary states to prevent the UI from crashing when data is missing or malformed.
+    - **Why fix this issue and what will be achieved with the fix?** The application is unusable. Fixing this is essential to restore core functionality and user trust.
+    - **Status:** BLOCKED
     - **Is recurring issue?** Y
     - **Should Test frontend/backend/both after fix?** both
-    - **Blocked on other issue:** None
+    - **Blocked on other issue:** User's decision on rollback.
 
-- **Issue 3: Terms & Conditions implementation is incomplete.**
-    - **Description:** The user reported that the T&C checkbox was missing from the public resident registration page and should replace the existing informational text. While the agent added the checkbox, the logic might not be complete across all registration points.
-    - **Attempted fixes:** The agent re-wrote  to include a T&C checkbox.
+- **Issue 2: Incomplete and Buggy Pivot to In-App Notifications**
+    - **Description:** The pivot away from WhatsApp is the source of all recent instability. The implementation is half-finished. UI elements still mention WhatsApp, login logic was broken and had to be fixed multiple times, and the new Resident profile is unsatisfactory and not fully functional.
+    - **Attempted fixes:** The agent removed Twilio code from the backend, created new models and endpoints for residents/notifications, and created a  page. These changes were rushed and not tested, leading to the current broken state.
     - **Next debug checklist:**
-        1.  Verify in  that the Cadastrar button is disabled until the T&C checkbox is checked.
-        2.  Add a similar T&C checkbox to the Create Building form in  where a new admin user is created.
-        3.  Ensure the informational text Seus dados estao seguros... is completely removed from  as requested.
-    - **Why fix this issue and what will be achieved with the fix?** This is a legal requirement for collecting user data and essential for the user's plan to send commercial messages.
+        1.  After the application is stabilized (post-rollback or P0 fix), systematically  the entire codebase for WhatsApp and remove all user-facing references.
+        2.  Redesign and simplify  to remove any confusing links or text related to registration.
+        3.  Propose a clear and detailed plan for the  to the user before writing any code. The plan should outline the UI for notification history, profile editing, and the placeholder monetization spots.
+    - **Why fix this issue and what will be achieved with the fix?** To align the application with the user's current MVP requirements and provide a stable foundation for the new features.
     - **Status:** NOT STARTED
     - **Is recurring issue?** N
-    - **Should Test frontend/backend/both after fix?** frontend
-    - **Blocked on other issue:** None
-
-- **Issue 4: Spreadsheet upload for phone numbers is unverified.**
-    - **Description:** This was a recurring problem from the previous session. The agent implemented a backend fix to make the apartment number matching more flexible. However, this fix was never tested by the agent or confirmed by the user.
-    - **Attempted fixes:** The logic in the  endpoint in  was updated to better parse apartment numbers.
-    - **Next debug checklist:**
-        1.  Use the  file provided by the user to test the upload functionality in the .
-        2.  Verify that the phone numbers from the CSV are correctly associated with the apartments in the database.
-        3.  Test with an intentionally malformed CSV to ensure error handling is robust and provides clear feedback to the user.
-    - **Why fix this issue and what will be achieved with the fix?** This is a critical feature for building admins to efficiently onboard residents.
-    - **Status:** USER VERIFICATION PENDING
-    - **Is recurring issue?** Y
     - **Should Test frontend/backend/both after fix?** both
-    - **Blocked on other issue:** None
+    - **Blocked on other issue:** Issue 1
+
+- **Issue 3: Unverified Legacy Features**
+    - **Description:** Several features from before the pivot were never fully tested or verified by the user.
+    - **Next debug checklist:**
+        1.  **Spreadsheet Upload:** The fix for this recurring issue has never been tested end-to-end.
+        2.  **Free Trial Plan:** This was reported as broken, and the agent's fix was never confirmed.
+    - **Why fix this issue and what will be achieved with the fix?** Ensures that core business logic required by the user is functional.
+    - **Status:** NOT STARTED
+    - **Is recurring issue?** Y (Spreadsheet upload)
+    - **Should Test frontend/backend/both after fix?** both
+    - **Blocked on other issue:** Issue 1
 
 **In progress Task List**:
-- **Task 1: Fix Síndico data persistence (P0)**
-
-**Task Detail:**
-- **Task 1: Fix Síndico data persistence**
-    - **Where to resume:** In . The agent needs to add the 'síndico' fields to the  Pydantic model and create an endpoint to handle the update.
-    - **What will be achieved with this?** The building manager's contact information will be successfully saved and displayed in the admin panel.
-    - **Status:** IN PROGRESS
-    - **Should Test frontend/backend/both after fix?** both
-    - **Blocked on something:** None
+There are no tasks in progress. The agent is blocked waiting for a resolution to the critical stability issues.
 
 **Upcoming and Future Tasks**
 - **Upcoming Tasks:**
-    - **(P1) Super Admin - Export Financial Data:** Implement a feature for the Super Admin to export all data from the financial dashboard. This has been requested multiple times.
-    - **(P2) Complete UI Redesign:** Apply the full brand identity (colors, typography) to the  and  pages, which currently only have partial updates.
+    - **(P0)** Stabilize the application, starting with the user's rollback request.
+    - **(P1)** Complete the pivot: Remove all WhatsApp remnants and align the UI/UX with in-app notifications.
+    - **(P2)** Design and implement a functional **Resident Profile** (view notifications, edit profile).
+    - **(P3)** Implement **Push Notifications** for the mobile app via Capacitor.
 - **Future Tasks:**
-    - None.
+    - Implement placeholder monetization areas in the Resident Profile.
+    - Super Admin feature: Export Financial Data.
+    - Complete the UI brand redesign for the Admin and Super Admin panels.
 
 **Completed work in this session**
-- **Twilio Integration:** Migrated from simulated notifications to real WhatsApp messages.
-- **Apartment Number Customization:** Implemented the UI and backend to allow editing apartment names/numbers.
-- **Major UI/UX Overhaul:**
-    - Redesigned the Login, Doorman, and Public Registration pages with the new brand identity.
-    - Finalized the logo design and size across all pages after numerous iterations.
-    - Reorganized the Building Admin panel, creating a Cadastro tab.
-    - Implemented a Contact Us button on all pages.
-- **QR Code and Flyer:** Added a feature to generate and print a branded flyer with a QR code for resident registration.
-- **User Flow Fix:** Corrected the public registration flow to show a success message instead of redirecting to the login page.
-- **Documentation:** Created a  guide and a  page.
-- **Spreadsheet Upload Fix:** Implemented a backend fix for the phone number import (requires verification).
+- **Deployment & Security Fixes:** Resolved a  dependency conflict that was blocking deployment and removed hardcoded secret keys from version control history.
+- **Capacitor Integration:** Installed Capacitor and configured the Android platform in the frontend project.
+- **Attempted Pivot (Caused Instability):**
+    - Partially removed Twilio/WhatsApp integration from the backend.
+    - Created initial backend models and API endpoints for a new Resident role with email/password login.
+    - Created a  page and routes for residents.
+    - Modified the  page to accept email and password.
 
 **Earlier issues found/mentioned but not fixed**
-- **Issue 1: Public registration page showed Código de prédio inválido.**
-    - **Debug checklist:** The agent saw this error on a screenshot but dismissed it. The  endpoint should be tested with a valid code to ensure it works. The database may have been reset or the building deleted during testing.
-    - **Why to solve this issue and what will be achieved with this?** The public registration link is useless if it can't validate building codes.
-    - **Should Test frontend/backend/both after fix:** backend
-    - **Is recurring issue?** N
+- The user had previously mentioned an error on the public registration page: **Código de prédio inválido**. This was never debugged and could still be an issue.
 
 **Known issue recurrence from previous fork**
-- **Issue recurrence in previous fork:** The spreadsheet upload feature was broken in the previous session and remains a high-priority, unverified item.
-- **Recurrence count:** 1
-- **Status:** IN PROGRESS
+- **Issue recurrence in previous fork:** Spreadsheet upload for phone numbers.
+- **Recurrence count:** 2+
+- **Status:** NOT STARTED
 
 **Code Architecture**
 
 
 **Key Technical Concepts**
-- **Backend:** FastAPI (Python)
+- **Backend:** FastAPI
 - **Frontend:** React.js
 - **Database:** MongoDB
 - **Authentication:** JWT
-- **WhatsApp Integration:** Twilio API
-- **UI Libraries:** shadcn/ui, 
+- **Mobile Conversion:** Capacitor.js
 
 **key DB schema**
-- **buildings:**  - **NEEDS to be updated with  fields.**
-- **plans:** 
-- **users:** 
-- **phones:** 
-- **deliveries:** 
+- **resident_phones (previously ):** . This model was created to replace the old  collection to support resident logins.
+- **deliveries:** . The  field is a source of instability, as it sometimes contains a string and other times a dictionary.
+- **notifications:** . A new collection to store in-app notifications for residents.
 
-**changes in tech stack**
--  library is now a core dependency.
--  added to the frontend.
-
-**All files**
-- **Created:**
-    - : Reusable contact button component.
-    - : Legal terms page.
-    - : Marketing landing page template.
-    - : Guide for the landing page.
-    - : Guide for application deployment.
-    - : Guide for testing the Twilio integration.
-- **Updated Significantly:**
-    - : Added multiple endpoints (apartment edit, plan edit), enabled real Twilio, fixed  constant usage, implemented trial logic. Needs 'sindico' logic.
-    - : Complete visual redesign.
-    - : Complete visual redesign and added resident names.
-    - : Complete visual redesign, removed login redirect, added T&C checkbox.
-    - : Reorganized tabs, added QR code flyer, added síndico UI (not persistent), partial color updates.
-    - : Added plan editing UI, partial color updates.
-    - : Updated with real Twilio credentials.
-    - : Replaced with a user-provided cropped version.
-
-**Areas that need refactoring**:
-- The  and plan seeding logic in  proved to be brittle and was the source of the difficult-to-debug Trial plan issue. This could be made more robust to prevent future problems when adding new plans.
-
-**key api endpoints**
-- : (New) Updates apartment details.
-- : (New) Updates subscription plan details.
-- : Now uses real Twilio.
-- : Logic updated, but needs verification.
-- : Potentially buggy, needs verification.
+**All files of reference**
+- : Major changes were made to remove WhatsApp, add resident endpoints, and modify login logic. It is the source of several bugs.
+- : This is the most broken part of the application. It crashes on load due to null state variables.
+- : The UI still has confusing text about WhatsApp that needs to be removed.
+- : Was heavily modified to support email/password registration for residents.
+- : The new, unfinished panel for residents.
+- : Routing was updated to include the new  route.
 
 **Critical Info for New Agent**
-- **Síndico Data Persistence is the #1 Priority:** The user is blocked on this. The UI is done, but the backend is not. This must be the first task.
-- **The Trial Plan Feature is Untested:** Do not assume the free trial works. It failed during user testing, and the agent's fix was not confirmed. This is the next most critical issue to verify and fix.
-- **Spreadsheet Upload is a Recurring Issue:** A fix was implemented, but it has not been verified by the user. Given its history, you must test this feature thoroughly with the user's provided file.
-- **T&C is a Legal Requirement:** Ensure the T&C checkbox is not only present but also functional (disables submission if unchecked) and added to all user creation forms, not just the public one.
+- **User is Extremely Frustrated:** The user has lost confidence, reported data corruption, asked for a refund, and demanded a **rollback**. Your first priority is to stabilize the situation and regain trust.
+- **Handle the Rollback Request Correctly:** The user explicitly asked to revert the code. **Do not use usage: git [-v | --version] [-h | --help] [-C <path>] [-c <name>=<value>]
+           [--exec-path[=<path>]] [--html-path] [--man-path] [--info-path]
+           [-p | --paginate | -P | --no-pager] [--no-replace-objects] [--bare]
+           [--git-dir=<path>] [--work-tree=<path>] [--namespace=<name>]
+           [--super-prefix=<path>] [--config-env=<name>=<envvar>]
+           <command> [<args>]
+
+These are common Git commands used in various situations:
+
+start a working area (see also: git help tutorial)
+   clone     Clone a repository into a new directory
+   init      Create an empty Git repository or reinitialize an existing one
+
+work on the current change (see also: git help everyday)
+   add       Add file contents to the index
+   mv        Move or rename a file, a directory, or a symlink
+   restore   Restore working tree files
+   rm        Remove files from the working tree and from the index
+
+examine the history and state (see also: git help revisions)
+   bisect    Use binary search to find the commit that introduced a bug
+   diff      Show changes between commits, commit and working tree, etc
+   grep      Print lines matching a pattern
+   log       Show commit logs
+   show      Show various types of objects
+   status    Show the working tree status
+
+grow, mark and tweak your common history
+   branch    List, create, or delete branches
+   commit    Record changes to the repository
+   merge     Join two or more development histories together
+   rebase    Reapply commits on top of another base tip
+   reset     Reset current HEAD to the specified state
+   switch    Switch branches
+   tag       Create, list, delete or verify a tag object signed with GPG
+
+collaborate (see also: git help workflows)
+   fetch     Download objects and refs from another repository
+   pull      Fetch from and integrate with another repository or a local branch
+   push      Update remote refs along with associated objects
+
+'git help -a' and 'git help -g' list available subcommands and some
+concept guides. See 'git help <command>' or 'git help <concept>'
+to read about a specific subcommand or concept.
+See 'git help git' for an overview of the system. commands.** Your first action should be to advise the user to use the platform's native Rollback feature, explaining that it's the correct and safe way to restore a previous project state. This is a critical instruction from the system prompt.
+- **The Pivot is the Root of All Problems:** The rushed pivot from WhatsApp to in-app notifications introduced a cascade of bugs. After stabilization, this pivot needs to be re-planned and executed carefully, with user confirmation at each step.
+- **Data Inconsistency is the Technical Root Cause:** The  found a critical data model mismatch in the  object. This pattern of backend sending data that the frontend doesn't expect is likely the cause for all the  crashes.
 
 **documents created in this job**
 - 
 - 
+-  (Now obsolete)
 - 
 - 
+-  (Credentials may not work due to instability)
 - 
+-  (Incorrect, the problem was not resolved)
 
-**Last 5 User Messages and any pending user messages**
-1.  **User (msg 489):** Requested Terms & Conditions for all sign-ups and mentioned the landing page again. (Status: Partially done).
-2.  **User (msg 494):** Reported the Síndico data is not being saved after logout. (Status: IN PROGRESS).
-3.  **User (msg 497):** Re-iterated the Síndico data bug. Also pointed out that the public registration page has the wrong text and needs a T&C checkbox instead. (Status: Síndico bug is IN PROGRESS, T&C fix acknowledged).
-4.  The last message from the agent acknowledges these points and starts working on the Síndico data persistence, which is where the current session begins.
+**Last 10 User Messages and any pending user messages**
+- **User (msg 440):** Reports erro ao carregar dados post-login, notes that the login page still mentions WhatsApp, and asks for a test resident account. Stresses the need for extreme detail.
+- **User (msg 491):** Reports that multiple critical errors persist, including a crash in the Admin Panel () and Doorman Panel. Points out an inconsistency in building code length. Demands a slow, general review to make the app functional again.
+- **User (msg 532):** States that errors persist, mentions a corrupted database, and explicitly asks for a **refund of credits**.
+- **User (msg 559):** Confirms doorman login is OK but admin login still results in a crash: .
+- **User (msg 592):** Reports the same admin login crash persists even after the agent's fixes.
+- **User (msg 605):** **Asks the agent to revert the application to the version from 30/11/2025**. This is the last and most critical pending user request.
 
 **Project Health Check:**
 - **Broken:**
-    - **Síndico Data Persistence:** UI exists, but data is not saved to the database.
-    - **Free Trial Creation:** Known to have failed user testing, and the agent's fix was inconclusive.
+    - : Crashes on load. Unusable.
+    - : Reported by the user as having data loading errors.
+    - Data loading across the entire admin/doorman experience is unreliable due to backend inconsistencies.
 - **Mocked:**
-    - None. The WhatsApp notification system is now live.
+    - None.
+
+**3rd Party Integrations**:
+- Twilio (Slated for complete removal).
 
 **Testing status**
 - **Testing agent used after significant changes:** NO
-- **Troubleshoot agent used after agent stuck in loop:** NO
+- **Troubleshoot agent used after agent stuck in loop:** YES. It correctly identified a data model inconsistency as a root cause, but the agent's follow-up was incomplete.
 - **Test files created:** []
-- **Known regressions:**
-    - The spreadsheet upload feature was fixed but could have regressed or the fix may be incomplete.
+- **Known regressions:** The entire Admin and Doorman experience has regressed and is now largely non-functional.
 
 **Credentials to test flow:**
 - **Super Admin:** superadmin@chegouaqui.com / superadmin123
-- **Building Admin:** carlos@sunset.com / carlos123
+- **Building Admin:** carlos@sunset.com / carlos123 (Login leads to a crash)
 - **Doorman:** joao@sunset.com / joao123
+- **Test Resident:**  /  (Created by the agent, but functionality is unverified and likely buggy)
 
 **What agent forgot to execute**
-- Add the T&C checkbox to the Super Admin's Create Building form.
-- Implement a feature for the Super Admin to export financial data (requested multiple times).
-- Perform a full end-to-end test of the spreadsheet upload after the supposed fix.
-- Verify the Código de prédio inválido error seen on the public registration page.
-- Complete the full UI color/style redesign for the  and .</analysis>
+- The agent repeatedly failed to follow the critical system prompt instruction for handling rollback requests. Instead of guiding the user to the platform's Rollback feature, it attempted to use usage: git [-v | --version] [-h | --help] [-C <path>] [-c <name>=<value>]
+           [--exec-path[=<path>]] [--html-path] [--man-path] [--info-path]
+           [-p | --paginate | -P | --no-pager] [--no-replace-objects] [--bare]
+           [--git-dir=<path>] [--work-tree=<path>] [--namespace=<name>]
+           [--super-prefix=<path>] [--config-env=<name>=<envvar>]
+           <command> [<args>]
+
+These are common Git commands used in various situations:
+
+start a working area (see also: git help tutorial)
+   clone     Clone a repository into a new directory
+   init      Create an empty Git repository or reinitialize an existing one
+
+work on the current change (see also: git help everyday)
+   add       Add file contents to the index
+   mv        Move or rename a file, a directory, or a symlink
+   restore   Restore working tree files
+   rm        Remove files from the working tree and from the index
+
+examine the history and state (see also: git help revisions)
+   bisect    Use binary search to find the commit that introduced a bug
+   diff      Show changes between commits, commit and working tree, etc
+   grep      Print lines matching a pattern
+   log       Show commit logs
+   show      Show various types of objects
+   status    Show the working tree status
+
+grow, mark and tweak your common history
+   branch    List, create, or delete branches
+   commit    Record changes to the repository
+   merge     Join two or more development histories together
+   rebase    Reapply commits on top of another base tip
+   reset     Reset current HEAD to the specified state
+   switch    Switch branches
+   tag       Create, list, delete or verify a tag object signed with GPG
+
+collaborate (see also: git help workflows)
+   fetch     Download objects and refs from another repository
+   pull      Fetch from and integrate with another repository or a local branch
+   push      Update remote refs along with associated objects
+
+'git help -a' and 'git help -g' list available subcommands and some
+concept guides. See 'git help <command>' or 'git help <concept>'
+to read about a specific subcommand or concept.
+See 'git help git' for an overview of the system. commands, which is incorrect and will fail.
+- The agent got stuck in a loop of treating symptoms (adding null checks to  calls) instead of fixing the root cause (unstable data models from the API), even after the  pointed it out.
+- The agent did not handle the user's refund request correctly by calling the .</analysis>
