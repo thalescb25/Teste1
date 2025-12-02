@@ -58,7 +58,17 @@ const BuildingAdminPanel = ({ user, onLogout }) => {
   useEffect(() => {
     loadData();
     loadStats();
+    loadMessageTemplates();
   }, []);
+
+  const loadMessageTemplates = async () => {
+    try {
+      const response = await axios.get(`${API}/admin/message-templates`);
+      setMessageTemplates(response.data.templates);
+    } catch (error) {
+      console.error('Erro ao carregar templates de mensagem');
+    }
+  };
 
   const loadStats = async () => {
     try {
