@@ -1143,16 +1143,10 @@ async def register_delivery(delivery: DeliveryCreate, current_user: dict = Depen
         "doorman_id": current_user["id"],
         "doorman_name": current_user["name"],
         "timestamp": datetime.now(timezone.utc).isoformat(),
-        "status": "success" if phones_notified else "failed",
-        "phones_notified": phones_notified
+        "status": "success" if success else "failed",
+        "notification_sent": success
     }
     await db.deliveries.insert_one(delivery_data)
-    
-    # Atualizar logs com delivery_id
-    await db.whatsapp_logs.update_many(
-        {"delivery_id": ""},
-        {"$set": {"delivery_id": delivery_id}}
-    )
     
     # Atualizar contador de mensagens
     await db.buildings.update_one(
