@@ -1203,7 +1203,7 @@ async def get_resident_profile(current_user: dict = Depends(get_current_user)):
     profile = {
         "id": phone_record["id"],
         "name": phone_record.get("name", ""),
-        "phone": phone_record["number"],
+        "phone": phone_record.get("number", phone_record.get("whatsapp", "")),
         "apartment_id": phone_record["apartment_id"],
         "apartment_number": apartment["number"],
         "building_id": apartment["building_id"],
