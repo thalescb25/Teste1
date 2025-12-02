@@ -30,19 +30,7 @@ ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 60
 REFRESH_TOKEN_EXPIRE_DAYS = 7
 
-# Twilio (sandbox para MVP)
-TWILIO_ACCOUNT_SID = os.environ.get('TWILIO_ACCOUNT_SID', 'demo_sid')
-TWILIO_AUTH_TOKEN = os.environ.get('TWILIO_AUTH_TOKEN', 'demo_token')
-TWILIO_WHATSAPP_NUMBER = os.environ.get('TWILIO_WHATSAPP_NUMBER', 'whatsapp:+14155238886')
-
-# Mensagens pré-aprovadas pela Meta para WhatsApp Business
-APPROVED_MESSAGE_TEMPLATES = {
-    "template1": "Chegou uma entrega para o apartamento [numero]. A retirada está liberada na portaria.",
-    "template2": "Há uma entrega destinada ao apartamento [numero]. Retire na central de encomendas.",
-    "template3": "O apartamento [numero] recebeu uma encomenda. Disponível para retirada na portaria.",
-    "template4": "Chegou uma encomenda para o apartamento [numero]. Retirar na sala de correspondências.",
-    "template5": "O apartamento [numero] tem uma entrega registrada. A retirada deve ser feita no locker do condomínio."
-}
+# Notificações in-app (substituiu WhatsApp para MVP mais rápido)
 
 # Create the main app without a prefix
 app = FastAPI(title="ChegouAqui API")
