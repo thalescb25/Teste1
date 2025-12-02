@@ -274,41 +274,43 @@ def is_trial_expired(building: dict) -> bool:
     trial_end = datetime.fromisoformat(trial_ends_at.replace('Z', '+00:00'))
     return datetime.now(timezone.utc) > trial_end
 
-async def send_whatsapp_message(phone: str, message: str) -> tuple[bool, Optional[str]]:
+async def create_in_app_notification(apartment_id: str, building_id: str, message: str, doorman_id: str) -> bool:
     """
-    Envia mensagem WhatsApp via Twilio (PRODUÇÃO ATIVADA)
-    Retorna (success, error_message)
+    Cria notificação in-app para os moradores do apartamento
+    Substituiu WhatsApp para MVP mais rápido
     """
     try:
-        # Verificar se temos credenciais reais do Twilio
-        if TWILIO_ACCOUNT_SID == "demo_sid" or TWILIO_AUTH_TOKEN == "demo_token":
-            # Modo simulado (fallback)
-            logging.info(f"[WHATSAPP SIMULADO] Para: {phone} | Mensagem: {message}")
-            return (True, None)
+        # Buscar todos os moradores (phones) do apartamento
+        phones = await db.phones.find({"apartment_id": apartment_id}, {"_id": 0}).to_list(1000)
         
-        # PRODUÇÃO: Usar Twilio API real
-        from twilio.rest import Client
-        client = Client(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
+        if not phones:
+            logging.warning(f"[NOTIFICAÇÃO] Nenhum morador cadastrado no apartamento {apartment_id}")
+            return False
         
-        # Formatar número de telefone
-        formatted_phone = phone
-        if not phone.startswith('+'):
-            # Assumir Brasil (+55) se não tiver código do país
-            formatted_phone = f"+55{phone.replace('(', '').replace(')', '').replace(' ', '').replace('-', '')}"
+        # Criar notificação para cada morador
+        notifications_created = 0
+        for phone in phones:
+            notification = {
+                "id": str(uuid.uuid4()),
+                "apartment_id": apartment_id,
+                "building_id": building_id,
+                "resident_phone": phone.get("number"),
+                "resident_name": phone.get("name"),
+                "message": message,
+                "doorman_id": doorman_id,
+                "status": "unread",  # unread, read
+                "created_at": datetime.now(timezone.utc).isoformat(),
+                "read_at": None
+            }
+            await db.notifications.insert_one(notification)
+            notifications_created += 1
         
-        twilio_message = client.messages.create(
-            from_=TWILIO_WHATSAPP_NUMBER,
-            body=message,
-            to=f'whatsapp:{formatted_phone}'
-        )
-        
-        logging.info(f"[WHATSAPP ENVIADO] Para: {formatted_phone} | SID: {twilio_message.sid}")
-        return (True, None)
+        logging.info(f"[NOTIFICAÇÃO IN-APP] {notifications_created} notificações criadas para apartamento {apartment_id}")
+        return True
         
     except Exception as e:
-        error_msg = str(e)
-        logging.error(f"Erro ao enviar WhatsApp para {phone}: {error_msg}")
-        return (False, error_msg)
+        logging.error(f"Erro ao criar notificação in-app: {str(e)}")
+        return False
 
 # ==================== STARTUP ====================
 
