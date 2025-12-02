@@ -1109,6 +1109,111 @@ async def get_all_phones(current_user: dict = Depends(get_current_user)):
     
     return all_phones
 
+# ==================== RESIDENT (MORADOR) ENDPOINTS ====================
+
+@api_router.get("/resident/notifications", response_model=List[Notification])
+async def get_resident_notifications(current_user: dict = Depends(get_current_user)):
+    """Buscar notificações do morador"""
+    if current_user["role"] != "resident":
+        raise HTTPException(status_code=403, detail="Acesso negado")
+    
+    # Buscar notificações pelo telefone do morador (user id é o phone_id)
+    phone_record = await db.phones.find_one({"id": current_user["id"]}, {"_id": 0})
+    if not phone_record:
+        return []
+    
+    notifications = await db.notifications.find(
+        {"resident_phone": phone_record["number"]},
+        {"_id": 0}
+    ).sort("created_at", -1).limit(100).to_list(100)
+    
+    return notifications
+
+@api_router.put("/resident/notifications/{notification_id}/read")
+async def mark_notification_read(notification_id: str, current_user: dict = Depends(get_current_user)):
+    """Marcar notificação como lida"""
+    if current_user["role"] != "resident":
+        raise HTTPException(status_code=403, detail="Acesso negado")
+    
+    result = await db.notifications.update_one(
+        {"id": notification_id},
+        {
+            "$set": {
+                "status": "read",
+                "read_at": datetime.now(timezone.utc).isoformat()
+            }
+        }
+    )
+    
+    if result.modified_count == 0:
+        raise HTTPException(status_code=404, detail="Notificação não encontrada")
+    
+    return {"message": "Notificação marcada como lida"}
+
+@api_router.get("/resident/profile", response_model=ResidentProfile)
+async def get_resident_profile(current_user: dict = Depends(get_current_user)):
+    """Buscar perfil do morador"""
+    if current_user["role"] != "resident":
+        raise HTTPException(status_code=403, detail="Acesso negado")
+    
+    # Buscar dados do morador
+    phone_record = await db.phones.find_one({"id": current_user["id"]}, {"_id": 0})
+    if not phone_record:
+        raise HTTPException(status_code=404, detail="Morador não encontrado")
+    
+    # Buscar dados do apartamento
+    apartment = await db.apartments.find_one({"id": phone_record["apartment_id"]}, {"_id": 0})
+    if not apartment:
+        raise HTTPException(status_code=404, detail="Apartamento não encontrado")
+    
+    # Buscar dados do prédio
+    building = await db.buildings.find_one({"id": apartment["building_id"]}, {"_id": 0})
+    if not building:
+        raise HTTPException(status_code=404, detail="Prédio não encontrado")
+    
+    profile = {
+        "id": phone_record["id"],
+        "name": phone_record.get("name", ""),
+        "phone": phone_record["number"],
+        "apartment_id": phone_record["apartment_id"],
+        "apartment_number": apartment["number"],
+        "building_id": apartment["building_id"],
+        "building_name": building["name"],
+        "email": phone_record.get("email"),
+        "created_at": phone_record.get("created_at", "")
+    }
+    
+    return profile
+
+@api_router.put("/resident/profile")
+async def update_resident_profile(
+    name: Optional[str] = None,
+    email: Optional[str] = None,
+    current_user: dict = Depends(get_current_user)
+):
+    """Atualizar perfil do morador"""
+    if current_user["role"] != "resident":
+        raise HTTPException(status_code=403, detail="Acesso negado")
+    
+    update_data = {}
+    if name:
+        update_data["name"] = name
+    if email:
+        update_data["email"] = email
+    
+    if not update_data:
+        raise HTTPException(status_code=400, detail="Nenhum dado para atualizar")
+    
+    result = await db.phones.update_one(
+        {"id": current_user["id"]},
+        {"$set": update_data}
+    )
+    
+    if result.modified_count == 0:
+        raise HTTPException(status_code=404, detail="Morador não encontrado")
+    
+    return {"message": "Perfil atualizado com sucesso"}
+
 # ==================== DOORMAN ENDPOINTS ====================
 
 @api_router.post("/doorman/delivery", response_model=Delivery)
