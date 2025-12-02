@@ -1372,16 +1372,28 @@ async def public_register_phone(request: PublicRegistrationRequest):
     if existing:
         raise HTTPException(status_code=400, detail="Telefone já cadastrado para este apartamento")
     
-    # Cadastrar telefone
+    # Verificar se email já existe (se fornecido)
+    if request.email:
+        existing_email = await db.phones.find_one({"email": request.email})
+        if existing_email:
+            raise HTTPException(status_code=400, detail="Email já cadastrado")
+    
+    # Cadastrar morador
     phone_id = str(uuid.uuid4())
     phone_data = {
         "id": phone_id,
         "apartment_id": apartment["id"],
+        "number": request.whatsapp,  # Compatibilidade
         "whatsapp": request.whatsapp,
         "name": request.name,
+        "email": request.email,
+        "password": hash_password(request.password) if request.password else None,
         "created_at": datetime.now(timezone.utc).isoformat()
     }
-    await db.resident_phones.insert_one(phone_data)
+    
+    # Inserir em ambas collections para compatibilidade
+    await db.resident_phones.insert_one(phone_data.copy())
+    await db.phones.insert_one(phone_data)
     
     return {
         "message": "Telefone cadastrado com sucesso!",
