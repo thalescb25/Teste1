@@ -1468,13 +1468,13 @@ const BuildingAdminPanel = ({ user, onLogout }) => {
                                 </div>
                                 <div>
                                   <p className="text-xs text-slate-500">Telefones Notificados</p>
-                                  <p className="font-medium">{delivery.phones_notified.length}</p>
+                                  <p className="font-medium">{(delivery.phones_notified || []).length}</p>
                                 </div>
                                 <div>
                                   <p className="text-xs text-slate-500">Números</p>
                                   <p className="text-xs font-mono">
-                                    {delivery.phones_notified.slice(0, 2).join(', ')}
-                                    {delivery.phones_notified.length > 2 && ` +${delivery.phones_notified.length - 2}`}
+                                    {(delivery.phones_notified || []).slice(0, 2).join(', ')}
+                                    {(delivery.phones_notified || []).length > 2 && ` +${(delivery.phones_notified || []).length - 2}`}
                                   </p>
                                 </div>
                               </div>
