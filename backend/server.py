@@ -1297,10 +1297,10 @@ async def register_delivery(delivery: DeliveryCreate, current_user: dict = Depen
     }
     await db.deliveries.insert_one(delivery_data)
     
-    # Atualizar contador de mensagens
+    # Atualizar contador de mensagens (1 notificação por entrega)
     await db.buildings.update_one(
         {"id": current_user["building_id"]},
-        {"$inc": {"messages_used": len(phones_notified)}}
+        {"$inc": {"messages_used": 1}}
     )
     
     return Delivery(**delivery_data)
