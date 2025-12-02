@@ -174,9 +174,9 @@ const PublicRegistration = () => {
           style={{ borderWidth: '3px', borderColor: colors.yellow }}
         >
           <CardHeader style={{ backgroundColor: colors.white }}>
-            <CardTitle style={{ color: colors.black }}>Cadastre seu WhatsApp</CardTitle>
+            <CardTitle style={{ color: colors.black }}>Cadastre-se</CardTitle>
             <CardDescription style={{ color: colors.grayMetal }}>
-              Preencha os dados abaixo para começar a receber notificações
+              Preencha os dados abaixo para começar a receber avisos de encomendas
             </CardDescription>
           </CardHeader>
           <CardContent style={{ backgroundColor: colors.white }}>
