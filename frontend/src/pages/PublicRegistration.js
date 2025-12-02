@@ -348,7 +348,7 @@ const PublicRegistration = () => {
                 ) : (
                   <div className="flex items-center gap-2">
                     <CheckCircle className="w-5 h-5" />
-                    Cadastrar WhatsApp
+                    Cadastrar
                   </div>
                 )}
               </Button>
