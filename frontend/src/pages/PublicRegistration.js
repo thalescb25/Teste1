@@ -122,7 +122,7 @@ const PublicRegistration = () => {
               style={{ borderColor: colors.techTeal, backgroundColor: 'rgba(0, 226, 198, 0.05)' }}
             >
               <p className="text-xs" style={{ color: colors.grayMetal }}>
-                💡 <strong>Dica:</strong> Mantenha suas notificações do WhatsApp ativadas para não perder nenhum aviso!
+                💡 <strong>Dica:</strong> Baixe o app e ative as notificações para não perder nenhum aviso de encomenda!
               </p>
             </div>
           </CardContent>
