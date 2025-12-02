@@ -50,6 +50,8 @@ const PublicRegistration = () => {
         apartment_number: apartmentNumber,
         whatsapp: whatsapp,
         name: name || undefined,
+        email: email,
+        password: password,
       });
 
       setBuildingName(response.data.building_name);
