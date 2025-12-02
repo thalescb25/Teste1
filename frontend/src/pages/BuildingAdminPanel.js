@@ -959,7 +959,7 @@ const BuildingAdminPanel = ({ user, onLogout }) => {
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
-                  {apartments.map((apt) => {
+                  {(apartments || []).map((apt) => {
                     const hasPhones = apt.phones && apt.phones.length > 0;
                     
                     return (
