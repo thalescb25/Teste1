@@ -15,6 +15,8 @@ const PublicRegistration = () => {
   const [apartmentNumber, setApartmentNumber] = useState('');
   const [whatsapp, setWhatsapp] = useState('');
   const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [buildingName, setBuildingName] = useState('');
