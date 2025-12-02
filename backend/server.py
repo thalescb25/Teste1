@@ -111,6 +111,8 @@ class ResidentPhoneCreate(BaseModel):
     apartment_id: str
     whatsapp: str
     name: Optional[str] = None
+    email: Optional[str] = None
+    password: Optional[str] = None
 
 class ResidentPhone(BaseModel):
     model_config = ConfigDict(extra="ignore")
@@ -118,6 +120,7 @@ class ResidentPhone(BaseModel):
     apartment_id: str
     whatsapp: str
     name: Optional[str] = None
+    email: Optional[str] = None
     created_at: str
 
 class PublicRegistrationRequest(BaseModel):
