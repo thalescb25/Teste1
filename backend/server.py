@@ -311,12 +311,33 @@ def is_trial_expired(building: dict) -> bool:
     trial_end = datetime.fromisoformat(trial_ends_at.replace('Z', '+00:00'))
     return datetime.now(timezone.utc) > trial_end
 
-async def create_in_app_notification(apartment_id: str, building_id: str, message: str, doorman_id: str) -> bool:
+async def create_in_app_notification(apartment_id: str, building_id: str, apartment_number: str, doorman_id: str, custom_message: Optional[str] = None) -> bool:
     """
     Cria notificação in-app para os moradores do apartamento
     Substituiu WhatsApp para MVP mais rápido
     """
     try:
+        # Buscar configuração do prédio para pegar mensagem padrão
+        building = await db.buildings.find_one({"id": building_id}, {"_id": 0})
+        if not building:
+            logging.error(f"[NOTIFICAÇÃO] Prédio {building_id} não encontrado")
+            return False
+        
+        # Usar mensagem customizada ou mensagem padrão do prédio
+        message_template = custom_message or building.get("notification_message", "default")
+        
+        # Templates de mensagens disponíveis
+        message_templates = {
+            "default": f"📦 Chegou uma entrega para o apartamento {apartment_number}. A retirada está liberada na portaria.",
+            "template1": f"📦 Chegou uma entrega para o apartamento {apartment_number}. A retirada está liberada na portaria.",
+            "template2": f"📦 Há uma entrega destinada ao apartamento {apartment_number}. Retire na central de encomendas.",
+            "template3": f"📦 O apartamento {apartment_number} recebeu uma encomenda. Disponível para retirada na portaria.",
+            "template4": f"📦 Chegou uma encomenda para o apartamento {apartment_number}. Retirar na sala de correspondências.",
+            "template5": f"📦 O apartamento {apartment_number} tem uma entrega registrada. A retirada deve ser feita no locker do condomínio."
+        }
+        
+        final_message = message_templates.get(message_template, message_templates["default"])
+        
         # Buscar todos os moradores do apartamento (ambas collections para compatibilidade)
         phones = await db.resident_phones.find({"apartment_id": apartment_id}, {"_id": 0}).to_list(1000)
         
@@ -333,7 +354,7 @@ async def create_in_app_notification(apartment_id: str, building_id: str, messag
                 "building_id": building_id,
                 "resident_phone": phone.get("number"),
                 "resident_name": phone.get("name"),
-                "message": message,
+                "message": final_message,
                 "doorman_id": doorman_id,
                 "status": "unread",  # unread, read
                 "created_at": datetime.now(timezone.utc).isoformat(),
