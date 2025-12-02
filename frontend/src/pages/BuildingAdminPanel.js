@@ -1410,7 +1410,7 @@ const BuildingAdminPanel = ({ user, onLogout }) => {
                     <Card className="border-l-4 border-l-blue-600">
                       <CardContent className="p-3">
                         <p className="text-xs text-slate-600">Telefones</p>
-                        <p className="text-2xl font-bold text-blue-600">{stats.total_phones_notified}</p>
+                        <p className="text-2xl font-bold text-blue-600">{stats?.total_phones_notified || 0}</p>
                       </CardContent>
                     </Card>
                     <Card className="border-l-4 border-l-purple-600">
