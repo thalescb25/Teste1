@@ -139,16 +139,32 @@ class Delivery(BaseModel):
     doorman_name: str
     timestamp: str
     status: str  # success, failed
-    phones_notified: List[str]
+    notification_sent: bool
 
-class WhatsAppLog(BaseModel):
+class Notification(BaseModel):
     model_config = ConfigDict(extra="ignore")
     id: str
-    delivery_id: str
+    apartment_id: str
+    building_id: str
+    resident_phone: str
+    resident_name: Optional[str] = None
+    message: str
+    doorman_id: str
+    status: str  # unread, read
+    created_at: str
+    read_at: Optional[str] = None
+
+class ResidentProfile(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    id: str
+    name: str
     phone: str
-    status: str
-    error_message: Optional[str] = None
-    timestamp: str
+    apartment_id: str
+    apartment_number: str
+    building_id: str
+    building_name: str
+    email: Optional[str] = None
+    created_at: str
 
 class UsageStats(BaseModel):
     building_id: str
