@@ -1293,14 +1293,11 @@ async def register_delivery(delivery: DeliveryCreate, current_user: dict = Depen
         if building["messages_used"] >= building["message_quota"]:
             raise HTTPException(status_code=403, detail="Cota de mensagens excedida")
     
-    # Preparar mensagem
-    message = f"Chegou uma encomenda para o apartamento {apartment['number']}. Disponível para retirada na portaria."
-    
-    # Criar notificação in-app
+    # Criar notificação in-app usando mensagem configurada do prédio
     success = await create_in_app_notification(
         apartment_id=delivery.apartment_id,
         building_id=current_user["building_id"],
-        message=message,
+        apartment_number=apartment["number"],
         doorman_id=current_user["id"]
     )
     
