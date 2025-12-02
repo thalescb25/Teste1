@@ -1166,24 +1166,52 @@ const BuildingAdminPanel = ({ user, onLogout }) => {
 
                 <Separator />
 
-                {/* Mensagem Personalizada */}
+                {/* Mensagem de Notificação - Templates Pré-Aprovados */}
                 <div>
-                  <Label className="text-base font-semibold">Mensagem de Notificação</Label>
-                  <p className="text-xs text-slate-500 mt-1 mb-2">
-                    Personalize a mensagem que será enviada aos moradores via WhatsApp.<br/>
-                    Use <span className="font-mono bg-slate-100 px-1 rounded">[numero]</span> para inserir o número do apartamento automaticamente.
+                  <Label className="text-base font-semibold">Mensagem de Notificação WhatsApp</Label>
+                  <p className="text-xs text-slate-500 mt-1 mb-3">
+                    Selecione uma das mensagens pré-aprovadas pela Meta para WhatsApp Business.<br/>
+                    O texto <span className="font-mono bg-slate-100 px-1 rounded">[numero]</span> será automaticamente substituído pelo número do apartamento.
                   </p>
-                  <Textarea
-                    value={customMessage}
-                    onChange={(e) => setCustomMessage(e.target.value)}
-                    placeholder="ChegouAqui: Uma encomenda para o apartamento [numero] está pronta para retirada na portaria."
-                    rows={4}
-                    className="mt-2"
-                    data-testid="custom-message-input"
-                  />
-                  <Button onClick={handleUpdateMessage} className="mt-2" data-testid="save-message-button">
+                  
+                  <div className="space-y-3">
+                    {messageTemplates.map((template) => (
+                      <div
+                        key={template.id}
+                        onClick={() => setSelectedTemplate(template.id)}
+                        className={`p-4 rounded-lg border-2 cursor-pointer transition-all ${
+                          selectedTemplate === template.id
+                            ? 'border-yellow-500 bg-yellow-50'
+                            : 'border-slate-200 bg-white hover:border-slate-300'
+                        }`}
+                      >
+                        <div className="flex items-start gap-3">
+                          <div className={`mt-1 w-5 h-5 rounded-full border-2 flex items-center justify-center ${
+                            selectedTemplate === template.id
+                              ? 'border-yellow-500 bg-yellow-500'
+                              : 'border-slate-300'
+                          }`}>
+                            {selectedTemplate === template.id && (
+                              <CheckCircle className="w-3 h-3 text-white" />
+                            )}
+                          </div>
+                          <div className="flex-1">
+                            <p className="text-sm text-slate-700 leading-relaxed">
+                              {template.text}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  
+                  <Button 
+                    onClick={handleUpdateMessageTemplate} 
+                    className="mt-4" 
+                    data-testid="save-message-button"
+                  >
                     <CheckCircle className="w-4 h-4 mr-2" />
-                    Salvar Mensagem
+                    Salvar Template Selecionado
                   </Button>
                 </div>
 
