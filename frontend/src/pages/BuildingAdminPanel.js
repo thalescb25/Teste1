@@ -1398,13 +1398,13 @@ const BuildingAdminPanel = ({ user, onLogout }) => {
                     <Card className="border-l-4 border-l-green-600">
                       <CardContent className="p-3">
                         <p className="text-xs text-slate-600">Sucesso</p>
-                        <p className="text-2xl font-bold text-green-600">{stats.successful}</p>
+                        <p className="text-2xl font-bold text-green-600">{stats?.successful || 0}</p>
                       </CardContent>
                     </Card>
                     <Card className="border-l-4 border-l-red-600">
                       <CardContent className="p-3">
                         <p className="text-xs text-slate-600">Falhas</p>
-                        <p className="text-2xl font-bold text-red-600">{stats.failed}</p>
+                        <p className="text-2xl font-bold text-red-600">{stats?.failed || 0}</p>
                       </CardContent>
                     </Card>
                     <Card className="border-l-4 border-l-blue-600">
