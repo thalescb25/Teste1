@@ -1122,40 +1122,16 @@ async def register_delivery(delivery: DeliveryCreate, current_user: dict = Depen
         if building["messages_used"] >= building["message_quota"]:
             raise HTTPException(status_code=403, detail="Cota de mensagens excedida")
     
-    # Buscar telefones
-    phones = await db.resident_phones.find({"apartment_id": delivery.apartment_id}, {"_id": 0}).to_list(1000)
+    # Preparar mensagem
+    message = f"Chegou uma encomenda para o apartamento {apartment['number']}. Disponível para retirada na portaria."
     
-    if not phones:
-        raise HTTPException(status_code=400, detail="Nenhum telefone cadastrado para este apartamento")
-    
-    # Preparar mensagem usando template pré-aprovado
-    template_id = building.get("message_template", "template1")
-    
-    # Se o prédio ainda usa custom_message (retrocompatibilidade), migrar para template1
-    if building.get("custom_message") and not building.get("message_template"):
-        template_id = "template1"
-    
-    # Buscar template pré-aprovado
-    message_template = APPROVED_MESSAGE_TEMPLATES.get(template_id, APPROVED_MESSAGE_TEMPLATES["template1"])
-    message = message_template.replace("[numero]", apartment["number"])
-    
-    # Enviar WhatsApp
-    phones_notified = []
-    for phone in phones:
-        success, error = await send_whatsapp_message(phone["whatsapp"], message)
-        
-        # Log do envio
-        log_data = {
-            "id": str(uuid.uuid4()),
-            "delivery_id": "",  # Será atualizado
-            "phone": phone["whatsapp"],
-            "status": "success" if success else "failed",
-            "error_message": error,
-            "timestamp": datetime.now(timezone.utc).isoformat()
-        }
-        
-        if success:
-            phones_notified.append(phone["whatsapp"])
+    # Criar notificação in-app
+    success = await create_in_app_notification(
+        apartment_id=delivery.apartment_id,
+        building_id=current_user["building_id"],
+        message=message,
+        doorman_id=current_user["id"]
+    )
     
     # Registrar entrega
     delivery_id = str(uuid.uuid4())
