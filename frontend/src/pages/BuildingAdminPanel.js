@@ -1143,62 +1143,11 @@ const BuildingAdminPanel = ({ user, onLogout }) => {
 
                 <Separator />
 
-                {/* Mensagem de Notificação - Templates Pré-Aprovados */}
-                <div>
-                  <Label className="text-base font-semibold">Mensagem de Notificação WhatsApp</Label>
-                  <p className="text-xs text-slate-500 mt-1 mb-3">
-                    Selecione uma das mensagens pré-aprovadas pela Meta para WhatsApp Business.<br/>
-                    O texto <span className="font-mono bg-slate-100 px-1 rounded">[numero]</span> será automaticamente substituído pelo número do apartamento.
-                  </p>
-                  
-                  <div className="space-y-3">
-                    {messageTemplates.map((template) => (
-                      <div
-                        key={template.id}
-                        onClick={() => setSelectedTemplate(template.id)}
-                        className={`p-4 rounded-lg border-2 cursor-pointer transition-all ${
-                          selectedTemplate === template.id
-                            ? 'border-yellow-500 bg-yellow-50'
-                            : 'border-slate-200 bg-white hover:border-slate-300'
-                        }`}
-                      >
-                        <div className="flex items-start gap-3">
-                          <div className={`mt-1 w-5 h-5 rounded-full border-2 flex items-center justify-center ${
-                            selectedTemplate === template.id
-                              ? 'border-yellow-500 bg-yellow-500'
-                              : 'border-slate-300'
-                          }`}>
-                            {selectedTemplate === template.id && (
-                              <CheckCircle className="w-3 h-3 text-white" />
-                            )}
-                          </div>
-                          <div className="flex-1">
-                            <p className="text-sm text-slate-700 leading-relaxed">
-                              {template.text}
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                  
-                  <Button 
-                    onClick={handleUpdateMessageTemplate} 
-                    className="mt-4" 
-                    data-testid="save-message-button"
-                  >
-                    <CheckCircle className="w-4 h-4 mr-2" />
-                    Salvar Template Selecionado
-                  </Button>
-                </div>
-
-                <Separator />
-
                 {/* Link de Cadastro com QR Code */}
                 <div>
                   <Label className="text-base font-semibold">Cadastro de Moradores</Label>
                   <p className="text-sm text-slate-600 mb-4">
-                    Compartilhe o link ou QR Code para que os moradores cadastrem seus WhatsApp
+                    Compartilhe o link ou QR Code para que os moradores façam o cadastro no app
                   </p>
                   
                   <div className="grid md:grid-cols-2 gap-6">
