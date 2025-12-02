@@ -128,6 +128,8 @@ class PublicRegistrationRequest(BaseModel):
     apartment_number: str
     whatsapp: str
     name: Optional[str] = None
+    email: Optional[EmailStr] = None
+    password: Optional[str] = None
 
 class DeliveryCreate(BaseModel):
     apartment_id: str
