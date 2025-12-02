@@ -110,10 +110,10 @@ const PublicRegistration = () => {
             >
               <Bell className="w-8 h-8 mx-auto mb-3" style={{ color: colors.black }} />
               <p className="font-semibold" style={{ color: colors.black }}>
-                🎉 Tudo pronto!
+                🎉 Cadastro concluído!
               </p>
               <p className="text-sm mt-2" style={{ color: colors.darkGray }}>
-                Sempre que uma encomenda chegar, você receberá uma notificação automática no WhatsApp cadastrado.
+                Faça login no app com seu email e senha para ver suas notificações de encomendas.
               </p>
             </div>
 
