@@ -5,7 +5,7 @@ import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { Label } from '../components/ui/label';
 import { Bell, BellOff, User, LogOut, Package, Edit2, Save, X } from 'lucide-react';
-import { toast } from 'react-hot-toast';
+import { toast } from 'sonner';
 
 const API = `${process.env.REACT_APP_BACKEND_URL || window.location.origin}/api`;
 
