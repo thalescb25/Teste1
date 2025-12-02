@@ -73,7 +73,8 @@ class Building(BaseModel):
     max_apartments: int
     messages_used: int
     active: bool
-    custom_message: Optional[str] = None
+    custom_message: Optional[str] = None  # Deprecated - mantido para retrocompatibilidade
+    message_template: Optional[str] = "template1"  # ID do template pré-aprovado
     created_at: str
     trial_ends_at: Optional[str] = None
     sindico_name: Optional[str] = None
