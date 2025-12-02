@@ -388,15 +388,15 @@ async def login(request: LoginRequest):
             user=user_data
         )
     
-    # Tentar login como morador (usando telefone como email/login)
-    resident = await db.phones.find_one({"number": request.email}, {"_id": 0})
+    # Tentar login como morador (usando email e senha)
+    resident = await db.phones.find_one({"email": request.email}, {"_id": 0})
     
     if not resident:
-        raise HTTPException(status_code=401, detail="Email/telefone ou senha incorretos")
+        raise HTTPException(status_code=401, detail="Email ou senha incorretos")
     
-    # Para moradores, a senha é o próprio telefone (simplificado para MVP)
-    if request.password != resident["number"]:
-        raise HTTPException(status_code=401, detail="Email/telefone ou senha incorretos")
+    # Verificar senha (usa hashing como outros usuários)
+    if not resident.get("password") or not verify_password(request.password, resident["password"]):
+        raise HTTPException(status_code=401, detail="Email ou senha incorretos")
     
     # Buscar apartment para pegar building_id
     apartment = await db.apartments.find_one({"id": resident["apartment_id"]}, {"_id": 0})
@@ -405,7 +405,7 @@ async def login(request: LoginRequest):
     resident_user = {
         "id": resident["id"],
         "name": resident.get("name", "Morador"),
-        "email": resident["number"],  # Usa telefone como email
+        "email": resident.get("email", ""),
         "role": "resident",
         "building_id": apartment["building_id"] if apartment else None,
         "active": True
