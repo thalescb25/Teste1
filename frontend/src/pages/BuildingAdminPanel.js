@@ -288,16 +288,16 @@ const BuildingAdminPanel = ({ user, onLogout }) => {
       // Adicionar sheet de estatísticas se disponível
       if (stats) {
         const statsData = [
-          { Métrica: 'Total de Entregas', Valor: stats.total_deliveries },
-          { Métrica: 'Sucessos', Valor: stats.successful },
-          { Métrica: 'Falhas', Valor: stats.failed },
-          { Métrica: 'Telefones Notificados', Valor: stats.total_phones_notified },
+          { Métrica: 'Total de Entregas', Valor: stats.total_deliveries || 0 },
+          { Métrica: 'Sucessos', Valor: stats.successful || 0 },
+          { Métrica: 'Falhas', Valor: stats.failed || 0 },
+          { Métrica: 'Telefones Notificados', Valor: stats.total_phones_notified || 0 },
         ];
 
-        if (stats.top_apartments && stats.top_apartments.length > 0) {
+        if (stats.top_apartments && (stats.top_apartments || []).length > 0) {
           statsData.push({ Métrica: '', Valor: '' });
           statsData.push({ Métrica: 'Top Apartamentos', Valor: 'Entregas' });
-          stats.top_apartments.forEach(apt => {
+          (stats.top_apartments || []).forEach(apt => {
             statsData.push({ Métrica: `Apt ${apt.number}`, Valor: apt.count });
           });
         }
