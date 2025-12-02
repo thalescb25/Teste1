@@ -881,7 +881,7 @@ const BuildingAdminPanel = ({ user, onLogout }) => {
                         Total: {allPhones.length} telefone(s) cadastrado(s)
                       </p>
                     </div>
-                    {allPhones.map((phone) => (
+                    {(allPhones || []).map((phone) => (
                       <Card key={phone.id} className="border-l-4 border-l-blue-600">
                         <CardContent className="p-4">
                           <div className="flex items-center justify-between">
