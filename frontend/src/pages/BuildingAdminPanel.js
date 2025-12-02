@@ -1174,6 +1174,31 @@ const BuildingAdminPanel = ({ user, onLogout }) => {
 
                 <Separator />
 
+                {/* Mensagem Padrão */}
+                <div>
+                  <Label className="text-base font-semibold">Mensagem Padrão de Notificação</Label>
+                  <p className="text-xs text-slate-500 mt-1 mb-3">
+                    Escolha a mensagem que será enviada aos moradores quando uma encomenda chegar
+                  </p>
+                  <div className="bg-slate-50 p-4 rounded-lg border border-slate-200">
+                    <p className="text-sm font-medium mb-2">Mensagem atual:</p>
+                    <p className="text-sm text-slate-700 italic">
+                      📦 {messageTemplates[notificationMessage]}
+                    </p>
+                  </div>
+                  <Button 
+                    onClick={() => setShowMessageDialog(true)} 
+                    className="mt-3" 
+                    size="sm" 
+                    variant="outline"
+                  >
+                    <Edit className="w-4 h-4 mr-2" />
+                    Alterar Mensagem
+                  </Button>
+                </div>
+
+                <Separator />
+
                 {/* Link de Cadastro com QR Code */}
                 <div>
                   <Label className="text-base font-semibold">Cadastro de Moradores</Label>
