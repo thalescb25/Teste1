@@ -144,7 +144,8 @@ class Delivery(BaseModel):
     doorman_name: str
     timestamp: str
     status: str  # success, failed
-    notification_sent: bool
+    notification_sent: Optional[bool] = None  # Novo formato
+    phones_notified: Optional[List[str]] = None  # Formato antigo (retrocompatibilidade)
 
 class Notification(BaseModel):
     model_config = ConfigDict(extra="ignore")
