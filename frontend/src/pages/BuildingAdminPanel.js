@@ -1506,7 +1506,7 @@ const BuildingAdminPanel = ({ user, onLogout }) => {
                 {phones.length === 0 ? (
                   <p className="text-sm text-slate-600 text-center py-4">Nenhum telefone cadastrado</p>
                 ) : (
-                  phones.map((phone) => (
+                  (phones || []).map((phone) => (
                     <div key={phone.id} className="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
                       <div>
                         <p className="font-medium">{phone.whatsapp}</p>
