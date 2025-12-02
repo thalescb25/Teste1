@@ -316,8 +316,8 @@ async def create_in_app_notification(apartment_id: str, building_id: str, messag
     Substituiu WhatsApp para MVP mais rápido
     """
     try:
-        # Buscar todos os moradores (phones) do apartamento
-        phones = await db.phones.find({"apartment_id": apartment_id}, {"_id": 0}).to_list(1000)
+        # Buscar todos os moradores do apartamento (ambas collections para compatibilidade)
+        phones = await db.resident_phones.find({"apartment_id": apartment_id}, {"_id": 0}).to_list(1000)
         
         if not phones:
             logging.warning(f"[NOTIFICAÇÃO] Nenhum morador cadastrado no apartamento {apartment_id}")
