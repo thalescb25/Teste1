@@ -329,8 +329,8 @@ const DoormanPanel = ({ user, onLogout }) => {
         </Card>
 
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 md:gap-4">
-          {apartments.map((apt) => {
-            const hasPhones = apt.phones && apt.phones.length > 0;
+          {(apartments || []).map((apt) => {
+            const hasPhones = apt.phones && (apt.phones || []).length > 0;
             
             return (
               <button
@@ -373,13 +373,13 @@ const DoormanPanel = ({ user, onLogout }) => {
                   </p>
                   {hasPhones ? (
                     <div className="text-[10px] md:text-xs space-y-0.5" style={{ color: colors.grayMetal }}>
-                      {apt.phones.slice(0, 2).map((phone, idx) => (
+                      {(apt.phones || []).slice(0, 2).map((phone, idx) => (
                         <p key={idx} className="truncate px-1">
                           {phone.name || phone.whatsapp}
                         </p>
                       ))}
-                      {apt.phones.length > 2 && (
-                        <p className="font-semibold">+{apt.phones.length - 2} mais</p>
+                      {(apt.phones || []).length > 2 && (
+                        <p className="font-semibold">+{(apt.phones || []).length - 2} mais</p>
                       )}
                     </div>
                   ) : (
