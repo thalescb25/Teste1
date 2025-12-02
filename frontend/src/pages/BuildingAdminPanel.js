@@ -369,6 +369,14 @@ const BuildingAdminPanel = ({ user, onLogout }) => {
       setShowAddPhoneDialog(false);
       setNewPhone({ whatsapp: '', name: '' });
 
+  const messageTemplates = {
+    template1: "Chegou uma entrega para o apartamento [APARTAMENTO]. A retirada está liberada na portaria.",
+    template2: "Há uma entrega destinada ao apartamento [APARTAMENTO]. Retire na central de encomendas.",
+    template3: "O apartamento [APARTAMENTO] recebeu uma encomenda. Disponível para retirada na portaria.",
+    template4: "Chegou uma encomenda para o apartamento [APARTAMENTO]. Retirar na sala de correspondências.",
+    template5: "O apartamento [APARTAMENTO] tem uma entrega registrada. A retirada deve ser feita no locker do condomínio."
+  };
+
   const handleSaveNotificationMessage = async () => {
     try {
       await axios.put(`${API}/admin/building/notification-message?message_template=${notificationMessage}`);
@@ -378,14 +386,6 @@ const BuildingAdminPanel = ({ user, onLogout }) => {
     } catch (error) {
       toast.error('Erro ao atualizar mensagem padrão');
     }
-  };
-
-  const messageTemplates = {
-    template1: "Chegou uma entrega para o apartamento [APARTAMENTO]. A retirada está liberada na portaria.",
-    template2: "Há uma entrega destinada ao apartamento [APARTAMENTO]. Retire na central de encomendas.",
-    template3: "O apartamento [APARTAMENTO] recebeu uma encomenda. Disponível para retirada na portaria.",
-    template4: "Chegou uma encomenda para o apartamento [APARTAMENTO]. Retirar na sala de correspondências.",
-    template5: "O apartamento [APARTAMENTO] tem uma entrega registrada. A retirada deve ser feita no locker do condomínio."
   };
 
       loadPhones(selectedApartment.id);
