@@ -352,17 +352,54 @@ async def startup_event():
 
 @api_router.post("/auth/login", response_model=TokenResponse)
 async def login(request: LoginRequest):
+    # Tentar login como usuário (admin, doorman, super_admin)
     user = await db.users.find_one({"email": request.email}, {"_id": 0})
-    if not user or not verify_password(request.password, user["password"]):
-        raise HTTPException(status_code=401, detail="Email ou senha incorretos")
     
-    if not user.get("active", True):
-        raise HTTPException(status_code=401, detail="Usuário inativo")
+    if user:
+        if not verify_password(request.password, user["password"]):
+            raise HTTPException(status_code=401, detail="Email ou senha incorretos")
+        
+        if not user.get("active", True):
+            raise HTTPException(status_code=401, detail="Usuário inativo")
+        
+        access_token = create_access_token({"sub": user["id"]})
+        refresh_token = create_refresh_token({"sub": user["id"]})
+        
+        user_data = User(**user)
+        
+        return TokenResponse(
+            access_token=access_token,
+            refresh_token=refresh_token,
+            user=user_data
+        )
     
-    access_token = create_access_token({"sub": user["id"]})
-    refresh_token = create_refresh_token({"sub": user["id"]})
+    # Tentar login como morador (usando telefone como email/login)
+    resident = await db.phones.find_one({"number": request.email}, {"_id": 0})
     
-    user_data = User(**user)
+    if not resident:
+        raise HTTPException(status_code=401, detail="Email/telefone ou senha incorretos")
+    
+    # Para moradores, a senha é o próprio telefone (simplificado para MVP)
+    if request.password != resident["number"]:
+        raise HTTPException(status_code=401, detail="Email/telefone ou senha incorretos")
+    
+    # Buscar apartment para pegar building_id
+    apartment = await db.apartments.find_one({"id": resident["apartment_id"]}, {"_id": 0})
+    
+    # Criar user data para morador
+    resident_user = {
+        "id": resident["id"],
+        "name": resident.get("name", "Morador"),
+        "email": resident["number"],  # Usa telefone como email
+        "role": "resident",
+        "building_id": apartment["building_id"] if apartment else None,
+        "active": True
+    }
+    
+    access_token = create_access_token({"sub": resident["id"]})
+    refresh_token = create_refresh_token({"sub": resident["id"]})
+    
+    user_data = User(**resident_user)
     
     return TokenResponse(
         access_token=access_token,
