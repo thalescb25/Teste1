@@ -221,12 +221,12 @@ const BuildingAdminPanel = ({ user, onLogout }) => {
     }
 
     const headers = ['Data/Hora', 'Apartamento', 'Porteiro', 'Status', 'Telefones Notificados'];
-    const rows = (filteredDeliveries || []).map(d => [
+    const rows = filteredDeliveries.map(d => [
       new Date(d.timestamp).toLocaleString('pt-BR'),
       d.apartment_number,
       d.doorman_name,
       d.status === 'success' ? 'Enviado' : 'Falhou',
-      (d.phones_notified || []).join('; ')
+      d.phones_notified.join('; ')
     ]);
 
     const csvContent = [
@@ -252,7 +252,7 @@ const BuildingAdminPanel = ({ user, onLogout }) => {
     // Importar dinamicamente a biblioteca xlsx
     import('xlsx').then((XLSX) => {
       // Preparar dados
-      const data = (filteredDeliveries || []).map(d => ({
+      const data = filteredDeliveries.map(d => ({
         'Data/Hora': new Date(d.timestamp).toLocaleString('pt-BR', {
           day: '2-digit',
           month: '2-digit',
@@ -263,8 +263,8 @@ const BuildingAdminPanel = ({ user, onLogout }) => {
         'Apartamento': d.apartment_number,
         'Porteiro': d.doorman_name,
         'Status': d.status === 'success' ? 'Enviado' : 'Falhou',
-        'Telefones Notificados': (d.phones_notified || []).length,
-        'Números': (d.phones_notified || []).join(', '),
+        'Telefones Notificados': d.phones_notified.length,
+        'Números': d.phones_notified.join(', '),
       }));
 
       // Criar workbook e worksheet
