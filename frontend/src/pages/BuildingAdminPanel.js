@@ -988,7 +988,7 @@ const BuildingAdminPanel = ({ user, onLogout }) => {
                               </div>
                               {hasPhones && (
                                 <div className="mt-2 text-sm text-slate-600 space-y-1">
-                                  {apt.phones.slice(0, 3).map((phone, idx) => (
+                                  {(apt.phones || []).slice(0, 3).map((phone, idx) => (
                                     <div key={idx} className="flex items-center gap-2">
                                       <Phone className="w-3 h-3" />
                                       <span className="font-medium">{phone.name || phone.whatsapp}</span>
