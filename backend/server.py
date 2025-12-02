@@ -694,6 +694,23 @@ async def update_sindico_data(sindico: SindicoUpdate, current_user: dict = Depen
     
     return {"message": "Dados do síndico atualizados com sucesso"}
 
+@api_router.put("/admin/building/notification-message")
+async def update_notification_message(message_template: str, current_user: dict = Depends(get_current_user)):
+    if current_user["role"] != "building_admin":
+        raise HTTPException(status_code=403, detail="Acesso negado")
+    
+    # Validar template
+    valid_templates = ["template1", "template2", "template3", "template4", "template5"]
+    if message_template not in valid_templates:
+        raise HTTPException(status_code=400, detail="Template de mensagem inválido")
+    
+    await db.buildings.update_one(
+        {"id": current_user["building_id"]},
+        {"$set": {"notification_message": message_template}}
+    )
+    
+    return {"message": "Mensagem padrão atualizada com sucesso"}
+
 @api_router.post("/admin/users", response_model=User)
 async def create_doorman(user: UserCreate, current_user: dict = Depends(get_current_user)):
     if current_user["role"] != "building_admin":
