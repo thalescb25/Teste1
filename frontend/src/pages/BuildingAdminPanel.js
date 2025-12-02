@@ -376,6 +376,11 @@ const BuildingAdminPanel = ({ user, onLogout }) => {
       toast.success('Telefone adicionado!');
       setShowAddPhoneDialog(false);
       setNewPhone({ whatsapp: '', name: '' });
+      loadPhones(selectedApartment.id);
+    } catch (error) {
+      toast.error('Erro ao adicionar telefone');
+    }
+  };
 
   const handleSaveNotificationMessage = async () => {
     try {
@@ -385,12 +390,6 @@ const BuildingAdminPanel = ({ user, onLogout }) => {
       loadData();
     } catch (error) {
       toast.error('Erro ao atualizar mensagem padrão');
-    }
-  };
-
-      loadPhones(selectedApartment.id);
-    } catch (error) {
-      toast.error('Erro ao adicionar telefone');
     }
   };
 
