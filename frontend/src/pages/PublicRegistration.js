@@ -88,7 +88,7 @@ const PublicRegistration = () => {
               Cadastro Concluído!
             </CardTitle>
             <CardDescription className="text-lg mt-2" style={{ color: colors.grayMetal }}>
-              Você receberá avisos via WhatsApp
+              Você receberá notificações no app
             </CardDescription>
           </CardHeader>
           <CardContent className="text-center space-y-4" style={{ backgroundColor: colors.white }}>
