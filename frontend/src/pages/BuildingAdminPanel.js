@@ -1438,7 +1438,7 @@ const BuildingAdminPanel = ({ user, onLogout }) => {
                         Mostrando {filteredDeliveries.length} entrega(s)
                       </p>
                     </div>
-                    {filteredDeliveries.map((delivery) => (
+                    {(filteredDeliveries || []).map((delivery) => (
                       <Card key={delivery.id} className="border-l-4 border-l-emerald-600">
                         <CardContent className="p-4">
                           <div className="flex items-center justify-between">
