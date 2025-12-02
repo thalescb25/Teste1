@@ -52,6 +52,10 @@ const BuildingAdminPanel = ({ user, onLogout }) => {
   const [sindicoApartment, setSindicoApartment] = useState('');
   const [sindicoPhone, setSindicoPhone] = useState('');
   const [sindicoEmail, setSindicoEmail] = useState('');
+  
+  // Notification message
+  const [notificationMessage, setNotificationMessage] = useState('template1');
+  const [showMessageDialog, setShowMessageDialog] = useState(false);
 
   useEffect(() => {
     loadData();
@@ -84,6 +88,9 @@ const BuildingAdminPanel = ({ user, onLogout }) => {
       setSindicoApartment(buildingRes.data.sindico_apartment || '');
       setSindicoPhone(buildingRes.data.sindico_phone || '');
       setSindicoEmail(buildingRes.data.sindico_email || '');
+      
+      // Carregar mensagem de notificação
+      setNotificationMessage(buildingRes.data.notification_message || 'template1');
       
       setApartments(apartmentsRes.data);
       setUsers(usersRes.data);
