@@ -14,6 +14,14 @@ import { toast } from 'sonner';
 import { Building, Users, Phone, MessageSquare, History, LogOut, Plus, Trash2, Copy, CheckCircle, Edit, Printer, Download, MessageCircle } from 'lucide-react';
 import { QRCodeSVG } from 'qrcode.react';
 
+const messageTemplates = {
+  template1: "Chegou uma entrega para o apartamento [APARTAMENTO]. A retirada está liberada na portaria.",
+  template2: "Há uma entrega destinada ao apartamento [APARTAMENTO]. Retire na central de encomendas.",
+  template3: "O apartamento [APARTAMENTO] recebeu uma encomenda. Disponível para retirada na portaria.",
+  template4: "Chegou uma encomenda para o apartamento [APARTAMENTO]. Retirar na sala de correspondências.",
+  template5: "O apartamento [APARTAMENTO] tem uma entrega registrada. A retirada deve ser feita no locker do condomínio."
+};
+
 const BuildingAdminPanel = ({ user, onLogout }) => {
   const [building, setBuilding] = useState(null);
   const [apartments, setApartments] = useState([]);
