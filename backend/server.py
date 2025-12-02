@@ -630,35 +630,6 @@ async def get_my_building(current_user: dict = Depends(get_current_user)):
     
     return Building(**building)
 
-@api_router.put("/admin/building/message-template")
-async def update_message_template(template_id: str, current_user: dict = Depends(get_current_user)):
-    if current_user["role"] != "building_admin":
-        raise HTTPException(status_code=403, detail="Acesso negado")
-    
-    # Validar template ID
-    if template_id not in APPROVED_MESSAGE_TEMPLATES:
-        raise HTTPException(status_code=400, detail="Template de mensagem inválido")
-    
-    await db.buildings.update_one(
-        {"id": current_user["building_id"]},
-        {"$set": {"message_template": template_id}}
-    )
-    
-    return {"message": "Template de mensagem atualizado com sucesso"}
-
-@api_router.get("/admin/message-templates")
-async def get_message_templates(current_user: dict = Depends(get_current_user)):
-    """Retorna os templates de mensagem pré-aprovados"""
-    if current_user["role"] not in ["building_admin", "doorman"]:
-        raise HTTPException(status_code=403, detail="Acesso negado")
-    
-    return {
-        "templates": [
-            {"id": key, "text": value}
-            for key, value in APPROVED_MESSAGE_TEMPLATES.items()
-        ]
-    }
-
 @api_router.put("/admin/building/address")
 async def update_building_address(address: str, current_user: dict = Depends(get_current_user)):
     if current_user["role"] != "building_admin":
