@@ -168,7 +168,7 @@ const Login = ({ onLogin }) => {
             {/* Info para Morador */}
             <div className="mt-6 pt-6 border-t text-center">
               <p className="text-sm" style={{ color: colors.grayMetal }}>
-                <strong>Morador?</strong> Peça o link de cadastro ao administrador do seu prédio
+                <strong>É morador?</strong> Solicite o link de cadastro ao administrador do seu condomínio
               </p>
             </div>
           </CardContent>
