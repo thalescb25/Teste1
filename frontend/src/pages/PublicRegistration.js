@@ -56,9 +56,9 @@ const PublicRegistration = () => {
 
       setBuildingName(response.data.building_name);
       setSuccess(true);
-      toast.success('WhatsApp cadastrado com sucesso!');
+      toast.success('Cadastro realizado com sucesso!');
     } catch (error) {
-      toast.error(error.response?.data?.detail || 'Erro ao cadastrar WhatsApp');
+      toast.error(error.response?.data?.detail || 'Erro ao realizar cadastro');
     } finally {
       setLoading(false);
     }
