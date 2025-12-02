@@ -1643,6 +1643,66 @@ const BuildingAdminPanel = ({ user, onLogout }) => {
           </div>
         </DialogContent>
       </Dialog>
+
+      {/* Dialog de Seleção de Mensagem */}
+      <Dialog open={showMessageDialog} onOpenChange={setShowMessageDialog}>
+        <DialogContent className="max-w-2xl">
+          <DialogHeader>
+            <DialogTitle>Escolher Mensagem Padrão</DialogTitle>
+            <DialogDescription>
+              Selecione a mensagem que será enviada aos moradores quando uma encomenda chegar
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-3">
+            {Object.entries(messageTemplates).map(([key, text]) => (
+              <div
+                key={key}
+                onClick={() => setNotificationMessage(key)}
+                className={`p-4 rounded-lg border-2 cursor-pointer transition-all ${
+                  notificationMessage === key
+                    ? 'border-emerald-500 bg-emerald-50'
+                    : 'border-slate-200 hover:border-slate-300'
+                }`}
+              >
+                <div className="flex items-start gap-3">
+                  <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center mt-0.5 ${
+                    notificationMessage === key
+                      ? 'border-emerald-500 bg-emerald-500'
+                      : 'border-slate-300'
+                  }`}>
+                    {notificationMessage === key && (
+                      <div className="w-2 h-2 rounded-full bg-white"></div>
+                    )}
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-sm font-medium text-slate-900">
+                      Opção {key.replace('template', '')}
+                    </p>
+                    <p className="text-sm text-slate-600 mt-1">
+                      📦 {text}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="flex gap-2 mt-4">
+            <Button
+              onClick={() => setShowMessageDialog(false)}
+              variant="outline"
+              className="flex-1"
+            >
+              Cancelar
+            </Button>
+            <Button
+              onClick={handleSaveNotificationMessage}
+              className="flex-1"
+            >
+              Salvar Mensagem
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
