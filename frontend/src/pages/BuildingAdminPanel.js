@@ -414,6 +414,10 @@ const BuildingAdminPanel = ({ user, onLogout }) => {
   };
 
   const handlePrintQRCode = () => {
+    if (!building || !building.registration_code) {
+      toast.error('Erro: Código de registro não disponível');
+      return;
+    }
     const printWindow = window.open('', '', 'height=842,width=595');
     const link = `${window.location.origin}/registrar?codigo=${building.registration_code}`;
     
