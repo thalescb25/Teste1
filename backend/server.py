@@ -224,7 +224,7 @@ async def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(s
             return {
                 "id": resident["id"],
                 "name": resident.get("name", "Morador"),
-                "email": resident["number"],
+                "email": resident.get("email", resident.get("number", "")),
                 "role": "resident",
                 "building_id": apartment["building_id"] if apartment else None,
                 "active": True
