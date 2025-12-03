@@ -85,10 +85,20 @@ Documento: ${visitor.document || 'Não informado'}
     const form = e.target;
     const formData = new FormData(form);
     
+    const companyId = formData.get('companyId');
+    if (!companyId) {
+      toast({
+        title: "Empresa Obrigatória",
+        description: "Selecione a empresa que o visitante irá visitar.",
+        variant: "destructive"
+      });
+      return;
+    }
+    
     const newVisitor = {
       id: `v${Date.now()}`,
       buildingId: user.buildingId,
-      companyId: '1', // Primeira empresa por padrão
+      companyId: companyId,
       fullName: formData.get('fullName'),
       hostName: formData.get('hostName'),
       representingCompany: formData.get('representingCompany') || '',
@@ -102,6 +112,7 @@ Documento: ${visitor.document || 'Não informado'}
       checkOutTime: null,
       notes: formData.get('notes') || 'Check-in manual realizado pela portaria',
       createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
       language: 'pt'
     };
     
