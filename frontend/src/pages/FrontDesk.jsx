@@ -407,7 +407,7 @@ Documento: ${visitor.document || 'Não informado'}
             </div>
 
             <div className="space-y-4">
-              {visitors.filter(v => v.status !== 'pending').map((visitor) => (
+              {visitors.filter(v => v.status !== 'pending').slice(0, visibleCount).map((visitor) => (
                 <Card key={visitor.id}>
                   <CardContent className="p-6">
                     <div className="flex items-center justify-between">
