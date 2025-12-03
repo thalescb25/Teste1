@@ -269,49 +269,48 @@ Documento: ${visitor.document || 'Não informado'}
               <CardTitle className="text-2xl">Check-in Manual</CardTitle>
               <p className="text-neutral-dark">Para visitantes sem smartphone ou idosos</p>
             </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label className="text-sm font-medium text-graphite mb-2 block">Nome Completo *</label>
-                  <Input placeholder="Nome do visitante" className="h-12 text-lg" />
+            <CardContent>
+              <form onSubmit={handleManualCheckIn} className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <label className="text-sm font-medium text-graphite mb-2 block">Nome Completo *</label>
+                    <Input name="fullName" placeholder="Nome do visitante" className="h-12 text-lg" required />
+                  </div>
+                  <div>
+                    <label className="text-sm font-medium text-graphite mb-2 block">Anfitrião *</label>
+                    <Input name="hostName" placeholder="Nome do anfitrião" className="h-12 text-lg" required />
+                  </div>
+                  <div>
+                    <label className="text-sm font-medium text-graphite mb-2 block">Empresa Representando</label>
+                    <Input name="representingCompany" placeholder="Opcional" className="h-12 text-lg" />
+                  </div>
+                  <div>
+                    <label className="text-sm font-medium text-graphite mb-2 block">Motivo</label>
+                    <Input name="reason" placeholder="Opcional" className="h-12 text-lg" />
+                  </div>
+                  <div>
+                    <label className="text-sm font-medium text-graphite mb-2 block">Acompanhantes</label>
+                    <Input name="companions" type="number" placeholder="0" defaultValue="0" className="h-12 text-lg" />
+                  </div>
                 </div>
                 <div>
-                  <label className="text-sm font-medium text-graphite mb-2 block">Empresa Visitada *</label>
-                  <Input placeholder="Nome da empresa" className="h-12 text-lg" />
+                  <label className="text-sm font-medium text-graphite mb-2 block">Observações</label>
+                  <textarea 
+                    name="notes"
+                    rows={3}
+                    className="w-full p-3 border border-neutral-medium rounded-lg text-lg"
+                    placeholder="Anotações adicionais..."
+                  />
                 </div>
-                <div>
-                  <label className="text-sm font-medium text-graphite mb-2 block">Anfitrião *</label>
-                  <Input placeholder="Nome do anfitrião" className="h-12 text-lg" />
-                </div>
-                <div>
-                  <label className="text-sm font-medium text-graphite mb-2 block">Empresa Representando</label>
-                  <Input placeholder="Opcional" className="h-12 text-lg" />
-                </div>
-                <div>
-                  <label className="text-sm font-medium text-graphite mb-2 block">Motivo</label>
-                  <Input placeholder="Opcional" className="h-12 text-lg" />
-                </div>
-                <div>
-                  <label className="text-sm font-medium text-graphite mb-2 block">Acompanhantes</label>
-                  <Input type="number" placeholder="0" defaultValue="0" className="h-12 text-lg" />
-                </div>
-              </div>
-              <div>
-                <label className="text-sm font-medium text-graphite mb-2 block">Observações</label>
-                <textarea 
-                  rows={3}
-                  className="w-full p-3 border border-neutral-medium rounded-lg text-lg"
-                  placeholder="Anotações adicionais..."
-                />
-              </div>
-              <Button 
-                onClick={handleManualCheckIn}
-                size="lg"
-                className="w-full bg-primary hover:bg-blue-600 h-14 text-lg"
-              >
-                <UserPlus className="w-5 h-5 mr-2" />
-                Registrar Check-in
-              </Button>
+                <Button 
+                  type="submit"
+                  size="lg"
+                  className="w-full bg-primary hover:bg-blue-600 h-14 text-lg"
+                >
+                  <UserPlus className="w-5 h-5 mr-2" />
+                  Registrar Check-in
+                </Button>
+              </form>
             </CardContent>
           </Card>
         )}
