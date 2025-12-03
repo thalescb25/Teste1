@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { mockCompanies, mockSystemSettings, translations } from '../mockData';
-import { Building2, CheckCircle, Clock, Upload, Camera } from 'lucide-react';
+import { CheckCircle, Clock, Upload, Camera } from 'lucide-react';
 import { Button } from '../components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
 import { Input } from '../components/ui/input';
