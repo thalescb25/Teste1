@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { mockCompanies, mockUsers, mockVisitors } from '../mockData';
+import { mockCompanies, mockUsers, mockVisitors, mockBuildings } from '../mockData';
 import Navbar from '../components/Navbar';
+import { generateQROnePage } from '../utils/generateQRPDF';
 import { 
   Building2, Plus, Upload, Download, Users, Search, Edit, Trash2,
   FileText, Settings as SettingsIcon, QrCode
