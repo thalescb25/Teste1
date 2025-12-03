@@ -364,6 +364,77 @@ Documento: ${visitor.document || 'Não informado'}
           </div>
         )}
 
+        {/* History Tab */}
+        {activeTab === 'history' && (
+          <div>
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-2xl font-bold text-graphite">Histórico de Visitantes</h2>
+              <select 
+                className="px-4 py-2 border border-neutral-medium rounded-lg text-graphite"
+              >
+                <option value="7">Últimos 7 dias</option>
+                <option value="30">Últimos 30 dias</option>
+                <option value="60">Últimos 60 dias</option>
+                <option value="90">Últimos 90 dias</option>
+              </select>
+            </div>
+
+            <div className="space-y-4">
+              {visitors.filter(v => v.status !== 'pending').map((visitor) => (
+                <Card key={visitor.id}>
+                  <CardContent className="p-6">
+                    <div className="flex items-center justify-between">
+                      <div className="flex-1">
+                        <h3 className="text-lg font-bold text-graphite mb-2">{visitor.fullName}</h3>
+                        <div className="grid grid-cols-2 gap-2 text-sm">
+                          <p className="text-neutral-dark">Anfitrião: {visitor.hostName}</p>
+                          {visitor.representingCompany && (
+                            <p className="text-neutral-dark">Empresa: {visitor.representingCompany}</p>
+                          )}
+                          {visitor.checkInTime && (
+                            <p className="text-neutral-dark">
+                              Entrada: {new Date(visitor.checkInTime).toLocaleString('pt-BR')}
+                            </p>
+                          )}
+                          {visitor.checkOutTime && (
+                            <p className="text-neutral-dark">
+                              Saída: {new Date(visitor.checkOutTime).toLocaleString('pt-BR')}
+                            </p>
+                          )}
+                        </div>
+                        {visitor.notes && (
+                          <p className="text-sm text-neutral-dark mt-2">
+                            <strong>Obs:</strong> {visitor.notes}
+                          </p>
+                        )}
+                      </div>
+                      <Badge className={`text-sm px-3 py-1 ml-4 ${
+                        visitor.status === 'approved' 
+                          ? 'bg-green-100 text-green-700' 
+                          : visitor.status === 'checked_out'
+                          ? 'bg-gray-100 text-gray-700'
+                          : 'bg-red-100 text-red-700'
+                      }`}>
+                        {visitor.status === 'approved' ? 'Aprovado' : 
+                         visitor.status === 'checked_out' ? 'Finalizado' : 'Negado'}
+                      </Badge>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+              
+              {visitors.filter(v => v.status !== 'pending').length === 0 && (
+                <Card>
+                  <CardContent className="p-12 text-center">
+                    <FileText className="w-16 h-16 text-neutral-medium mx-auto mb-4" />
+                    <p className="text-xl text-neutral-dark">Nenhum histórico disponível</p>
+                  </CardContent>
+                </Card>
+              )}
+            </div>
+          </div>
+        )}
+
         {/* Contact Support */}
         <Card className="mt-8">
           <CardContent className="p-6">
