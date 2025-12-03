@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { mockUsers } from '../mockData';
+import api from '../utils/api';
 import { KeyRound, Mail, Lock, Eye, EyeOff } from 'lucide-react';
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
@@ -15,30 +15,39 @@ const Login = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     setIsLoading(true);
 
-    // Simular autenticação
-    setTimeout(() => {
-      const user = mockUsers.find(u => u.email === email && u.password === password);
-      
-      if (user) {
-        localStorage.setItem('user', JSON.stringify(user));
+    try {
+      const response = await api.post('/auth/login', {
+        email,
+        password
+      });
+
+      if (response.data.success) {
+        const userData = {
+          ...response.data.user,
+          token: response.data.token
+        };
+        localStorage.setItem('user', JSON.stringify(userData));
+        
         toast({
           title: "Login realizado!",
-          description: `Bem-vindo, ${user.name}!`,
+          description: `Bem-vindo, ${response.data.user.name}!`,
         });
+        
         navigate('/dashboard');
-      } else {
-        toast({
-          title: "Erro no login",
-          description: "E-mail ou senha inválidos.",
-          variant: "destructive"
-        });
       }
+    } catch (error) {
+      toast({
+        title: "Erro no login",
+        description: error.response?.data?.detail || "E-mail ou senha inválidos.",
+        variant: "destructive"
+      });
+    } finally {
       setIsLoading(false);
-    }, 1000);
+    }
   };
 
   return (
