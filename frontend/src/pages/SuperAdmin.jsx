@@ -25,19 +25,68 @@ const SuperAdmin = () => {
   const { toast } = useToast();
 
   const handleNewBuilding = () => {
-    toast({
-      title: "Novo Prédio",
-      description: "Funcionalidade em desenvolvimento. Modal será implementado.",
-    });
-    setShowNewBuildingModal(true);
+    const name = prompt("Nome do Prédio:");
+    const address = prompt("Endereço:");
+    const city = prompt("Cidade:");
+    const state = prompt("Estado (sigla):");
+    const plan = prompt("Plano (start/business/corporate):");
+    const maxSuites = parseInt(prompt("Número máximo de conjuntos:"));
+    const adminEmail = prompt("E-mail do administrador:");
+    
+    if (name && address && city && state && plan && maxSuites && adminEmail) {
+      const planPrices = { start: 149, business: 249, corporate: 399 };
+      const newBuilding = {
+        id: String(buildings.length + 1),
+        name,
+        address,
+        city,
+        state,
+        plan,
+        maxSuites,
+        currentSuites: 0,
+        status: 'active',
+        documentRequired: true,
+        selfieRequired: false,
+        defaultLanguage: 'pt',
+        monthlyRevenue: planPrices[plan] || 0,
+        adminEmail,
+        createdAt: new Date().toISOString()
+      };
+      
+      setBuildings([...buildings, newBuilding]);
+      
+      // Atualizar métricas
+      setMetrics({
+        ...metrics,
+        totalBuildings: metrics.totalBuildings + 1,
+        newBuildingsThisMonth: metrics.newBuildingsThisMonth + 1,
+        mrr: metrics.mrr + (planPrices[plan] || 0)
+      });
+      
+      toast({
+        title: "Prédio Criado",
+        description: `${name} foi adicionado com sucesso ao plano ${plan}.`,
+      });
+    }
   };
 
   const handleEditBuilding = (building) => {
-    toast({
-      title: "Editar Prédio",
-      description: `Editando ${building.name}`,
-    });
-    setEditingBuilding(building);
+    const name = prompt("Nome do Prédio:", building.name);
+    const address = prompt("Endereço:", building.address);
+    const adminEmail = prompt("E-mail do administrador:", building.adminEmail);
+    
+    if (name && address && adminEmail) {
+      setBuildings(buildings.map(b =>
+        b.id === building.id
+          ? { ...b, name, address, adminEmail, updatedAt: new Date().toISOString() }
+          : b
+      ));
+      
+      toast({
+        title: "Prédio Atualizado",
+        description: `${name} foi atualizado com sucesso.`,
+      });
+    }
   };
 
   const handleDeleteBuilding = (building) => {
