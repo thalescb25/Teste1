@@ -152,12 +152,7 @@ const CompanyReceptionist = () => {
               <p className="text-neutral-dark">Aprovação de visitantes em tempo real</p>
             </div>
             <Button
-              onClick={() => {
-                toast({
-                  title: "Download Iniciado",
-                  description: "Histórico sendo exportado...",
-                });
-              }}
+              onClick={handleExportToExcel}
               className="bg-green-600 hover:bg-green-700"
             >
               <Download className="w-4 h-4 mr-2" />
