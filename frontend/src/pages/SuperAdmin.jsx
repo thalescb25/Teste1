@@ -299,10 +299,20 @@ const SuperAdmin = () => {
                         </div>
                       </div>
                       <div className="flex space-x-2 ml-4">
-                        <Button variant="outline" size="sm" className="border-primary text-primary">
+                        <Button 
+                          onClick={() => handleEditBuilding(building)}
+                          variant="outline" 
+                          size="sm" 
+                          className="border-primary text-primary hover:bg-blue-50"
+                        >
                           <Edit className="w-4 h-4" />
                         </Button>
-                        <Button variant="outline" size="sm" className="border-red-200 text-red-600">
+                        <Button 
+                          onClick={() => handleDeleteBuilding(building)}
+                          variant="outline" 
+                          size="sm" 
+                          className="border-red-200 text-red-600 hover:bg-red-50"
+                        >
                           <Trash2 className="w-4 h-4" />
                         </Button>
                       </div>
