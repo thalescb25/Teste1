@@ -219,12 +219,12 @@ Sistema testado com testing agent:
 ### Teste Manual Rápido
 ```bash
 # 1. Login Super Admin
-curl -X POST https://packagenotify.preview.emergentagent.com/api/auth/login \
+curl -X POST https://chegou-aqui.preview.emergentagent.com/api/auth/login \
   -H "Content-Type: application/json" \
   -d '{"email":"admin@chegouaqui.com","password":"admin123"}'
 
 # 2. Ver estatísticas (use token do passo 1)
-curl https://packagenotify.preview.emergentagent.com/api/super-admin/stats \
+curl https://chegou-aqui.preview.emergentagent.com/api/super-admin/stats \
   -H "Authorization: Bearer SEU_TOKEN"
 ```
 
@@ -257,8 +257,8 @@ curl https://packagenotify.preview.emergentagent.com/api/super-admin/stats \
 
 ### Desenvolvimento Local
 Sistema já está rodando em:
-- Frontend: https://packagenotify.preview.emergentagent.com
-- Backend: https://packagenotify.preview.emergentagent.com/api
+- Frontend: https://chegou-aqui.preview.emergentagent.com
+- Backend: https://chegou-aqui.preview.emergentagent.com/api
 
 ### Variáveis de Ambiente
 
