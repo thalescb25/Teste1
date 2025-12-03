@@ -71,7 +71,7 @@ const VisitorCheckIn = () => {
     e.preventDefault();
     
     // Validate required fields
-    if (!formData.fullName || !formData.phone || !formData.email || !formData.hostName) {
+    if (!formData.fullName || !formData.phone || !formData.email || !formData.document || !formData.hostName) {
       toast({
         title: language === 'pt' ? "Campos obrigatórios" : "Required fields",
         description: language === 'pt' ? "Por favor, preencha todos os campos obrigatórios." : "Please fill in all required fields.",
