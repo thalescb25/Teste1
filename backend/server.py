@@ -1448,6 +1448,79 @@ async def get_building_by_code(registration_code: str):
     
     return {"name": building["name"], "active": building.get("active", True)}
 
+# ==================== LANDING PAGE LEADS ====================
+
+class LeadCreate(BaseModel):
+    name: str
+    email: EmailStr
+    phone: str
+    building_name: str
+    message: Optional[str] = None
+
+class Lead(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    id: str
+    name: str
+    email: str
+    phone: str
+    building_name: str
+    message: Optional[str] = None
+    created_at: str
+    status: str = "new"  # new, contacted, converted
+
+@api_router.post("/leads", response_model=dict, status_code=status.HTTP_201_CREATED)
+async def create_lead(lead: LeadCreate):
+    """
+    Endpoint público para capturar leads da landing page
+    """
+    # Verificar se já existe um lead com este email
+    existing_lead = await db.leads.find_one({"email": lead.email})
+    if existing_lead:
+        # Atualizar lead existente
+        await db.leads.update_one(
+            {"email": lead.email},
+            {
+                "$set": {
+                    "name": lead.name,
+                    "phone": lead.phone,
+                    "building_name": lead.building_name,
+                    "message": lead.message,
+                    "updated_at": datetime.now(timezone.utc).isoformat()
+                }
+            }
+        )
+        return {"message": "Lead atualizado com sucesso!", "id": existing_lead["id"]}
+    
+    # Criar novo lead
+    lead_dict = {
+        "id": str(uuid.uuid4()),
+        "name": lead.name,
+        "email": lead.email,
+        "phone": lead.phone,
+        "building_name": lead.building_name,
+        "message": lead.message,
+        "status": "new",
+        "created_at": datetime.now(timezone.utc).isoformat()
+    }
+    
+    await db.leads.insert_one(lead_dict)
+    
+    logger.info(f"Novo lead capturado: {lead.email} - {lead.building_name}")
+    
+    return {"message": "Lead cadastrado com sucesso! Entraremos em contato em breve.", "id": lead_dict["id"]}
+
+@api_router.get("/leads", response_model=List[Lead])
+async def get_leads(current_user: User = Depends(get_current_user)):
+    """
+    Endpoint para Super Admin ver todos os leads
+    """
+    if current_user.role != "super_admin":
+        raise HTTPException(status_code=403, detail="Acesso negado")
+    
+    leads = await db.leads.find({}, {"_id": 0}).sort("created_at", -1).to_list(1000)
+    return leads
+
+
 # ==================== MAIN ====================
 
 app.include_router(api_router)
