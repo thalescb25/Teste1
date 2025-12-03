@@ -24,4 +24,14 @@ async def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(s
             headers={"WWW-Authenticate": "Bearer"},
         )
     
-    return {"user_id": user_id, "role": payload.get("role"), "building": payload.get("building")}
+    return {
+        "user_id": user_id, 
+        "role": payload.get("role"),
+        "buildingId": payload.get("buildingId"),
+        "companyId": payload.get("companyId")
+    }
+
+async def get_optional_user(credentials: Optional[HTTPAuthorizationCredentials] = Depends(HTTPBearer(auto_error=False))) -> Optional[dict]:
+    if credentials is None:
+        return None
+    return await get_current_user(credentials)
