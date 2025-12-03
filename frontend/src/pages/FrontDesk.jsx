@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { mockVisitors } from '../mockData';
 import Navbar from '../components/Navbar';
 import { 
-  Users, UserPlus, Search, Clock, CheckCircle, XCircle, Send, Mail, FileText
+  Users, UserPlus, Search, Clock, CheckCircle, XCircle, Send, Mail, FileText, Download
 } from 'lucide-react';
 import { Button } from '../components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
