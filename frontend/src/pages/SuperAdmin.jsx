@@ -444,7 +444,10 @@ const SuperAdmin = () => {
               </Card>
 
               <div className="flex justify-end">
-                <Button className="bg-primary hover:bg-blue-600">
+                <Button 
+                  onClick={handleSaveSettings}
+                  className="bg-primary hover:bg-blue-600"
+                >
                   <Settings className="w-4 h-4 mr-2" />
                   Salvar Configurações
                 </Button>
