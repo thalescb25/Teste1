@@ -233,7 +233,7 @@ const CompanyReceptionist = () => {
           </div>
 
           <div className="space-y-4">
-            {[...approvedVisitors, ...deniedVisitors].map((visitor) => (
+            {[...approvedVisitors, ...deniedVisitors].slice(0, visibleCount).map((visitor) => (
               <Card key={visitor.id}>
                 <CardContent className="p-6">
                   <div className="flex items-center justify-between">
