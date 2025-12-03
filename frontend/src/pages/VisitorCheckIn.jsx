@@ -127,7 +127,7 @@ const VisitorCheckIn = () => {
         <CardHeader className="text-center bg-primary text-white rounded-t-lg">
           <div className="flex justify-center mb-4">
             <img 
-              src="https://customer-assets.emergentagent.com/job_2f57b21b-9406-449a-b554-d3e9cd34f01a/artifacts/t955uddx_Gemini_Generated_Image_iaxqgniaxqgniaxq%20-%20Copia.png"
+              src="https://customer-assets.emergentagent.com/job_2f57b21b-9406-449a-b554-d3e9cd34f01a/artifacts/eymay9gh_Gemini_Generated_Image_dn4rd6dn4rd6dn4r.png"
               alt="AcessaAqui Logo"
               className="h-20"
             />
