@@ -270,7 +270,7 @@ const Dashboard = () => {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-200 bg-white">
-                    {filteredVisitors.map((visitor) => (
+                    {visitors.map((visitor) => (
                       <tr key={visitor.id} className="hover:bg-gray-50 transition-colors">
                         <td className="px-6 py-4">
                           <div>
