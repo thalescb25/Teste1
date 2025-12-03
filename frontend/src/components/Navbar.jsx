@@ -1,97 +1,91 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Menu, X, KeyRound, Users, Phone, FileText } from 'lucide-react';
+import { Menu, X, LogOut, Building2 } from 'lucide-react';
 import { Button } from './ui/button';
 
-const Navbar = () => {
-  const [isScrolled, setIsScrolled] = useState(false);
+const Navbar = ({ user, onLogout }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  const handleLogout = () => {
+    if (onLogout) onLogout();
+    localStorage.removeItem('user');
+    navigate('/login');
+  };
 
-  const menuItems = [
-    { label: 'SOLUÇÃO', path: '/solucao' },
-    { label: 'SEGMENTOS', path: '/segmentos' },
-    { label: 'DEPOIMENTOS', path: '/depoimentos' },
-    { label: 'CONTATO', path: '/contato' }
-  ];
+  const getRoleDisplay = (role) => {
+    const roleMap = {
+      super_admin: 'Super Admin',
+      building_admin: 'Administrador',
+      front_desk: 'Portaria',
+      company_receptionist: 'Recepcionista'
+    };
+    return roleMap[role] || role;
+  };
 
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-      isScrolled ? 'bg-slate-900/95 backdrop-blur-sm shadow-lg' : 'bg-slate-900'
-    }`}>
+    <nav className="bg-white border-b border-neutral-medium shadow-sm sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-20">
+        <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-3 group">
             <div className="relative">
-              <KeyRound className="w-10 h-10 text-green-500 transition-transform group-hover:rotate-12" />
+              <Building2 className="w-8 h-8 text-primary transition-transform group-hover:scale-110" />
             </div>
             <div className="flex flex-col">
-              <span className="text-2xl font-bold text-white tracking-tight">AccessControl</span>
-              <span className="text-xs text-green-500 font-medium">Sistema Digital de Acesso</span>
+              <span className="text-xl font-bold text-primary-dark">AcessaAqui</span>
+              <span className="text-xs text-primary font-medium">Acesso rápido, seguro e digital</span>
             </div>
           </Link>
 
-          {/* Desktop Menu */}
-          <div className="hidden md:flex items-center space-x-8">
-            {menuItems.map((item) => (
-              <Link
-                key={item.path}
-                to={item.path}
-                className="text-gray-300 hover:text-green-500 font-medium text-sm transition-colors relative group"
+          {/* User Info & Actions - Desktop */}
+          {user && (
+            <div className="hidden md:flex items-center space-x-4">
+              <div className="text-right">
+                <p className="text-sm font-semibold text-graphite">{user.name}</p>
+                <p className="text-xs text-neutral-dark">{getRoleDisplay(user.role)}</p>
+              </div>
+              <Button
+                onClick={handleLogout}
+                variant="outline"
+                className="border-red-200 text-red-600 hover:bg-red-50 hover:text-red-700"
               >
-                {item.label}
-                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-green-500 transition-all group-hover:w-full"></span>
-              </Link>
-            ))}
-            <Button
-              onClick={() => navigate('/login')}
-              className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-md font-medium transition-all shadow-lg hover:shadow-green-500/50"
-            >
-              PORTAL
-            </Button>
-          </div>
+                <LogOut className="w-4 h-4 mr-2" />
+                Sair
+              </Button>
+            </div>
+          )}
 
           {/* Mobile Menu Button */}
-          <button
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden text-white p-2 hover:bg-slate-800 rounded-lg transition-colors"
-          >
-            {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
+          {user && (
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="md:hidden text-graphite p-2 hover:bg-secondary rounded-lg transition-colors"
+            >
+              {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            </button>
+          )}
         </div>
       </div>
 
       {/* Mobile Menu */}
-      {isMobileMenuOpen && (
-        <div className="md:hidden bg-slate-800 border-t border-slate-700">
+      {user && isMobileMenuOpen && (
+        <div className="md:hidden bg-secondary border-t border-neutral-medium">
           <div className="px-4 py-4 space-y-3">
-            {menuItems.map((item) => (
-              <Link
-                key={item.path}
-                to={item.path}
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="block text-gray-300 hover:text-green-500 font-medium py-2 transition-colors"
-              >
-                {item.label}
-              </Link>
-            ))}
+            <div className="pb-3 border-b border-neutral-medium">
+              <p className="text-sm font-semibold text-graphite">{user.name}</p>
+              <p className="text-xs text-neutral-dark">{getRoleDisplay(user.role)}</p>
+            </div>
             <Button
               onClick={() => {
                 setIsMobileMenuOpen(false);
-                navigate('/login');
+                handleLogout();
               }}
-              className="w-full bg-green-600 hover:bg-green-700 text-white py-2 rounded-md font-medium transition-all"
+              variant="outline"
+              className="w-full border-red-200 text-red-600 hover:bg-red-50 hover:text-red-700"
             >
-              PORTAL
+              <LogOut className="w-4 h-4 mr-2" />
+              Sair
             </Button>
           </div>
         </div>
