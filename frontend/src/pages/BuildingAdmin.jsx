@@ -39,17 +39,41 @@ const BuildingAdmin = () => {
   }, [navigate, toast]);
 
   const handleNewCompany = () => {
-    toast({
-      title: "Nova Empresa",
-      description: "Funcionalidade em desenvolvimento.",
-    });
+    const name = prompt("Nome da empresa:");
+    const suite = prompt("Número do conjunto:");
+    
+    if (name && suite) {
+      const newCompany = {
+        id: String(companies.length + 1),
+        buildingId: user.buildingId,
+        name,
+        suite,
+        status: 'active',
+        receptionists: []
+      };
+      setCompanies([...companies, newCompany]);
+      toast({
+        title: "Empresa Criada",
+        description: `${name} foi adicionada com sucesso.`,
+      });
+    }
   };
 
   const handleEditCompany = (company) => {
-    toast({
-      title: "Editar Empresa",
-      description: `Editando ${company.name}`,
-    });
+    const newName = prompt("Nome da empresa:", company.name);
+    const newSuite = prompt("Número do conjunto:", company.suite);
+    
+    if (newName && newSuite) {
+      setCompanies(companies.map(c =>
+        c.id === company.id
+          ? { ...c, name: newName, suite: newSuite }
+          : c
+      ));
+      toast({
+        title: "Empresa Atualizada",
+        description: `${newName} foi atualizada com sucesso.`,
+      });
+    }
   };
 
   const handleDeleteCompany = (company) => {
