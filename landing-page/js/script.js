@@ -1,5 +1,5 @@
 // API URL
-const API_URL = window.location.origin + '/api';
+const API_URL = 'http://localhost:8001/api';
 
 // Form submission
 document.getElementById('leadForm').addEventListener('submit', async (e) => {
