@@ -87,18 +87,33 @@ const BuildingAdmin = () => {
     }
   };
 
-  const handleDownloadQR = () => {
-    // Simular download de QR Code
-    const buildingName = user.buildingId || "Prédio";
-    const qrUrl = `${window.location.origin}/visitor/${user.buildingId}`;
-    
-    toast({
-      title: "QR Code OnePage Gerado",
-      description: `URL: ${qrUrl} - Em um sistema real, seria gerado um PDF para impressão.`,
-    });
-    
-    // Em produção, aqui seria gerado um PDF com o QR Code
-    console.log("QR Code URL:", qrUrl);
+  const handleDownloadQR = async () => {
+    try {
+      // Buscar dados do prédio
+      const building = mockBuildings.find(b => b.id === user.buildingId) || {
+        name: "Edifício Empresarial Central",
+        address: "Av. Paulista, 1000 - São Paulo, SP"
+      };
+      
+      toast({
+        title: "Gerando PDF...",
+        description: "Aguarde enquanto preparamos o QR Code OnePage.",
+      });
+      
+      await generateQROnePage(building.name, user.buildingId, building.address);
+      
+      toast({
+        title: "PDF Gerado com Sucesso!",
+        description: "O arquivo foi baixado. Imprima e coloque na recepção do prédio.",
+      });
+    } catch (error) {
+      console.error("Error generating PDF:", error);
+      toast({
+        title: "Erro ao gerar PDF",
+        description: "Não foi possível gerar o QR Code. Tente novamente.",
+        variant: "destructive"
+      });
+    }
   };
 
   const handleUploadCSV = () => {
