@@ -71,13 +71,26 @@ const VisitorCheckIn = () => {
     e.preventDefault();
     
     // Validate required fields
-    if (!formData.fullName || !formData.hostName) {
+    if (!formData.fullName || !formData.phone || !formData.email || !formData.hostName) {
       toast({
         title: language === 'pt' ? "Campos obrigatórios" : "Required fields",
         description: language === 'pt' ? "Por favor, preencha todos os campos obrigatórios." : "Please fill in all required fields.",
         variant: "destructive"
       });
       return;
+    }
+
+    // Validate companions details
+    if (formData.companions > 0) {
+      const allCompanionsFilled = formData.companionsDetails.every(c => c.name && c.document);
+      if (!allCompanionsFilled) {
+        toast({
+          title: language === 'pt' ? "Dados dos acompanhantes" : "Companions data",
+          description: language === 'pt' ? "Preencha nome e documento de todos os acompanhantes." : "Fill in name and document for all companions.",
+          variant: "destructive"
+        });
+        return;
+      }
     }
 
     // Check if document/selfie required
