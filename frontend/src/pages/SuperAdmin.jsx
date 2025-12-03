@@ -100,14 +100,28 @@ const SuperAdmin = () => {
   };
 
   const handleEditPlan = (plan) => {
-    toast({
-      title: "Editar Plano",
-      description: `Editando plano ${plan.name}`,
-    });
-    setEditingPlan(plan);
+    const newPrice = parseFloat(prompt("Preço mensal:", plan.monthlyPrice));
+    const active = window.confirm(`Plano ${plan.name} está ativo?`);
+    const description = prompt("Descrição:", plan.description);
+    
+    if (newPrice && description) {
+      setPlans(plans.map(p =>
+        p.id === plan.id
+          ? { ...p, monthlyPrice: newPrice, active, description }
+          : p
+      ));
+      
+      toast({
+        title: "Plano Atualizado",
+        description: `Plano ${plan.name} foi atualizado com sucesso.`,
+      });
+    }
   };
 
   const handleSaveSettings = () => {
+    // Salvar no localStorage ou enviar para API
+    localStorage.setItem('systemSettings', JSON.stringify(settings));
+    
     toast({
       title: "Configurações Salvas",
       description: "As configurações do sistema foram atualizadas com sucesso.",
