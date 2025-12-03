@@ -89,6 +89,7 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
+          <Route path="/landing" element={<LandingPage />} />
           <Route path="/login" element={<Login onLogin={handleLogin} />} />
           <Route path="/registrar" element={<PublicRegistration />} />
           
