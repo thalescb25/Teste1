@@ -259,7 +259,10 @@ export const mockSystemSettings = {
   supportEmail: 'neuraone.ai@gmail.com',
   brandName: 'AcessaAqui',
   brandSlogan: 'Acesso rápido, seguro e digital. Aqui.',
-  lgpdText: 'Ao prosseguir, você concorda com o uso dos seus dados exclusivamente para controle de acesso ao prédio, conforme a LGPD. Solicite exclusão pelo e-mail: neuraone.ai@gmail.com',
+  lgpdText: {
+    pt: 'Ao prosseguir, você concorda com o uso dos seus dados exclusivamente para controle de acesso ao prédio, conforme a LGPD. Solicite exclusão pelo e-mail: neuraone.ai@gmail.com',
+    en: 'By proceeding, you agree to the use of your data exclusively for building access control, in accordance with LGPD (Brazilian Data Protection Law). Request deletion via email: neuraone.ai@gmail.com'
+  },
   emailTemplates: {
     visitorArrival: {
       subject: 'Chegada do visitante [visitorName] - AcessaAqui',
