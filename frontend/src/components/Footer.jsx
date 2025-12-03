@@ -57,10 +57,11 @@ const Footer = () => {
               />
               <Button
                 type="submit"
+                disabled={isLoading}
                 className="bg-green-600 hover:bg-green-700 text-white px-6 whitespace-nowrap"
               >
                 <Send className="w-4 h-4 mr-2" />
-                Cadastrar
+                {isLoading ? 'Enviando...' : 'Cadastrar'}
               </Button>
             </form>
           </div>
