@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import api from '../utils/api';
 import { KeyRound, Mail, Phone, MapPin, Facebook, Instagram, Linkedin, Send } from 'lucide-react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
@@ -7,16 +8,31 @@ import { useToast } from '../hooks/use-toast';
 
 const Footer = () => {
   const [email, setEmail] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
 
-  const handleSubscribe = (e) => {
+  const handleSubscribe = async (e) => {
     e.preventDefault();
-    if (email) {
+    if (!email) return;
+
+    setIsLoading(true);
+    try {
+      const response = await api.post('/newsletter/subscribe', { email });
+      if (response.data.success) {
+        toast({
+          title: "Inscrição realizada!",
+          description: "Você receberá nossas novidades em breve.",
+        });
+        setEmail('');
+      }
+    } catch (error) {
       toast({
-        title: "Inscrição realizada!",
-        description: "Você receberá nossas novidades em breve.",
+        title: "Erro",
+        description: error.response?.data?.detail || "Não foi possível realizar a inscrição.",
+        variant: "destructive"
       });
-      setEmail('');
+    } finally {
+      setIsLoading(false);
     }
   };
 
