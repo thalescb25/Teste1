@@ -407,12 +407,39 @@ Documento: ${visitor.document || 'Não informado'}
                 </select>
                 <Button
                   onClick={() => {
-                    // Simular exportação Excel
-                    const csvContent = visitors.filter(v => v.status !== 'pending')
-                      .map(v => `${v.fullName},${v.hostName},${v.checkInTime},${v.checkOutTime || ''}`).join('\n');
+                    const allVisitors = visitors.filter(v => v.status !== 'pending');
+                    
+                    if (allVisitors.length === 0) {
+                      toast({
+                        title: "Sem dados para exportar",
+                        description: "Não há visitantes no histórico para exportar.",
+                        variant: "destructive"
+                      });
+                      return;
+                    }
+
+                    const headers = "Nome,Email,Telefone,Anfitrião,Empresa,Motivo,Status,Entrada,Saída\n";
+                    const rows = allVisitors.map(v => {
+                      const company = mockCompanies.find(c => c.id === v.companyId);
+                      const checkInDate = v.checkInTime ? new Date(v.checkInTime).toLocaleString('pt-BR') : '';
+                      const checkOutDate = v.checkOutTime ? new Date(v.checkOutTime).toLocaleString('pt-BR') : '';
+                      return `"${v.fullName}","${v.email || ''}","${v.phone || ''}","${v.hostName}","${company?.name || ''}","${v.reason || ''}","${v.status === 'approved' ? 'Aprovado' : v.status === 'checked_out' ? 'Finalizado' : 'Negado'}","${checkInDate}","${checkOutDate}"`;
+                    }).join('\n');
+                    
+                    const csvContent = headers + rows;
+                    const blob = new Blob(['\ufeff' + csvContent], { type: 'text/csv;charset=utf-8;' });
+                    const link = document.createElement('a');
+                    const url = URL.createObjectURL(blob);
+                    link.setAttribute('href', url);
+                    link.setAttribute('download', `historico_portaria_${new Date().toISOString().split('T')[0]}.csv`);
+                    link.style.visibility = 'hidden';
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    
                     toast({
-                      title: "Exportação Iniciada",
-                      description: "Relatório Excel sendo gerado...",
+                      title: "Exportação Concluída",
+                      description: `${allVisitors.length} registros exportados com sucesso.`,
                     });
                   }}
                   className="bg-green-600 hover:bg-green-700"
