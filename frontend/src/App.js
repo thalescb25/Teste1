@@ -1,43 +1,29 @@
 import React from 'react';
 import './App.css';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { Toaster } from './components/ui/toaster';
-import Navbar from './components/Navbar';
-import Footer from './components/Footer';
-import Home from './pages/Home';
 import Login from './pages/Login';
-import Dashboard from './pages/Dashboard';
+import SuperAdmin from './pages/SuperAdmin';
 
 function App() {
   return (
     <div className="App">
       <BrowserRouter>
         <Routes>
-          {/* Public Routes with Navbar and Footer */}
-          <Route
-            path="/*"
-            element={
-              <>
-                <Navbar />
-                <div className="pt-20">
-                  <Routes>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/solucao" element={<Home />} />
-                    <Route path="/segmentos" element={<Home />} />
-                    <Route path="/depoimentos" element={<Home />} />
-                    <Route path="/contato" element={<Home />} />
-                  </Routes>
-                </div>
-                <Footer />
-              </>
-            }
-          />
+          {/* Redirect root to login */}
+          <Route path="/" element={<Navigate to="/login" replace />} />
           
-          {/* Login Route without Navbar/Footer */}
+          {/* Login Route */}
           <Route path="/login" element={<Login />} />
           
-          {/* Dashboard Route without Navbar/Footer */}
-          <Route path="/dashboard" element={<Dashboard />} />
+          {/* Super Admin Dashboard */}
+          <Route path="/super-admin" element={<SuperAdmin />} />
+          
+          {/* TODO: Add other role dashboards */}
+          {/* <Route path="/building-admin" element={<BuildingAdmin />} /> */}
+          {/* <Route path="/front-desk" element={<FrontDesk />} /> */}
+          {/* <Route path="/company-receptionist" element={<CompanyReceptionist />} /> */}
+          {/* <Route path="/visitor/:buildingId" element={<VisitorCheckIn />} /> */}
         </Routes>
         <Toaster />
       </BrowserRouter>
