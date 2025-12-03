@@ -189,6 +189,18 @@ frontend:
         - working: true
           agent: "main"
           comment: "Adicionado botão de edição (ícone lápis) em cada card de apartamento. Dialog implementado com campo de texto para novo número. Permite qualquer formato (101, 201A, etc). Testado via screenshot."
+  
+  - task: "Formulário de Leads - Landing Page"
+    implemented: true
+    working: true
+    file: "/app/landing-page/index.html, /app/landing-page/js/script.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        - working: true
+          agent: "testing"
+          comment: "Testado formulário completo da landing page (http://localhost:8080). Todos os campos preenchidos corretamente (Nome, Email, Telefone, Condomínio, Mensagem). Botão muda para 'Enviando...' durante envio. Mensagem de sucesso '✓ Formulário Enviado!' aparece corretamente. Formulário desaparece após envio. API POST /api/leads retorna 201 Created. Lead salvo no banco com sucesso. Corrigido URL da API de localhost:8080/api para localhost:8001/api."
 
 metadata:
   created_by: "main_agent"
