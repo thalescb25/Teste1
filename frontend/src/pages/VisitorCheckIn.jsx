@@ -87,12 +87,24 @@ const VisitorCheckIn = () => {
 
   const submitVisitor = () => {
     const visitor = {
+      id: `v${Date.now()}`,
       ...formData,
+      buildingId: buildingId,
       companyId: selectedCompany,
       language,
       status: 'pending',
-      createdAt: new Date().toISOString()
+      checkInTime: null,
+      checkOutTime: null,
+      notes: '',
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
     };
+    
+    // Salvar no localStorage para aparecer na fila da recepcionista
+    const storedVisitors = localStorage.getItem('visitors');
+    const currentVisitors = storedVisitors ? JSON.parse(storedVisitors) : [];
+    const updatedVisitors = [...currentVisitors, visitor];
+    localStorage.setItem('visitors', JSON.stringify(updatedVisitors));
     
     setSubmittedVisitor(visitor);
     setStep('waiting');
@@ -102,11 +114,23 @@ const VisitorCheckIn = () => {
       description: language === 'pt' ? "Aguarde a aprovação da empresa." : "Wait for company approval.",
     });
 
-    // Simulate approval after 5 seconds (for demo)
-    setTimeout(() => {
-      setApprovalStatus('approved');
-      setStep('result');
-    }, 5000);
+    // NÃO aprovar automaticamente - aguardar aprovação real da recepcionista
+    // A aprovação acontecerá quando a recepcionista clicar em "Aprovar"
+    // Verificar status a cada 3 segundos
+    const checkInterval = setInterval(() => {
+      const currentVisitors = JSON.parse(localStorage.getItem('visitors') || '[]');
+      const thisVisitor = currentVisitors.find(v => v.id === visitor.id);
+      
+      if (thisVisitor && thisVisitor.status === 'approved') {
+        clearInterval(checkInterval);
+        setApprovalStatus('approved');
+        setStep('result');
+      } else if (thisVisitor && thisVisitor.status === 'denied') {
+        clearInterval(checkInterval);
+        setApprovalStatus('denied');
+        setStep('result');
+      }
+    }, 3000);
   };
 
   const handleUploadComplete = () => {
