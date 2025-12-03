@@ -1,222 +1,295 @@
-// Mock data para o sistema de controle de acesso
+// Mock data for AcessaAqui - Building Visitor Management Platform
 
-export const heroSlides = [
+// ========== BUILDINGS ==========
+export const mockBuildings = [
   {
-    id: 1,
-    title: "Controle de Acesso totalmente digital",
-    subtitle: "Seu controle era analógico até a chegada desta solução digital, que transforma o acesso aos edifícios em uma experiência mais segura, rápida e simples.",
-    image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1200",
-    cta: "Conheça Nossa Solução"
+    id: '1',
+    name: 'Edifício Empresarial Central',
+    address: 'Av. Paulista, 1000',
+    city: 'São Paulo',
+    state: 'SP',
+    plan: 'business',
+    maxSuites: 50,
+    currentSuites: 35,
+    status: 'active',
+    documentRequired: true,
+    selfieRequired: false,
+    defaultLanguage: 'pt',
+    monthlyRevenue: 249,
+    createdAt: '2024-01-15',
+    adminEmail: 'admin@empresarial-central.com.br'
   },
   {
-    id: 2,
-    title: "Segurança e Privacidade",
-    subtitle: "Atualizado com tecnologia avançada, nosso sistema nasce adequado à nova regulamentação da Lei Geral de Proteção de Dados, garantindo sua segurança e privacidade.",
-    image: "https://images.unsplash.com/photo-1621831337128-35676ca30868?w=1200",
-    cta: "Conheça Nossa Solução"
+    id: '2',
+    name: 'Torre Business Park',
+    address: 'Rua Vergueiro, 2500',
+    city: 'São Paulo',
+    state: 'SP',
+    plan: 'start',
+    maxSuites: 20,
+    currentSuites: 15,
+    status: 'active',
+    documentRequired: false,
+    selfieRequired: false,
+    defaultLanguage: 'pt',
+    monthlyRevenue: 149,
+    createdAt: '2024-02-10',
+    adminEmail: 'admin@torrebusiness.com.br'
   },
   {
-    id: 3,
-    title: "Facilidade na Gestão de Acessos",
-    subtitle: "Com um sistema mais inteligente, as empresas contam com um portal, um banco de dados exclusivo e integrações automáticas para que a gestão de acessos seja rápida e segura.",
-    image: "https://images.unsplash.com/photo-1464938050520-ef2270bb8ce8?w=1200",
-    cta: "Conheça Nossa Solução"
-  },
-  {
-    id: 4,
-    title: "Reduza custos no seu condomínio",
-    subtitle: "Automação de processos da recepção para uma melhor experiência do usuário e redução de custo.",
-    image: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=1200",
-    cta: "Conheça Nossa Solução"
+    id: '3',
+    name: 'Centro Corporativo Faria Lima',
+    address: 'Av. Faria Lima, 3000',
+    city: 'São Paulo',
+    state: 'SP',
+    plan: 'corporate',
+    maxSuites: 100,
+    currentSuites: 75,
+    status: 'active',
+    documentRequired: true,
+    selfieRequired: true,
+    defaultLanguage: 'pt',
+    monthlyRevenue: 399,
+    createdAt: '2023-11-20',
+    adminEmail: 'admin@farialima.com.br'
   }
 ];
 
-export const features = [
+// ========== PRICING PLANS ==========
+export const mockPlans = [
   {
-    id: 1,
-    title: "Reconhecimento Facial",
-    description: "Tecnologia de reconhecimento facial que oferece uma melhor experiência no controle de acesso aos usuários, com segurança, rapidez, agilidade e exatidão dos dados.",
-    icon: "scan-face"
+    id: 'start',
+    name: 'Start',
+    minSuites: 1,
+    maxSuites: 20,
+    monthlyPrice: 149,
+    active: true,
+    description: 'Ideal para prédios pequenos'
   },
   {
-    id: 2,
-    title: "QR Code",
-    description: "Sistema de acesso via QR Code gerado automaticamente para visitantes, eliminando filas e burocracias.",
-    icon: "qr-code"
+    id: 'business',
+    name: 'Business',
+    minSuites: 21,
+    maxSuites: 50,
+    monthlyPrice: 249,
+    active: true,
+    description: 'Para prédios de médio porte'
   },
   {
-    id: 3,
-    title: "Portal Web",
-    description: "Gerencie todos os acessos através de um portal intuitivo e fácil de usar.",
-    icon: "monitor"
-  },
-  {
-    id: 4,
-    title: "Aplicativo Mobile",
-    description: "Aplicativo para visitantes e administradores gerenciarem acessos de qualquer lugar.",
-    icon: "smartphone"
-  },
-  {
-    id: 5,
-    title: "Conformidade LGPD",
-    description: "Sistema totalmente adequado à Lei Geral de Proteção de Dados.",
-    icon: "shield-check"
-  },
-  {
-    id: 6,
-    title: "Relatórios",
-    description: "Relatórios completos de entrada e saída com histórico detalhado.",
-    icon: "file-text"
+    id: 'corporate',
+    name: 'Corporate',
+    minSuites: 51,
+    maxSuites: 100,
+    monthlyPrice: 399,
+    active: true,
+    description: 'Para grandes empreendimentos'
   }
 ];
 
-export const segments = [
+// ========== COMPANIES ==========
+export const mockCompanies = [
   {
-    id: 1,
-    title: "Condomínios Comerciais",
-    description: "Solução completa para gestão de acessos em condomínios comerciais de médio porte.",
-    image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=400"
+    id: '1',
+    buildingId: '1',
+    name: 'Tech Solutions Ltda',
+    suite: '501',
+    status: 'active',
+    receptionists: ['rec1', 'rec2']
   },
   {
-    id: 2,
-    title: "Empresas",
-    description: "Controle de acesso inteligente para empresas que buscam modernização.",
-    image: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=400"
+    id: '2',
+    buildingId: '1',
+    name: 'Marketing Pro',
+    suite: '502',
+    status: 'active',
+    receptionists: ['rec3']
   },
   {
-    id: 3,
-    title: "Centros Logísticos",
-    description: "Gestão eficiente de entrada e saída de veículos e pessoas.",
-    image: "https://images.unsplash.com/photo-1464938050520-ef2270bb8ce8?w=400"
-  },
-  {
-    id: 4,
-    title: "Escolas e Universidades",
-    description: "Segurança e controle para instituições de ensino.",
-    image: "https://images.unsplash.com/photo-1621831337128-35676ca30868?w=400"
+    id: '3',
+    buildingId: '1',
+    name: 'Consultoria ABC',
+    suite: '503',
+    status: 'active',
+    receptionists: ['rec4']
   }
 ];
 
-export const testimonials = [
-  {
-    id: 1,
-    name: "Carlos Silva",
-    position: "Síndico",
-    company: "Edifício Empresarial Central",
-    photo: "https://i.pravatar.cc/150?img=12",
-    testimonial: "Implantamos o sistema há 6 meses e os resultados superaram nossas expectativas. A redução de custos com recepção foi significativa e a segurança aumentou consideravelmente."
-  },
-  {
-    id: 2,
-    name: "Marina Costa",
-    position: "Gerente de Facilities",
-    company: "Torre Business",
-    photo: "https://i.pravatar.cc/150?img=45",
-    testimonial: "A facilidade de uso e a integração com nossos sistemas existentes foi impressionante. Recomendo para qualquer condomínio comercial que busque modernização."
-  },
-  {
-    id: 3,
-    name: "Roberto Mendes",
-    position: "Coordenador de Operações",
-    company: "Centro Comercial Paulista",
-    photo: "https://i.pravatar.cc/150?img=33",
-    testimonial: "O sistema eliminou as filas na recepção e trouxe mais agilidade para nossos inquilinos e visitantes. A experiência melhorou muito!"
-  },
-  {
-    id: 4,
-    name: "Ana Paula Rodrigues",
-    position: "Gerente Predial",
-    company: "Condomínio Office Park",
-    photo: "https://i.pravatar.cc/150?img=26",
-    testimonial: "A tecnologia de QR Code simplificou todo o processo. Nossos colaboradores adoraram a praticidade e a segurança do sistema."
-  }
-];
-
-export const clients = [
-  { id: 1, name: "Edifício Central Park", location: "SP" },
-  { id: 2, name: "Torre Business Center", location: "SP" },
-  { id: 3, name: "Condomínio Office Tower", location: "SP" },
-  { id: 4, name: "Edifício Corporate", location: "RJ" },
-  { id: 5, name: "Centro Empresarial Paulista", location: "SP" },
-  { id: 6, name: "Torre Comercial Sul", location: "SP" },
-  { id: 7, name: "Edifício Business Point", location: "MG" },
-  { id: 8, name: "Office Park Center", location: "SP" },
-  { id: 9, name: "Condomínio Work Station", location: "SP" },
-  { id: 10, name: "Torre Corporate Center", location: "RJ" },
-  { id: 11, name: "Edifício Business Square", location: "SP" },
-  { id: 12, name: "Centro Comercial Plaza", location: "SP" }
-];
-
-// Mock data para o portal administrativo
-export const mockVisitors = [
-  {
-    id: 1,
-    name: "João Santos",
-    document: "123.456.789-00",
-    company: "Tech Solutions",
-    host: "Maria Silva",
-    checkInTime: "2024-12-02T09:30:00",
-    checkOutTime: "2024-12-02T11:45:00",
-    status: "checked-out",
-    qrCode: "QR123456"
-  },
-  {
-    id: 2,
-    name: "Ana Paula Costa",
-    document: "987.654.321-00",
-    company: "Marketing Pro",
-    host: "Carlos Mendes",
-    checkInTime: "2024-12-02T10:15:00",
-    checkOutTime: null,
-    status: "checked-in",
-    qrCode: "QR789012"
-  },
-  {
-    id: 3,
-    name: "Pedro Oliveira",
-    document: "456.789.123-00",
-    company: "Consultoria ABC",
-    host: "Roberto Lima",
-    checkInTime: "2024-12-02T14:20:00",
-    checkOutTime: null,
-    status: "checked-in",
-    qrCode: "QR345678"
-  },
-  {
-    id: 4,
-    name: "Juliana Ferreira",
-    document: "321.654.987-00",
-    company: "Design Studio",
-    host: "Amanda Souza",
-    checkInTime: "2024-12-01T15:00:00",
-    checkOutTime: "2024-12-01T17:30:00",
-    status: "checked-out",
-    qrCode: "QR901234"
-  }
-];
-
-export const mockStats = {
-  todayVisitors: 24,
-  activeVisitors: 8,
-  totalVisitorsMonth: 387,
-  averageStayTime: "2h 15min"
-};
-
+// ========== USERS ==========
 export const mockUsers = [
   {
-    id: 1,
-    email: "admin@condominiocentral.com.br",
-    password: "admin123",
-    name: "Administrador",
-    role: "admin",
-    building: "Edifício Central Park"
+    id: 'super1',
+    email: 'super@acessaaqui.com.br',
+    password: 'super123',
+    name: 'Super Admin',
+    role: 'super_admin'
   },
   {
-    id: 2,
-    email: "recepcao@condominiocentral.com.br",
-    password: "recepcao123",
-    name: "Recepção",
-    role: "receptionist",
-    building: "Edifício Central Park"
+    id: 'admin1',
+    email: 'admin@empresarial-central.com.br',
+    password: 'admin123',
+    name: 'Carlos Silva',
+    role: 'building_admin',
+    buildingId: '1'
+  },
+  {
+    id: 'portaria1',
+    email: 'portaria@empresarial-central.com.br',
+    password: 'portaria123',
+    name: 'João Porteiro',
+    role: 'front_desk',
+    buildingId: '1'
+  },
+  {
+    id: 'rec1',
+    email: 'recepcao@techsolutions.com.br',
+    password: 'recepcao123',
+    name: 'Maria Recepcionista',
+    role: 'company_receptionist',
+    buildingId: '1',
+    companyId: '1'
   }
 ];
+
+// ========== VISITORS ==========
+export const mockVisitors = [
+  {
+    id: 'v1',
+    buildingId: '1',
+    companyId: '1',
+    fullName: 'João Santos',
+    hostName: 'Carlos Mendes',
+    representingCompany: 'Fornecedor XYZ',
+    reason: 'Reunião comercial',
+    companions: 2,
+    document: '123.456.789-00',
+    documentImage: null,
+    selfie: null,
+    status: 'pending',
+    checkInTime: null,
+    checkOutTime: null,
+    notes: '',
+    createdAt: '2024-12-02T14:30:00',
+    language: 'pt'
+  },
+  {
+    id: 'v2',
+    buildingId: '1',
+    companyId: '2',
+    fullName: 'Ana Paula Costa',
+    hostName: 'Roberto Lima',
+    representingCompany: 'Agência ABC',
+    reason: 'Apresentação de proposta',
+    companions: 0,
+    document: '987.654.321-00',
+    documentImage: null,
+    selfie: null,
+    status: 'approved',
+    checkInTime: '2024-12-02T10:00:00',
+    checkOutTime: null,
+    notes: '',
+    createdAt: '2024-12-02T09:45:00',
+    language: 'pt'
+  },
+  {
+    id: 'v3',
+    buildingId: '1',
+    companyId: '1',
+    fullName: 'Pedro Oliveira',
+    hostName: 'Amanda Souza',
+    representingCompany: '',
+    reason: 'Entrevista',
+    companions: 0,
+    document: '456.789.123-00',
+    documentImage: null,
+    selfie: null,
+    status: 'checked_out',
+    checkInTime: '2024-12-01T14:00:00',
+    checkOutTime: '2024-12-01T16:30:00',
+    notes: 'Visitante regular',
+    createdAt: '2024-12-01T13:45:00',
+    language: 'pt'
+  }
+];
+
+// ========== FINANCIAL METRICS ==========
+export const mockFinancialMetrics = {
+  mrr: 12547,
+  arr: 150564,
+  netNewMRR: 1200,
+  churn: 2.3,
+  newBuildingsThisMonth: 5,
+  totalBuildings: 47,
+  buildingsByPlan: {
+    start: 20,
+    business: 18,
+    corporate: 9
+  },
+  mrrEvolution: [
+    { month: 'Jan', value: 8900 },
+    { month: 'Fev', value: 9500 },
+    { month: 'Mar', value: 10200 },
+    { month: 'Abr', value: 10800 },
+    { month: 'Mai', value: 11100 },
+    { month: 'Jun', value: 11500 },
+    { month: 'Jul', value: 11800 },
+    { month: 'Ago', value: 12000 },
+    { month: 'Set', value: 12200 },
+    { month: 'Out', value: 12400 },
+    { month: 'Nov', value: 12500 },
+    { month: 'Dez', value: 12547 }
+  ],
+  forecast: [
+    { month: 'Jan 25', value: 13000 },
+    { month: 'Fev 25', value: 13500 },
+    { month: 'Mar 25', value: 14200 },
+    { month: 'Abr 25', value: 15000 },
+    { month: 'Mai 25', value: 15800 },
+    { month: 'Jun 25', value: 16500 },
+    { month: 'Jul 25', value: 17200 },
+    { month: 'Ago 25', value: 18000 },
+    { month: 'Set 25', value: 18800 },
+    { month: 'Out 25', value: 19500 },
+    { month: 'Nov 25', value: 20200 },
+    { month: 'Dez 25', value: 21000 }
+  ]
+};
+
+// ========== SYSTEM SETTINGS ==========
+export const mockSystemSettings = {
+  supportEmail: 'neuraone.ai@gmail.com',
+  brandName: 'AcessaAqui',
+  brandSlogan: 'Acesso rápido, seguro e digital. Aqui.',
+  lgpdText: 'Ao prosseguir, você concorda com o uso dos seus dados exclusivamente para controle de acesso ao prédio, conforme a LGPD. Solicite exclusão pelo e-mail: neuraone.ai@gmail.com',
+  emailTemplates: {
+    visitorArrival: {
+      subject: 'Chegada do visitante [visitorName] - AcessaAqui',
+      body: '[visitorName] chegou para uma visita com [hostName] e aguarda autorização.\n\nRepresentando: [representingCompany]\nMotivo: [reason]\nAcompanhantes: [companions]'
+    }
+  }
+};
+
+// ========== TRANSLATIONS ==========
+export const translations = {
+  pt: {
+    welcome: 'Bem-vindo',
+    checkIn: 'Check-in Digital',
+    submit: 'Enviar',
+    approve: 'Aprovar',
+    deny: 'Recusar',
+    pending: 'Pendente',
+    approved: 'Aprovado',
+    denied: 'Recusado',
+    checkedOut: 'Finalizado'
+  },
+  en: {
+    welcome: 'Welcome',
+    checkIn: 'Digital Check-in',
+    submit: 'Submit',
+    approve: 'Approve',
+    deny: 'Deny',
+    pending: 'Pending',
+    approved: 'Approved',
+    denied: 'Denied',
+    checkedOut: 'Checked Out'
+  }
+};
