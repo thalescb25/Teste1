@@ -37,28 +37,38 @@ const CompanyReceptionist = () => {
   }, [navigate, toast]);
 
   const handleApprove = (visitor) => {
-    setVisitors(visitors.map(v => 
+    const updatedVisitors = visitors.map(v => 
       v.id === visitor.id 
-        ? { ...v, status: 'approved' }
+        ? { ...v, status: 'approved', checkInTime: new Date().toISOString() }
         : v
-    ));
+    );
+    setVisitors(updatedVisitors);
+    
+    // Salvar no localStorage para sincronizar com portaria
+    localStorage.setItem('visitors', JSON.stringify(updatedVisitors));
+    
     toast({
       title: "Visitante Aprovado",
-      description: `${visitor.fullName} foi autorizado a entrar.`,
+      description: `${visitor.fullName} foi autorizado a entrar. A portaria foi notificada.`,
     });
   };
 
   const handleDeny = (visitor) => {
     const reason = prompt("Motivo da recusa:");
     if (reason) {
-      setVisitors(visitors.map(v => 
+      const updatedVisitors = visitors.map(v => 
         v.id === visitor.id 
           ? { ...v, status: 'denied', notes: reason }
           : v
-      ));
+      );
+      setVisitors(updatedVisitors);
+      
+      // Salvar no localStorage para sincronizar com portaria
+      localStorage.setItem('visitors', JSON.stringify(updatedVisitors));
+      
       toast({
         title: "Visitante Recusado",
-        description: `Entrada de ${visitor.fullName} foi recusada.`,
+        description: `Entrada de ${visitor.fullName} foi recusada. A portaria foi notificada.`,
         variant: "destructive"
       });
     }
