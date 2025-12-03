@@ -48,6 +48,14 @@ const FrontDesk = () => {
         });
       } else {
         setUser(parsedUser);
+        
+        // Carregar visitantes do localStorage se existir, senão usar mock
+        const storedVisitors = localStorage.getItem('visitors');
+        if (storedVisitors) {
+          setVisitors(JSON.parse(storedVisitors));
+        } else {
+          localStorage.setItem('visitors', JSON.stringify(mockVisitors));
+        }
       }
     }
   }, [navigate, toast]);
