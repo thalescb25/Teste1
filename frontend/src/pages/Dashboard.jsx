@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { mockVisitors, mockStats } from '../mockData';
+import api from '../utils/api';
 import { Users, UserCheck, TrendingUp, Clock, Search, Filter, Download, QrCode, LogOut, Menu, X, KeyRound, Plus, CheckCircle, XCircle } from 'lucide-react';
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
@@ -10,10 +10,17 @@ import { useToast } from '../hooks/use-toast';
 
 const Dashboard = () => {
   const [user, setUser] = useState(null);
-  const [visitors, setVisitors] = useState(mockVisitors);
+  const [visitors, setVisitors] = useState([]);
+  const [stats, setStats] = useState({
+    todayVisitors: 0,
+    activeVisitors: 0,
+    totalVisitorsMonth: 0,
+    averageStayTime: '0h 0min'
+  });
   const [searchTerm, setSearchTerm] = useState('');
   const [filterStatus, setFilterStatus] = useState('all');
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -23,8 +30,50 @@ const Dashboard = () => {
       navigate('/login');
     } else {
       setUser(JSON.parse(userData));
+      fetchVisitors();
+      fetchStats();
     }
   }, [navigate]);
+
+  const fetchVisitors = async () => {
+    try {
+      const response = await api.get('/visitors', {
+        params: {
+          status_filter: filterStatus,
+          search: searchTerm
+        }
+      });
+      if (response.data.success) {
+        setVisitors(response.data.data);
+      }
+    } catch (error) {
+      console.error('Error fetching visitors:', error);
+      toast({
+        title: "Erro",
+        description: "Não foi possível carregar os visitantes.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const fetchStats = async () => {
+    try {
+      const response = await api.get('/stats');
+      if (response.data.success) {
+        setStats(response.data.data);
+      }
+    } catch (error) {
+      console.error('Error fetching stats:', error);
+    }
+  };
+
+  useEffect(() => {
+    if (user) {
+      fetchVisitors();
+    }
+  }, [filterStatus, searchTerm]);
 
   const handleLogout = () => {
     localStorage.removeItem('user');
