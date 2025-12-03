@@ -11,7 +11,7 @@ from datetime import datetime
 import time
 
 # Base URL from frontend environment
-BASE_URL = "https://entrypass-3.preview.emergentagent.com/api"
+BASE_URL = "https://visitor-flow-2.preview.emergentagent.com/api"
 
 class AccessControlTester:
     def __init__(self):
