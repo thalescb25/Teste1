@@ -1521,6 +1521,29 @@ async def get_leads(current_user: User = Depends(get_current_user)):
     return leads
 
 
+# ==================== LANDING PAGE ====================
+from fastapi.responses import FileResponse, HTMLResponse
+from fastapi.staticfiles import StaticFiles
+
+# Mount static files for landing page
+app.mount("/landing/css", StaticFiles(directory="/app/landing-page/css"), name="landing-css")
+app.mount("/landing/js", StaticFiles(directory="/app/landing-page/js"), name="landing-js")
+app.mount("/landing/images", StaticFiles(directory="/app/landing-page/images"), name="landing-images")
+
+@app.get("/landing", response_class=HTMLResponse)
+async def serve_landing_page():
+    """Serve the landing page"""
+    with open("/app/landing-page/index.html", "r", encoding="utf-8") as f:
+        html_content = f.read()
+    
+    # Update paths to use /landing prefix
+    html_content = html_content.replace('href="css/', 'href="/landing/css/')
+    html_content = html_content.replace('src="js/', 'src="/landing/js/')
+    html_content = html_content.replace('src="images/', 'src="/landing/images/')
+    
+    return HTMLResponse(content=html_content)
+
+
 # ==================== MAIN ====================
 
 app.include_router(api_router)
