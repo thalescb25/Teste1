@@ -160,7 +160,8 @@ Documento: ${visitor.document || 'Não informado'}
           {[
             { id: 'queue', label: 'Fila em Tempo Real', count: pendingVisitors.length },
             { id: 'manual', label: 'Check-in Manual' },
-            { id: 'search', label: 'Buscar Visitante' }
+            { id: 'search', label: 'Buscar Visitante' },
+            { id: 'history', label: 'Histórico' }
           ].map((tab) => (
             <button
               key={tab.id}
