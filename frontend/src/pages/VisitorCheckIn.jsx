@@ -126,10 +126,13 @@ const VisitorCheckIn = () => {
         {/* Header */}
         <CardHeader className="text-center bg-primary text-white rounded-t-lg">
           <div className="flex justify-center mb-4">
-            <Building2 className="w-16 h-16" />
+            <img 
+              src="https://customer-assets.emergentagent.com/job_2f57b21b-9406-449a-b554-d3e9cd34f01a/artifacts/t955uddx_Gemini_Generated_Image_iaxqgniaxqgniaxq%20-%20Copia.png"
+              alt="AcessaAqui Logo"
+              className="h-20"
+            />
           </div>
-          <CardTitle className="text-3xl font-bold">AcessaAqui</CardTitle>
-          <p className="text-blue-100 mt-2">
+          <p className="text-blue-100 mt-2 text-lg">
             {language === 'pt' ? 'Faça seu check-in digital' : 'Make your digital check-in'}
           </p>
         </CardHeader>
