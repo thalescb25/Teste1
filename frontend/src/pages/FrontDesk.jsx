@@ -19,6 +19,20 @@ const FrontDesk = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
 
+  // Simular atualização em tempo real a cada 5 segundos
+  useEffect(() => {
+    const interval = setInterval(() => {
+      // Buscar visitantes atualizados do localStorage (simulando real-time)
+      const storedVisitors = localStorage.getItem('visitors');
+      if (storedVisitors) {
+        const parsedVisitors = JSON.parse(storedVisitors);
+        setVisitors(parsedVisitors);
+      }
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   useEffect(() => {
     const userData = localStorage.getItem('user');
     if (!userData) {
