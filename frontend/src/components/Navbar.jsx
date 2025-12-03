@@ -30,7 +30,7 @@ const Navbar = ({ user, onLogout }) => {
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-3 group">
             <img 
-              src="https://customer-assets.emergentagent.com/job_2f57b21b-9406-449a-b554-d3e9cd34f01a/artifacts/7h3cj76v_Gemini_Generated_Image_yd13ljyd13ljyd13.png"
+              src="https://customer-assets.emergentagent.com/job_2f57b21b-9406-449a-b554-d3e9cd34f01a/artifacts/eymay9gh_Gemini_Generated_Image_dn4rd6dn4rd6dn4r.png"
               alt="AcessaAqui Logo"
               className="h-12 transition-transform group-hover:scale-105"
             />
