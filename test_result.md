@@ -207,3 +207,5 @@ test_plan:
 agent_communication:
     - agent: "main"
       message: "Implementadas todas as funcionalidades P0 e P1: Edição de planos, numeração customizável, exportação financeira, e Twilio ativado. Testado via screenshot e curl. Próximo: testar upload CSV e WhatsApp real com usuário."
+    - agent: "testing"
+      message: "TESTE COMPLETO DA LANDING PAGE REALIZADO: ✅ Formulário de leads funcionando perfeitamente. Corrigido problema de URL da API (era localhost:8080/api, agora localhost:8001/api). Todos os campos preenchidos corretamente, botão muda para 'Enviando...', mensagem de sucesso aparece, formulário desaparece. Lead salvo no banco com sucesso. API /api/leads testada e funcionando (201 Created)."
