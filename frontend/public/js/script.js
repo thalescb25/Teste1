@@ -1,5 +1,7 @@
-// API URL
-const API_URL = 'http://localhost:8001/api';
+// API URL - usa a origem atual se estiver no mesmo domínio
+const API_URL = window.location.origin.includes('localhost:3000') 
+  ? 'http://localhost:8001/api'  // Desenvolvimento
+  : window.location.origin + '/api';  // Produção
 
 // Form submission
 document.getElementById('leadForm').addEventListener('submit', async (e) => {
