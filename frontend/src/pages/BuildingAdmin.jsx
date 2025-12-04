@@ -17,6 +17,8 @@ const BuildingAdmin = () => {
   const [activeTab, setActiveTab] = useState('companies');
   const [companies, setCompanies] = useState(mockCompanies);
   const [searchTerm, setSearchTerm] = useState('');
+  const [showNewCompanyModal, setShowNewCompanyModal] = useState(false);
+  const [newCompanyData, setNewCompanyData] = useState({ name: '', suite: '' });
   const navigate = useNavigate();
   const { toast } = useToast();
 
