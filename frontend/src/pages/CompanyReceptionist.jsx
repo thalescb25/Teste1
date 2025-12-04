@@ -351,6 +351,45 @@ const CompanyReceptionist = () => {
             </div>
           </CardContent>
         </Card>
+
+        {/* Reject Modal */}
+        {rejectModalOpen && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" onClick={() => setRejectModalOpen(false)}>
+            <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4" onClick={(e) => e.stopPropagation()}>
+              <h3 className="text-xl font-bold text-graphite mb-4">Motivo da Recusa</h3>
+              <p className="text-neutral-dark mb-4">
+                Por que você está recusando a entrada de <strong>{selectedVisitor?.fullName}</strong>?
+              </p>
+              <textarea
+                value={rejectReason}
+                onChange={(e) => setRejectReason(e.target.value)}
+                placeholder="Digite o motivo da recusa..."
+                className="w-full p-3 border border-neutral-medium rounded-lg mb-4 min-h-[100px]"
+                autoFocus
+              />
+              <div className="flex gap-3">
+                <Button
+                  onClick={() => {
+                    setRejectModalOpen(false);
+                    setSelectedVisitor(null);
+                    setRejectReason('');
+                  }}
+                  variant="outline"
+                  className="flex-1"
+                >
+                  Cancelar
+                </Button>
+                <Button
+                  onClick={confirmDeny}
+                  variant="destructive"
+                  className="flex-1"
+                >
+                  Confirmar Recusa
+                </Button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
