@@ -127,8 +127,8 @@ Documento: ${visitor.document || 'Não informado'}
       companionsDetails: manualCompanionsDetails,
       documentImage: null,
       selfie: null,
-      status: 'approved', // Check-in manual já aprovado
-      checkInTime: new Date().toISOString(),
+      status: 'pending', // Aguarda aprovação da recepcionista
+      checkInTime: null,
       checkOutTime: null,
       notes: formData.get('notes') || 'Check-in manual realizado pela portaria',
       createdAt: new Date().toISOString(),
