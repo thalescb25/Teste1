@@ -311,6 +311,18 @@ Documento: ${visitor.document || 'Não informado'}
                     <Input name="fullName" placeholder="Nome do visitante" className="h-12 text-lg" required />
                   </div>
                   <div>
+                    <label className="text-sm font-medium text-graphite mb-2 block">E-mail</label>
+                    <Input name="email" type="email" placeholder="email@exemplo.com" className="h-12 text-lg" />
+                  </div>
+                  <div>
+                    <label className="text-sm font-medium text-graphite mb-2 block">Telefone</label>
+                    <Input name="phone" type="tel" placeholder="(11) 99999-9999" className="h-12 text-lg" />
+                  </div>
+                  <div>
+                    <label className="text-sm font-medium text-graphite mb-2 block">Documento</label>
+                    <Input name="document" placeholder="CPF, RG ou outro" className="h-12 text-lg" />
+                  </div>
+                  <div>
                     <label className="text-sm font-medium text-graphite mb-2 block">Empresa que Visitará *</label>
                     <select 
                       name="companyId" 
@@ -338,10 +350,68 @@ Documento: ${visitor.document || 'Não informado'}
                     <Input name="reason" placeholder="Opcional" className="h-12 text-lg" />
                   </div>
                   <div>
-                    <label className="text-sm font-medium text-graphite mb-2 block">Acompanhantes</label>
-                    <Input name="companions" type="number" placeholder="0" defaultValue="0" className="h-12 text-lg" />
+                    <label className="text-sm font-medium text-graphite mb-2 block">Número de Acompanhantes</label>
+                    <Input 
+                      name="companions" 
+                      type="number" 
+                      min="0"
+                      max="10"
+                      placeholder="0" 
+                      value={manualCompanions}
+                      onChange={(e) => {
+                        const count = parseInt(e.target.value) || 0;
+                        setManualCompanions(count);
+                        const newCompanions = Array(count).fill(null).map((_, i) => 
+                          manualCompanionsDetails[i] || { name: '', document: '' }
+                        );
+                        setManualCompanionsDetails(newCompanions);
+                      }}
+                      className="h-12 text-lg" 
+                    />
                   </div>
                 </div>
+
+                {/* Campos dinâmicos para acompanhantes */}
+                {manualCompanions > 0 && (
+                  <div className="space-y-4 border-t pt-4">
+                    <h3 className="text-lg font-semibold text-graphite">Dados dos Acompanhantes</h3>
+                    {Array(manualCompanions).fill(null).map((_, index) => (
+                      <div key={index} className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4 bg-secondary rounded-lg">
+                        <div>
+                          <label className="text-sm font-medium text-graphite mb-2 block">
+                            Nome do Acompanhante {index + 1} *
+                          </label>
+                          <Input
+                            value={manualCompanionsDetails[index]?.name || ''}
+                            onChange={(e) => {
+                              const newDetails = [...manualCompanionsDetails];
+                              newDetails[index] = { ...newDetails[index], name: e.target.value };
+                              setManualCompanionsDetails(newDetails);
+                            }}
+                            placeholder="Nome completo"
+                            className="h-12"
+                            required
+                          />
+                        </div>
+                        <div>
+                          <label className="text-sm font-medium text-graphite mb-2 block">Documento *</label>
+                          <Input
+                            value={manualCompanionsDetails[index]?.document || ''}
+                            onChange={(e) => {
+                              const newDetails = [...manualCompanionsDetails];
+                              newDetails[index] = { ...newDetails[index], document: e.target.value };
+                              setManualCompanionsDetails(newDetails);
+                            }}
+                            placeholder="CPF ou RG"
+                            className="h-12"
+                            required
+                          />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
                 <div>
                   <label className="text-sm font-medium text-graphite mb-2 block">Observações</label>
                   <textarea 
