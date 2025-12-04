@@ -97,17 +97,34 @@ Documento: ${visitor.document || 'Não informado'}
       });
       return;
     }
+
+    // Validar campos de acompanhantes se houver
+    const companionsCount = parseInt(formData.get('companions')) || 0;
+    if (companionsCount > 0) {
+      const allCompanionsFilled = manualCompanionsDetails.every(c => c.name && c.document);
+      if (!allCompanionsFilled) {
+        toast({
+          title: "Dados dos acompanhantes",
+          description: "Preencha nome e documento de todos os acompanhantes.",
+          variant: "destructive"
+        });
+        return;
+      }
+    }
     
     const newVisitor = {
       id: `v${Date.now()}`,
       buildingId: user.buildingId,
       companyId: companyId,
       fullName: formData.get('fullName'),
+      email: formData.get('email') || '',
+      phone: formData.get('phone') || '',
+      document: formData.get('document') || '',
       hostName: formData.get('hostName'),
       representingCompany: formData.get('representingCompany') || '',
       reason: formData.get('reason') || '',
-      companions: parseInt(formData.get('companions')) || 0,
-      document: '',
+      companions: companionsCount,
+      companionsDetails: manualCompanionsDetails,
       documentImage: null,
       selfie: null,
       status: 'approved', // Check-in manual já aprovado
@@ -124,6 +141,8 @@ Documento: ${visitor.document || 'Não informado'}
     localStorage.setItem('visitors', JSON.stringify(updatedVisitors));
     
     form.reset();
+    setManualCompanions(0);
+    setManualCompanionsDetails([]);
     
     toast({
       title: "Check-in Manual Realizado",
