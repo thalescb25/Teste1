@@ -145,8 +145,8 @@ Documento: ${visitor.document || 'Não informado'}
     setManualCompanionsDetails([]);
     
     toast({
-      title: "Check-in Manual Realizado",
-      description: `${newVisitor.fullName} foi registrado com sucesso.`,
+      title: "Visitante Registrado",
+      description: `${newVisitor.fullName} foi registrado e enviado para aprovação da empresa.`,
     });
   };
 
