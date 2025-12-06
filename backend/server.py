@@ -340,24 +340,24 @@ async def get_stats(current_user: dict = Depends(get_current_user)):
 
 # ============= NEWSLETTER ROUTES ============= (DEPRECATED)
 
-# @api_router.post("/newsletter/subscribe")
-# async def subscribe_newsletter(data: NewsletterSubscribe):
-    try:
-        # Check if already subscribed
-        existing = await db.newsletter.find_one({"email": data.email})
-        if existing:
-            return {"success": True, "message": "Email already subscribed"}
-        
-        newsletter = Newsletter(email=data.email)
-        await db.newsletter.insert_one(newsletter.dict())
-        
-        return {"success": True, "message": "Successfully subscribed"}
-    except Exception as e:
-        logger.error(f"Error subscribing to newsletter: {str(e)}")
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="Error subscribing to newsletter"
-        )
+## @api_router.post("/newsletter/subscribe")
+## async def subscribe_newsletter(data: NewsletterSubscribe):
+#    try:
+#        # Check if already subscribed
+#        existing = await db.newsletter.find_one({"email": data.email})
+#        if existing:
+#            return {"success": True, "message": "Email already subscribed"}
+#        
+#        newsletter = Newsletter(email=data.email)
+#        await db.newsletter.insert_one(newsletter.dict())
+#        
+#        return {"success": True, "message": "Successfully subscribed"}
+#    except Exception as e:
+#        logger.error(f"Error subscribing to newsletter: {str(e)}")
+#        raise HTTPException(
+#            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+#            detail="Error subscribing to newsletter"
+#        )
 
 
 # Include the router in the main app
