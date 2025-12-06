@@ -792,6 +792,68 @@ const BuildingAdmin = () => {
           </div>
         )}
 
+        {/* Modal Criar Recepcionista */}
+        {showReceptionistModal && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" onClick={() => setShowReceptionistModal(false)}>
+            <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4" onClick={(e) => e.stopPropagation()}>
+              <h3 className="text-xl font-bold text-graphite mb-4">Novo Recepcionista</h3>
+              <p className="text-sm text-neutral-dark mb-4">
+                Empresa: <strong>{companies.find(c => c.id === newReceptionistData.companyId)?.name}</strong>
+              </p>
+              <div className="space-y-4">
+                <div>
+                  <label className="text-sm font-medium text-graphite mb-2 block">Nome Completo *</label>
+                  <Input
+                    value={newReceptionistData.name}
+                    onChange={(e) => setNewReceptionistData({...newReceptionistData, name: e.target.value})}
+                    placeholder="João Silva"
+                    autoFocus
+                  />
+                </div>
+                <div>
+                  <label className="text-sm font-medium text-graphite mb-2 block">E-mail *</label>
+                  <Input
+                    type="email"
+                    value={newReceptionistData.email}
+                    onChange={(e) => setNewReceptionistData({...newReceptionistData, email: e.target.value})}
+                    placeholder="joao@empresa.com"
+                  />
+                </div>
+                <div>
+                  <label className="text-sm font-medium text-graphite mb-2 block">Senha Inicial *</label>
+                  <Input
+                    type="password"
+                    value={newReceptionistData.password}
+                    onChange={(e) => setNewReceptionistData({...newReceptionistData, password: e.target.value})}
+                    placeholder="Senha temporária"
+                  />
+                </div>
+                <p className="text-xs text-neutral-dark">
+                  Este usuário terá acesso de recepcionista para esta empresa.
+                </p>
+              </div>
+              <div className="flex gap-3 mt-6">
+                <Button
+                  onClick={() => {
+                    setShowReceptionistModal(false);
+                    setNewReceptionistData({ name: '', email: '', password: '', companyId: '' });
+                  }}
+                  variant="outline"
+                  className="flex-1"
+                >
+                  Cancelar
+                </Button>
+                <Button
+                  onClick={handleCreateReceptionist}
+                  className="flex-1 bg-green-600 hover:bg-green-700"
+                >
+                  Criar Recepcionista
+                </Button>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Modal Deletar Empresa */}
         {showDeleteModal && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" onClick={() => setShowDeleteModal(false)}>
