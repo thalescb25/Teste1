@@ -551,9 +551,9 @@ const BuildingAdmin = () => {
                     const company = companies.find(c => c.id === visitor.companyId);
                     return (
                       <Card key={visitor.id} className="hover:shadow-md transition-shadow">
-                        <CardContent className="p-4">
+                        <CardContent className="p-3">
                           <div className="flex justify-between items-start">
-                            <div className="flex-1 grid grid-cols-2 md:grid-cols-4 gap-3 text-sm">
+                            <div className="flex-1 grid grid-cols-2 md:grid-cols-4 gap-2 text-xs">
                               <div>
                                 <span className="font-semibold text-graphite">{visitor.fullName}</span>
                                 {visitor.serviceProvider && (
