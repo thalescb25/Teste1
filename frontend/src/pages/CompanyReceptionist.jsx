@@ -248,10 +248,33 @@ const CompanyReceptionist = () => {
           </Card>
         </div>
 
-        {/* Pending Approvals */}
-        {pendingVisitors.length > 0 && (
-          <div className="mb-8">
-            <h2 className="text-xl md:text-2xl font-bold text-graphite mb-4">Aprovações Pendentes</h2>
+        {/* Tabs */}
+        <div className="flex space-x-2 mb-6 border-b border-neutral-light">
+          {[
+            { id: 'approvals', label: 'Aprovações' },
+            { id: 'users', label: 'Usuários' }
+          ].map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              className={`px-6 py-3 font-medium transition-colors ${
+                activeTab === tab.id
+                  ? 'text-primary border-b-2 border-primary'
+                  : 'text-neutral-dark hover:text-graphite'
+              }`}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
+
+        {/* Approvals Tab */}
+        {activeTab === 'approvals' && (
+          <>
+            {/* Pending Approvals */}
+            {pendingVisitors.length > 0 && (
+              <div className="mb-8">
+                <h2 className="text-xl md:text-2xl font-bold text-graphite mb-4">Aprovações Pendentes</h2>
             <div className="space-y-4">
               {pendingVisitors.map((visitor) => (
                 <Card key={visitor.id} className="border-2 border-warning">
