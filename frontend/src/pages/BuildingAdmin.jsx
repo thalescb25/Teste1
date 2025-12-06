@@ -393,7 +393,7 @@ const BuildingAdmin = () => {
                       <input
                         type="checkbox"
                         name="documentRequired"
-                        defaultChecked={buildingData.documentRequired}
+                        defaultChecked={buildingData?.documentRequired || false}
                         className="w-4 h-4 text-primary"
                       />
                       <label className="text-sm text-graphite">Documento obrigatório</label>
@@ -402,7 +402,7 @@ const BuildingAdmin = () => {
                       <input
                         type="checkbox"
                         name="selfieRequired"
-                        defaultChecked={buildingData.selfieRequired}
+                        defaultChecked={buildingData?.selfieRequired || false}
                         className="w-4 h-4 text-primary"
                       />
                       <label className="text-sm text-graphite">Selfie obrigatória</label>
@@ -411,11 +411,12 @@ const BuildingAdmin = () => {
                       <label className="text-sm font-medium text-graphite mb-2 block">Idioma Padrão</label>
                       <select
                         name="defaultLanguage"
-                        defaultValue={buildingData.defaultLanguage}
+                        defaultValue={buildingData?.defaultLanguage || 'pt'}
                         className="w-full p-2 border border-neutral-medium rounded-lg"
                       >
                         <option value="pt">Português</option>
                         <option value="en">English</option>
+                        <option value="es">Español</option>
                       </select>
                     </div>
                   </CardContent>
