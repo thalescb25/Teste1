@@ -713,7 +713,38 @@ const BuildingAdmin = () => {
                   onClick={confirmNewCompany}
                   className="flex-1 bg-primary hover:bg-blue-600"
                 >
-                  Criar Empresa
+                  {editingCompany ? 'Salvar Alterações' : 'Criar Empresa'}
+                </Button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Modal Deletar Empresa */}
+        {showDeleteModal && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" onClick={() => setShowDeleteModal(false)}>
+            <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4" onClick={(e) => e.stopPropagation()}>
+              <h3 className="text-xl font-bold text-graphite mb-4">Confirmar Exclusão</h3>
+              <p className="text-neutral-dark mb-6">
+                Deseja realmente excluir <strong>{companyToDelete?.name}</strong>?
+              </p>
+              <div className="flex gap-3">
+                <Button
+                  onClick={() => {
+                    setShowDeleteModal(false);
+                    setCompanyToDelete(null);
+                  }}
+                  variant="outline"
+                  className="flex-1"
+                >
+                  Cancelar
+                </Button>
+                <Button
+                  onClick={confirmDeleteCompany}
+                  variant="destructive"
+                  className="flex-1"
+                >
+                  Confirmar Exclusão
                 </Button>
               </div>
             </div>
