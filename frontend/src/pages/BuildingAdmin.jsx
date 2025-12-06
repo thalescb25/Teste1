@@ -79,26 +79,46 @@ const BuildingAdmin = () => {
   }, [navigate, toast]);
 
   const handleNewCompany = () => {
+    setNewCompanyData({ name: '', suite: '', phone: '', cnpj: '' });
+    setEditingCompany(null);
+    setShowNewCompanyModal(true);
+  };
+  
+  const handleEditCompany = (company) => {
+    setNewCompanyData(company);
+    setEditingCompany(company);
     setShowNewCompanyModal(true);
   };
 
   const confirmNewCompany = () => {
     if (newCompanyData.name && newCompanyData.suite) {
-      const newCompany = {
-        id: String(companies.length + 1),
-        buildingId: user.buildingId,
-        name: newCompanyData.name,
-        suite: newCompanyData.suite,
-        status: 'active',
-        receptionists: []
-      };
-      setCompanies([...companies, newCompany]);
-      toast({
-        title: "Empresa Criada",
-        description: `${newCompanyData.name} foi adicionada com sucesso.`,
-      });
+      if (editingCompany) {
+        // Editing existing
+        setCompanies(companies.map(c => 
+          c.id === editingCompany.id ? {...newCompanyData, id: editingCompany.id, buildingId: user.buildingId} : c
+        ));
+        toast({
+          title: "Empresa Atualizada",
+          description: `${newCompanyData.name} foi atualizada com sucesso.`,
+        });
+      } else {
+        // Creating new
+        const newCompany = {
+          id: `c${Date.now()}`,
+          buildingId: user.buildingId,
+          ...newCompanyData,
+          status: 'active',
+          receptionists: []
+        };
+        setCompanies([...companies, newCompany]);
+        toast({
+          title: "Empresa Criada",
+          description: `${newCompanyData.name} foi adicionada com sucesso.`,
+        });
+      }
       setShowNewCompanyModal(false);
-      setNewCompanyData({ name: '', suite: '' });
+      setEditingCompany(null);
+      setNewCompanyData({ name: '', suite: '', phone: '', cnpj: '' });
     } else {
       toast({
         title: "Erro",
@@ -106,6 +126,21 @@ const BuildingAdmin = () => {
         variant: "destructive"
       });
     }
+  };
+  
+  const handleDeleteCompany = (company) => {
+    setCompanyToDelete(company);
+    setShowDeleteModal(true);
+  };
+  
+  const confirmDeleteCompany = () => {
+    setCompanies(companies.filter(c => c.id !== companyToDelete.id));
+    setShowDeleteModal(false);
+    toast({
+      title: "Empresa Excluída",
+      description: `${companyToDelete.name} foi removida com sucesso.`,
+    });
+    setCompanyToDelete(null);
   };
 
   const handleEditCompany = (company) => {
