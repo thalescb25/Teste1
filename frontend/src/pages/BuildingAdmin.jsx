@@ -67,18 +67,32 @@ const BuildingAdmin = () => {
     const userData = localStorage.getItem('user');
     if (!userData) {
       navigate('/login');
-    } else {
-      const parsedUser = JSON.parse(userData);
-      if (parsedUser.role !== 'building_admin') {
-        navigate('/login');
-        toast({
-          title: "Acesso negado",
-          description: "Você não tem permissão para acessar esta página.",
-          variant: "destructive"
-        });
-      } else {
-        setUser(parsedUser);
-      }
+      return;
+    }
+    
+    const parsedUser = JSON.parse(userData);
+    if (parsedUser.role !== 'building_admin') {
+      navigate('/login');
+      toast({
+        title: "Acesso negado",
+        description: "Você não tem permissão para acessar esta página.",
+        variant: "destructive"
+      });
+      return;
+    }
+    
+    setUser(parsedUser);
+    
+    // Load building data
+    const storedBuildings = JSON.parse(localStorage.getItem('buildings') || '[]');
+    if (storedBuildings.length === 0) {
+      storedBuildings.push(mockBuildings[0]);
+      localStorage.setItem('buildings', JSON.stringify(storedBuildings));
+    }
+    
+    const building = storedBuildings.find(b => b.id === parsedUser.buildingId) || storedBuildings[0];
+    if (building) {
+      setBuildingData(building);
     }
   }, [navigate, toast]);
 
