@@ -220,7 +220,9 @@ const VisitorCheckIn = () => {
                 </h2>
               </div>
               <div className="bg-secondary p-6 rounded-lg text-sm text-neutral-dark leading-relaxed">
-                {mockSystemSettings.lgpdText[language]}
+                {language === 'pt' ? mockSystemSettings.lgpdText : 
+                 language === 'en' ? mockSystemSettings.lgpdTextEn :
+                 mockSystemSettings.lgpdTextEs || mockSystemSettings.lgpdText}
               </div>
               <label className="flex items-start space-x-3 cursor-pointer">
                 <input
