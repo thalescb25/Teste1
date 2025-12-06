@@ -522,14 +522,80 @@ const BuildingAdmin = () => {
         {/* Visitors History Tab */}
         {activeTab === 'visitors' && (
           <div>
-            <h2 className="text-2xl font-bold text-graphite mb-6">Histórico de Visitantes</h2>
-            <Card>
-              <CardContent className="p-6">
-                <p className="text-neutral-dark text-center py-8">
-                  Histórico de visitantes (somente leitura) - Em desenvolvimento
-                </p>
-              </CardContent>
-            </Card>
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-2xl font-bold text-graphite">Histórico de Visitantes</h2>
+              <Button
+                onClick={() => {
+                  const { exportVisitorsToExcel } = require('../utils/excelExport');
+                  exportVisitorsToExcel(visitors, companies);
+                }}
+                className="bg-green-600 hover:bg-green-700"
+              >
+                <Download className="w-4 h-4 mr-2" />
+                Exportar Excel
+              </Button>
+            </div>
+            
+            {visitors.length === 0 ? (
+              <Card>
+                <CardContent className="p-8 text-center text-neutral-dark">
+                  Nenhum visitante registrado ainda
+                </CardContent>
+              </Card>
+            ) : (
+              <div className="space-y-3">
+                {visitors
+                  .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+                  .map(visitor => {
+                    const company = companies.find(c => c.id === visitor.companyId);
+                    return (
+                      <Card key={visitor.id} className="hover:shadow-md transition-shadow">
+                        <CardContent className="p-4">
+                          <div className="flex justify-between items-start">
+                            <div className="flex-1 grid grid-cols-2 md:grid-cols-4 gap-3 text-sm">
+                              <div>
+                                <span className="font-semibold text-graphite">{visitor.fullName}</span>
+                                {visitor.serviceProvider && (
+                                  <span className="ml-2 text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded">
+                                    Prestador
+                                  </span>
+                                )}
+                              </div>
+                              <div className="text-neutral-dark">
+                                <div>Email: {visitor.email || 'N/A'}</div>
+                                <div>Tel: {visitor.phone || 'N/A'}</div>
+                              </div>
+                              <div className="text-neutral-dark">
+                                <div>Empresa: {company?.name || 'N/A'}</div>
+                                <div>Anfitrião: {visitor.hostName}</div>
+                              </div>
+                              <div className="text-neutral-dark text-xs">
+                                {visitor.checkInTime ? (
+                                  <>Entrada: {new Date(visitor.checkInTime).toLocaleString('pt-BR')}</>
+                                ) : (
+                                  <>Criado: {new Date(visitor.createdAt).toLocaleString('pt-BR')}</>
+                                )}
+                              </div>
+                            </div>
+                            <div>
+                              <span className={`text-xs px-3 py-1 rounded-full ${
+                                visitor.status === 'approved' ? 'bg-green-100 text-green-700' :
+                                visitor.status === 'denied' ? 'bg-red-100 text-red-700' :
+                                visitor.status === 'checked_out' ? 'bg-gray-100 text-gray-700' :
+                                'bg-yellow-100 text-yellow-700'
+                              }`}>
+                                {visitor.status === 'approved' ? 'Aprovado' :
+                                 visitor.status === 'denied' ? 'Recusado' :
+                                 visitor.status === 'checked_out' ? 'Finalizado' : 'Pendente'}
+                              </span>
+                            </div>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    );
+                  })}
+              </div>
+            )}
           </div>
         )}
 
