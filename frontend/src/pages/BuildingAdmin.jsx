@@ -199,17 +199,51 @@ const BuildingAdmin = () => {
     }
   };
 
-  const handleUploadCSV = () => {
+  const handleUploadCSV = async () => {
     const input = document.createElement('input');
     input.type = 'file';
     input.accept = '.csv';
-    input.onchange = (e) => {
+    input.onchange = async (e) => {
       const file = e.target.files[0];
       if (file) {
-        toast({
-          title: "CSV Recebido",
-          description: `Arquivo ${file.name} processado. ${Math.floor(Math.random() * 20 + 5)} empresas importadas.`,
-        });
+        try {
+          const Papa = (await import('papaparse')).default;
+          Papa.parse(file, {
+            header: true,
+            skipEmptyLines: true,
+            complete: (results) => {
+              const newCompanies = results.data.map((row, index) => ({
+                id: `c${Date.now()}_${index}`,
+                buildingId: user.buildingId,
+                name: row['Nome da Empresa'] || row['nome'] || row['name'],
+                suite: row['Número do Conjunto'] || row['conjunto'] || row['suite'],
+                phone: row['Telefone'] || row['phone'] || '',
+                cnpj: row['CNPJ'] || row['cnpj'] || '',
+                status: 'active',
+                receptionists: []
+              })).filter(c => c.name && c.suite);
+              
+              setCompanies([...companies, ...newCompanies]);
+              toast({
+                title: "CSV Importado",
+                description: `${newCompanies.length} empresas foram importadas com sucesso.`,
+              });
+            },
+            error: (error) => {
+              toast({
+                title: "Erro ao importar",
+                description: `Erro: ${error.message}`,
+                variant: "destructive"
+              });
+            }
+          });
+        } catch (error) {
+          toast({
+            title: "Erro",
+            description: "Não foi possível processar o arquivo CSV.",
+            variant: "destructive"
+          });
+        }
       }
     };
     input.click();
