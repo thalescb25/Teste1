@@ -246,11 +246,11 @@ frontend:
 
   - task: "Company Receptionist Approval Flow"
     implemented: true
-    working: true
+    working: false
     file: "pages/CompanyReceptionist.jsx"
-    stuck_count: 0
+    stuck_count: 1
     priority: "high"
-    needs_retesting: false
+    needs_retesting: true
     status_history:
         - working: "NA"
           agent: "testing"
@@ -258,6 +258,9 @@ frontend:
         - working: true
           agent: "testing"
           comment: "✅ SUCCESS - Receptionist dashboard working: Login successful with recepcao@techsolutions.com.br, dashboard displays pending visitors, approval/rejection buttons functional, counters display correctly (Aguardando: 1, Aprovados: 1, Recusados: 0), export functionality available. Minor: Visitor synchronization between sessions needs localStorage refresh."
+        - working: false
+          agent: "testing"
+          comment: "❌ CRITICAL ERROR - JavaScript ReferenceError: 'Plus is not defined' causing red error screen in CompanyReceptionist component. Login successful but dashboard crashes with error boundary. Export history functionality works (✅ downloaded historico_visitantes_2025-12-06.csv) but core approval interface blocked by JavaScript error. Requires immediate debugging of Plus icon import/definition."
 
   - task: "Front Desk Portal"
     implemented: true
