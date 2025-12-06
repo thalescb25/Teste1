@@ -50,12 +50,14 @@ const BuildingAdmin = () => {
   
   // Save building data to localStorage
   useEffect(() => {
-    if (buildingData.id) {
+    if (buildingData && buildingData.id) {
       const storedBuildings = JSON.parse(localStorage.getItem('buildings') || '[]');
       const updatedBuildings = storedBuildings.map(b => 
         b.id === buildingData.id ? buildingData : b
       );
-      localStorage.setItem('buildings', JSON.stringify(updatedBuildings));
+      if (updatedBuildings.length > 0) {
+        localStorage.setItem('buildings', JSON.stringify(updatedBuildings));
+      }
     }
   }, [buildingData]);
 
