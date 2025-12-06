@@ -16,11 +16,48 @@ const BuildingAdmin = () => {
   const [user, setUser] = useState(null);
   const [activeTab, setActiveTab] = useState('companies');
   const [companies, setCompanies] = useState(mockCompanies);
+  const [visitors, setVisitors] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [showNewCompanyModal, setShowNewCompanyModal] = useState(false);
-  const [newCompanyData, setNewCompanyData] = useState({ name: '', suite: '' });
+  const [editingCompany, setEditingCompany] = useState(null);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [companyToDelete, setCompanyToDelete] = useState(null);
+  const [buildingData, setBuildingData] = useState(mockBuildings[0] || {});
+  const [newCompanyData, setNewCompanyData] = useState({ name: '', suite: '', phone: '', cnpj: '' });
   const navigate = useNavigate();
   const { toast } = useToast();
+  
+  // Load data from localStorage
+  useEffect(() => {
+    const storedCompanies = localStorage.getItem('companies');
+    if (storedCompanies) setCompanies(JSON.parse(storedCompanies));
+    
+    const storedVisitors = localStorage.getItem('visitors');
+    if (storedVisitors) setVisitors(JSON.parse(storedVisitors));
+    
+    const storedBuildings = localStorage.getItem('buildings');
+    if (storedBuildings) {
+      const buildings = JSON.parse(storedBuildings);
+      const building = buildings.find(b => b.id === user?.buildingId) || buildings[0];
+      setBuildingData(building);
+    }
+  }, [user]);
+  
+  // Save companies to localStorage
+  useEffect(() => {
+    localStorage.setItem('companies', JSON.stringify(companies));
+  }, [companies]);
+  
+  // Save building data to localStorage
+  useEffect(() => {
+    if (buildingData.id) {
+      const storedBuildings = JSON.parse(localStorage.getItem('buildings') || '[]');
+      const updatedBuildings = storedBuildings.map(b => 
+        b.id === buildingData.id ? buildingData : b
+      );
+      localStorage.setItem('buildings', JSON.stringify(updatedBuildings));
+    }
+  }, [buildingData]);
 
   useEffect(() => {
     const userData = localStorage.getItem('user');
