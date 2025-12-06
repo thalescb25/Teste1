@@ -373,6 +373,23 @@ Documento: ${visitor.document || 'Não informado'}
                   </div>
                 </div>
 
+                {/* Checkbox Prestador de Serviço */}
+                <div className="mt-4 p-4 bg-blue-50 rounded-lg border border-blue-200">
+                  <div className="flex items-center space-x-3">
+                    <input
+                      type="checkbox"
+                      name="serviceProvider"
+                      className="w-5 h-5 text-primary"
+                    />
+                    <label className="text-base font-medium text-graphite">
+                      Prestador de Serviço
+                    </label>
+                  </div>
+                  <p className="text-sm text-neutral-dark mt-2 ml-8">
+                    Marque esta opção se o visitante é um prestador de serviço (manutenção, entrega, etc.)
+                  </p>
+                </div>
+
                 {/* Campos dinâmicos para acompanhantes */}
                 {manualCompanions > 0 && (
                   <div className="space-y-4 border-t pt-4">
