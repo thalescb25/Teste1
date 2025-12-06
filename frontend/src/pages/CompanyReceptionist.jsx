@@ -258,7 +258,7 @@ const CompanyReceptionist = () => {
                       <Button 
                         onClick={() => handleDeny(visitor)}
                         variant="destructive"
-                        className="flex-1 h-12 text-sm md:text-base"
+                        className="flex-1 h-10 text-xs md:text-sm"
                       >
                         <XCircle className="w-5 h-5 mr-2" />
                         Recusar
