@@ -51,47 +51,48 @@ export const generateQROnePage = async (buildingName, buildingId, buildingAddres
 
   // Título
   pdf.setTextColor(15, 23, 42); // #0F172A
-  pdf.setFontSize(24);
+  pdf.setFontSize(26);
   pdf.setFont('helvetica', 'bold');
-  pdf.text('Faça seu check-in digital', pageWidth / 2, 75, { align: 'center' });
+  pdf.text('Faça seu check-in digital', pageWidth / 2, 95, { align: 'center' });
 
   // Nome do prédio
-  pdf.setFontSize(18);
-  pdf.setFont('helvetica', 'normal');
-  pdf.text(buildingName, pageWidth / 2, 90, { align: 'center' });
+  pdf.setFontSize(20);
+  pdf.setFont('helvetica', 'bold');
+  pdf.text(buildingName, pageWidth / 2, 110, { align: 'center' });
   
   if (buildingAddress) {
     pdf.setFontSize(12);
+    pdf.setFont('helvetica', 'normal');
     pdf.setTextColor(71, 85, 105); // #475569
-    pdf.text(buildingAddress, pageWidth / 2, 100, { align: 'center' });
+    pdf.text(buildingAddress, pageWidth / 2, 120, { align: 'center' });
   }
 
   // Instruções
   pdf.setFontSize(16);
   pdf.setTextColor(15, 23, 42);
   pdf.setFont('helvetica', 'bold');
-  pdf.text('Como usar:', 30, 120);
+  pdf.text('Como usar:', pageWidth / 2, 140, { align: 'center' });
 
-  pdf.setFontSize(14);
+  pdf.setFontSize(12);
   pdf.setFont('helvetica', 'normal');
   pdf.setTextColor(71, 85, 105);
   
   const steps = [
-    '1. Aponte a câmera do celular para o QR Code',
-    '2. Preencha seus dados no formulário',
-    '3. Aguarde a liberação da empresa'
+    '1. Aponte a câmera do celular para o QR Code abaixo',
+    '2. Preencha seus dados no formulário que abrir',
+    '3. Aguarde a liberação pela empresa visitada'
   ];
 
-  let yPos = 135;
+  let yPos = 152;
   steps.forEach(step => {
-    pdf.text(step, 30, yPos);
-    yPos += 12;
+    pdf.text(step, pageWidth / 2, yPos, { align: 'center' });
+    yPos += 10;
   });
 
   // QR Code centralizado com design moderno
-  const qrSize = 130;
+  const qrSize = 110;
   const qrX = (pageWidth - qrSize) / 2;
-  const qrY = 165;
+  const qrY = 190;
   
   // Background box com sombra
   pdf.setFillColor(248, 250, 252); // #F8FAFC
