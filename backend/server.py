@@ -29,10 +29,20 @@ client = AsyncIOMotorClient(mongo_url)
 db = client[os.environ['DB_NAME']]
 
 # Create the main app without a prefix
-app = FastAPI(title="AccessControl API")
+app = FastAPI(title="AcessaAqui API")
 
 # Create a router with the /api prefix
 api_router = APIRouter(prefix="/api")
+
+# Import route modules
+from routes import buildings, companies, visitors, plans, settings
+
+# Include routers
+api_router.include_router(buildings.router)
+api_router.include_router(companies.router)
+api_router.include_router(visitors.router)
+api_router.include_router(plans.router)
+api_router.include_router(settings.router)
 
 # Configure logging
 logging.basicConfig(
