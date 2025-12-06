@@ -395,6 +395,54 @@ const CompanyReceptionist = () => {
           )}
         </div>
 
+          </>
+        )}
+
+        {/* Users Tab */}
+        {activeTab === 'users' && (
+          <div>
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-2xl font-bold text-graphite">Gestão de Usuários</h2>
+              <Button
+                onClick={() => setShowUserModal(true)}
+                className="bg-primary hover:bg-blue-600"
+              >
+                <Plus className="w-4 h-4 mr-2" />
+                Novo Usuário
+              </Button>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {(JSON.parse(localStorage.getItem('users') || '[]'))
+                .filter(u => u.companyId === user?.companyId)
+                .map(userItem => (
+                  <Card key={userItem.id}>
+                    <CardContent className="p-4">
+                      <div className="flex justify-between items-start">
+                        <div>
+                          <h3 className="font-bold text-graphite">{userItem.name}</h3>
+                          <p className="text-sm text-neutral-dark">{userItem.email}</p>
+                          <span className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded mt-2 inline-block">
+                            Recepcionista
+                          </span>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+            </div>
+
+            {(JSON.parse(localStorage.getItem('users') || '[]'))
+              .filter(u => u.companyId === user?.companyId).length === 0 && (
+              <Card>
+                <CardContent className="p-8 text-center text-neutral-dark">
+                  Nenhum usuário adicional cadastrado. Clique em "Novo Usuário" para adicionar.
+                </CardContent>
+              </Card>
+            )}
+          </div>
+        )}
+
         {/* Contact Support */}
         <Card className="mt-8">
           <CardContent className="p-6">
