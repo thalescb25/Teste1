@@ -143,16 +143,6 @@ const BuildingAdmin = () => {
     setCompanyToDelete(null);
   };
 
-  const handleDeleteCompany = (company) => {
-    if (window.confirm(`Deseja realmente excluir ${company.name}?`)) {
-      setCompanies(companies.filter(c => c.id !== company.id));
-      toast({
-        title: "Empresa Excluída",
-        description: `${company.name} foi removida com sucesso.`,
-      });
-    }
-  };
-
   const handleDownloadQR = async () => {
     try {
       // Buscar dados do prédio
