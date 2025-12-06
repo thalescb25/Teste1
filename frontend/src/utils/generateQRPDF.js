@@ -24,19 +24,22 @@ export const generateQROnePage = async (buildingName, buildingId, buildingAddres
     }
   });
 
-  // Background azul no topo
-  pdf.setFillColor(59, 130, 246); // #3B82F6
-  pdf.rect(0, 0, pageWidth, 60, 'F');
-
-  // Logo (simulado com texto estilizado)
-  pdf.setTextColor(255, 255, 255);
-  pdf.setFontSize(32);
-  pdf.setFont('helvetica', 'bold');
-  pdf.text('AcessaAqui', pageWidth / 2, 25, { align: 'center' });
+  // Modern gradient header
+  pdf.setFillColor(30, 64, 175); // #1E40AF
+  pdf.rect(0, 0, pageWidth, 70, 'F');
   
-  pdf.setFontSize(14);
+  pdf.setFillColor(59, 130, 246); // #3B82F6
+  pdf.rect(0, 0, pageWidth, 50, 'F');
+
+  // Logo with modern styling
+  pdf.setTextColor(255, 255, 255);
+  pdf.setFontSize(40);
+  pdf.setFont('helvetica', 'bold');
+  pdf.text('🏢 AcessaAqui', pageWidth / 2, 28, { align: 'center' });
+  
+  pdf.setFontSize(12);
   pdf.setFont('helvetica', 'normal');
-  pdf.text('Acesso rápido, seguro e digital. Aqui.', pageWidth / 2, 35, { align: 'center' });
+  pdf.text('Acesso rápido, seguro e digital.', pageWidth / 2, 40, { align: 'center' });
 
   // Título
   pdf.setTextColor(15, 23, 42); // #0F172A
