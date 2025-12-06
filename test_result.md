@@ -351,15 +351,15 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Visitor Check-in Flow"
     - "Company Receptionist Approval Flow"
-    - "Login System"
     - "Front Desk Portal"
     - "Building Admin Dashboard"
-    - "Mobile Responsiveness"
-  stuck_tasks: []
-  test_all: true
-  test_priority: "high_first"
+  stuck_tasks:
+    - "Company Receptionist Approval Flow"
+    - "Front Desk Portal" 
+    - "Building Admin Dashboard"
+  test_all: false
+  test_priority: "stuck_first"
 
 agent_communication:
     - agent: "testing"
