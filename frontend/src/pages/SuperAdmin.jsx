@@ -97,32 +97,40 @@ const SuperAdmin = () => {
   };
 
   const handleEditBuilding = (building) => {
-    const name = prompt("Nome do Prédio:", building.name);
-    const address = prompt("Endereço:", building.address);
-    const adminEmail = prompt("E-mail do administrador:", building.adminEmail);
+    setBuildingFormData(building);
+    setEditingBuilding(building);
+    setShowNewBuildingModal(true);
+  };
+  
+  const confirmEditBuilding = () => {
+    setBuildings(buildings.map(b =>
+      b.id === editingBuilding.id
+        ? { ...buildingFormData, updatedAt: new Date().toISOString() }
+        : b
+    ));
     
-    if (name && address && adminEmail) {
-      setBuildings(buildings.map(b =>
-        b.id === building.id
-          ? { ...b, name, address, adminEmail, updatedAt: new Date().toISOString() }
-          : b
-      ));
-      
-      toast({
-        title: "Prédio Atualizado",
-        description: `${name} foi atualizado com sucesso.`,
-      });
-    }
+    setShowNewBuildingModal(false);
+    setEditingBuilding(null);
+    
+    toast({
+      title: "Prédio Atualizado",
+      description: `${buildingFormData.name} foi atualizado com sucesso.`,
+    });
   };
 
   const handleDeleteBuilding = (building) => {
-    if (window.confirm(`Deseja realmente excluir ${building.name}?`)) {
-      setBuildings(buildings.filter(b => b.id !== building.id));
-      toast({
-        title: "Prédio Excluído",
-        description: `${building.name} foi removido com sucesso.`,
-      });
-    }
+    setBuildingToDelete(building);
+    setShowDeleteModal(true);
+  };
+  
+  const confirmDelete = () => {
+    setBuildings(buildings.filter(b => b.id !== buildingToDelete.id));
+    setShowDeleteModal(false);
+    toast({
+      title: "Prédio Excluído",
+      description: `${buildingToDelete.name} foi removido com sucesso.`,
+    });
+    setBuildingToDelete(null);
   };
 
   const handleEditPlan = (plan) => {
