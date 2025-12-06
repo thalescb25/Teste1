@@ -19,9 +19,11 @@ const Login = () => {
     e.preventDefault();
     setIsLoading(true);
 
-    // Simular autenticação com mock data
+    // Simular autenticação com mock data + localStorage users
     setTimeout(() => {
-      const user = mockUsers.find(u => u.email === email && u.password === password);
+      const storedUsers = JSON.parse(localStorage.getItem('users') || '[]');
+      const allUsers = [...mockUsers, ...storedUsers];
+      const user = allUsers.find(u => u.email === email && u.password === password);
       
       if (user) {
         localStorage.setItem('user', JSON.stringify(user));
