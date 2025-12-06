@@ -282,11 +282,11 @@ frontend:
 
   - task: "Building Admin Dashboard"
     implemented: true
-    working: true
+    working: false
     file: "pages/BuildingAdmin.jsx"
-    stuck_count: 0
+    stuck_count: 1
     priority: "low"
-    needs_retesting: false
+    needs_retesting: true
     status_history:
         - working: "NA"
           agent: "testing"
@@ -294,6 +294,9 @@ frontend:
         - working: true
           agent: "testing"
           comment: "✅ SUCCESS - Building admin dashboard fully functional: Login successful with admin@empresarial-central.com.br, QR Code OnePage download working, CSV template download functional, company management (Nova Empresa) working, settings configuration with save functionality operational. All core admin features working correctly."
+        - working: false
+          agent: "testing"
+          comment: "❌ CRITICAL ERROR - JavaScript TypeError: 'Cannot read properties of undefined (reading id)' causing BuildingAdmin component crash. Login successful but dashboard shows error boundary. QR Code and CSV Template buttons not found (⚠️), company management blocked by JavaScript error. Requires immediate debugging of undefined object property access in BuildingAdmin component."
 
   - task: "Login System"
     implemented: true
