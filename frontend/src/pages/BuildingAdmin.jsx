@@ -473,7 +473,7 @@ const BuildingAdmin = () => {
             <div className="grid grid-cols-1 gap-4">
               {filteredCompanies.map((company) => (
                 <Card key={company.id} className="hover:shadow-lg transition-all">
-                  <CardContent className="p-6">
+                  <CardContent className="p-4">
                     <div className="flex items-start justify-between">
                       <div className="flex-1">
                         <div className="flex items-center space-x-3 mb-2">
