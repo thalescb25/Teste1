@@ -220,8 +220,8 @@ const CompanyReceptionist = () => {
                   <CardContent className="p-3 md:p-4">
                     <div className="flex flex-col md:flex-row md:items-start md:justify-between mb-3 gap-2">
                       <div className="flex-1">
-                        <h3 className="text-lg md:text-xl font-bold text-graphite mb-2">{visitor.fullName}</h3>
-                        <div className="grid grid-cols-1 gap-2 text-sm md:text-base">
+                        <h3 className="text-base md:text-lg font-bold text-graphite mb-1">{visitor.fullName}</h3>
+                        <div className="grid grid-cols-1 gap-1 text-xs md:text-sm">
                           <p className="text-neutral-dark">
                             <span className="font-semibold">Anfitrião:</span> {visitor.hostName}
                           </p>
