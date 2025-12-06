@@ -292,11 +292,11 @@ const CompanyReceptionist = () => {
               .sort((a, b) => new Date(b.createdAt || b.checkInTime) - new Date(a.createdAt || a.checkInTime))
               .slice(0, visibleCount).map((visitor) => (
               <Card key={visitor.id}>
-                <CardContent className="p-6">
+                <CardContent className="p-3">
                   <div className="flex items-center justify-between">
                     <div className="flex-1">
-                      <h3 className="text-lg font-bold text-graphite mb-1">{visitor.fullName}</h3>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-1 text-sm text-neutral-dark">
+                      <h3 className="text-base font-bold text-graphite mb-1">{visitor.fullName}</h3>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-1 text-xs text-neutral-dark">
                         <p>Anfitrião: {visitor.hostName}</p>
                         {visitor.email && <p>Email: {visitor.email}</p>}
                         {visitor.phone && <p>Telefone: {visitor.phone}</p>}
