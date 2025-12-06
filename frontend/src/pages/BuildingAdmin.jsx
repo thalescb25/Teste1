@@ -366,6 +366,7 @@ const BuildingAdmin = () => {
           {[
             { id: 'cadastro', label: 'Cadastro do Prédio' },
             { id: 'companies', label: 'Empresas' },
+            { id: 'users', label: 'Usuários' },
             { id: 'visitors', label: 'Histórico de Visitantes' },
             { id: 'settings', label: 'Configurações' }
           ].map((tab) => (
