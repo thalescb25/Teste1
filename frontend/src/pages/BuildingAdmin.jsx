@@ -370,15 +370,15 @@ const BuildingAdmin = () => {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
                         <label className="text-sm font-medium text-graphite mb-2 block">Nome do Síndico</label>
-                        <Input name="sindicoName" defaultValue={buildingData.sindicoName} />
+                        <Input name="sindicoName" defaultValue={buildingData?.sindicoName || ''} />
                       </div>
                       <div>
                         <label className="text-sm font-medium text-graphite mb-2 block">E-mail do Síndico</label>
-                        <Input type="email" name="sindicoEmail" defaultValue={buildingData.sindicoEmail} />
+                        <Input type="email" name="sindicoEmail" defaultValue={buildingData?.sindicoEmail || ''} />
                       </div>
                       <div>
                         <label className="text-sm font-medium text-graphite mb-2 block">Telefone do Síndico</label>
-                        <Input name="sindicoPhone" defaultValue={buildingData.sindicoPhone} />
+                        <Input name="sindicoPhone" defaultValue={buildingData?.sindicoPhone || ''} />
                       </div>
                     </div>
                   </CardContent>
