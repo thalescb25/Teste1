@@ -20,9 +20,41 @@ const SuperAdmin = () => {
   const [settings, setSettings] = useState(mockSystemSettings);
   const [showNewBuildingModal, setShowNewBuildingModal] = useState(false);
   const [editingBuilding, setEditingBuilding] = useState(null);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [buildingToDelete, setBuildingToDelete] = useState(null);
   const [editingPlan, setEditingPlan] = useState(null);
+  const [showPlansModal, setShowPlansModal] = useState(false);
+  const [buildingFormData, setBuildingFormData] = useState({
+    name: '', address: '', city: '', state: '', plan: 'start', 
+    maxSuites: 20, adminEmail: '', phone: '', cnpj: ''
+  });
   const navigate = useNavigate();
   const { toast } = useToast();
+  
+  // Load from localStorage
+  useEffect(() => {
+    const stored = localStorage.getItem('buildings');
+    if (stored) setBuildings(JSON.parse(stored));
+    
+    const storedPlans = localStorage.getItem('plans');
+    if (storedPlans) setPlans(JSON.parse(storedPlans));
+    
+    const storedSettings = localStorage.getItem('settings');
+    if (storedSettings) setSettings(JSON.parse(storedSettings));
+  }, []);
+  
+  // Save to localStorage
+  useEffect(() => {
+    localStorage.setItem('buildings', JSON.stringify(buildings));
+  }, [buildings]);
+  
+  useEffect(() => {
+    localStorage.setItem('plans', JSON.stringify(plans));
+  }, [plans]);
+  
+  useEffect(() => {
+    localStorage.setItem('settings', JSON.stringify(settings));
+  }, [settings]);
 
   const handleNewBuilding = () => {
     const name = prompt("Nome do Prédio:");
