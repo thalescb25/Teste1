@@ -217,8 +217,8 @@ const CompanyReceptionist = () => {
             <div className="space-y-4">
               {pendingVisitors.map((visitor) => (
                 <Card key={visitor.id} className="border-2 border-warning">
-                  <CardContent className="p-4 md:p-6">
-                    <div className="flex flex-col md:flex-row md:items-start md:justify-between mb-4 gap-3">
+                  <CardContent className="p-3 md:p-4">
+                    <div className="flex flex-col md:flex-row md:items-start md:justify-between mb-3 gap-2">
                       <div className="flex-1">
                         <h3 className="text-lg md:text-xl font-bold text-graphite mb-2">{visitor.fullName}</h3>
                         <div className="grid grid-cols-1 gap-2 text-sm md:text-base">
