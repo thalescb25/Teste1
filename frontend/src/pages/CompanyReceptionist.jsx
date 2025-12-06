@@ -40,8 +40,10 @@ const CompanyReceptionist = () => {
         // Carregar visitantes do localStorage se existir, senão usar mock
         const storedVisitors = localStorage.getItem('visitors');
         if (storedVisitors) {
-          setVisitors(JSON.parse(storedVisitors));
+          const parsed = JSON.parse(storedVisitors);
+          setVisitors(parsed);
         } else {
+          setVisitors(mockVisitors);
           localStorage.setItem('visitors', JSON.stringify(mockVisitors));
         }
       }
