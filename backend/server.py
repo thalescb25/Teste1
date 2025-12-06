@@ -13,9 +13,7 @@ import base64
 
 from models import (
     UserCreate, UserLogin, User, UserInDB,
-    VisitorCreate, Visitor,
-    NewsletterSubscribe, Newsletter,
-    Stats
+    VisitorCreate, Visitor
 )
 from auth import verify_password, get_password_hash, create_access_token
 from dependencies import get_current_user
