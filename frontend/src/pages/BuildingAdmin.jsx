@@ -22,7 +22,7 @@ const BuildingAdmin = () => {
   const [editingCompany, setEditingCompany] = useState(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [companyToDelete, setCompanyToDelete] = useState(null);
-  const [buildingData, setBuildingData] = useState(mockBuildings[0] || {});
+  const [buildingData, setBuildingData] = useState(mockBuildings[0] || { id: '1', name: '', address: '', city: '', state: '', phone: '', cnpj: '' });
   const [newCompanyData, setNewCompanyData] = useState({ name: '', suite: '', phone: '', cnpj: '' });
   const navigate = useNavigate();
   const { toast } = useToast();
