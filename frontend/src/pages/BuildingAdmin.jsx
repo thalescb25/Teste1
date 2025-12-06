@@ -455,22 +455,7 @@ const BuildingAdmin = () => {
         {activeTab === 'settings' && (
           <div>
             <h2 className="text-2xl font-bold text-graphite mb-6">Configurações do Prédio</h2>
-            <form onSubmit={(e) => {
-              e.preventDefault();
-              const formData = new FormData(e.target);
-              const buildingSettings = {
-                documentRequired: formData.get('documentRequired') === 'on',
-                selfieRequired: formData.get('selfieRequired') === 'on',
-                defaultLanguage: formData.get('defaultLanguage')
-              };
-              
-              localStorage.setItem('buildingSettings', JSON.stringify(buildingSettings));
-              
-              toast({
-                title: "Configurações Salvas",
-                description: "As configurações do prédio foram atualizadas.",
-              });
-            }}>
+            <form onSubmit={handleSaveBuilding}>
               <div className="space-y-6">
                 <Card>
                   <CardHeader>
