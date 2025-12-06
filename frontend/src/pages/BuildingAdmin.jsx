@@ -194,6 +194,17 @@ const BuildingAdmin = () => {
       description: `${newReceptionistData.name} foi adicionado como recepcionista.`,
     });
   };
+  
+  const handleDeleteUser = (userId) => {
+    const storedUsers = JSON.parse(localStorage.getItem('users') || '[]');
+    const updatedUsers = storedUsers.filter(u => u.id !== userId);
+    localStorage.setItem('users', JSON.stringify(updatedUsers));
+    
+    toast({
+      title: "Usuário Removido",
+      description: "Usuário foi excluído com sucesso.",
+    });
+  };
 
   const handleDownloadQR = async () => {
     try {
