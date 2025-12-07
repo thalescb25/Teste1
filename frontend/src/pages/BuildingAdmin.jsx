@@ -598,6 +598,108 @@ const BuildingAdmin = () => {
           </div>
         )}
 
+        {/* Users Tab */}
+        {activeTab === 'users' && (
+          <div>
+            <h2 className="text-2xl font-bold text-graphite mb-6">Gestão de Usuários</h2>
+            
+            <div className="space-y-6">
+              {/* Receptionists */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Recepcionistas das Empresas</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="overflow-x-auto">
+                    <table className="w-full">
+                      <thead>
+                        <tr className="border-b">
+                          <th className="text-left p-3 text-sm font-semibold">Nome</th>
+                          <th className="text-left p-3 text-sm font-semibold">Email</th>
+                          <th className="text-left p-3 text-sm font-semibold">Empresa</th>
+                          <th className="text-left p-3 text-sm font-semibold">Ações</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {(JSON.parse(localStorage.getItem('users') || '[]'))
+                          .filter(u => u.role === 'company_receptionist' && u.buildingId === user?.buildingId)
+                          .map(userItem => {
+                            const company = companies.find(c => c.id === userItem.companyId);
+                            return (
+                              <tr key={userItem.id} className="border-b hover:bg-gray-50">
+                                <td className="p-3 text-sm">{userItem.name}</td>
+                                <td className="p-3 text-sm">{userItem.email}</td>
+                                <td className="p-3 text-sm">{company?.name || 'N/A'}</td>
+                                <td className="p-3">
+                                  <Button
+                                    onClick={() => handleDeleteUser(userItem.id)}
+                                    variant="outline"
+                                    size="sm"
+                                    className="border-red-200 text-red-600 hover:bg-red-50"
+                                  >
+                                    <Trash2 className="w-4 h-4" />
+                                  </Button>
+                                </td>
+                              </tr>
+                            );
+                          })}
+                      </tbody>
+                    </table>
+                    {(JSON.parse(localStorage.getItem('users') || '[]'))
+                      .filter(u => u.role === 'company_receptionist' && u.buildingId === user?.buildingId).length === 0 && (
+                      <p className="text-center text-neutral-dark py-8">Nenhum recepcionista cadastrado</p>
+                    )}
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Front Desk Users */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Porteiros</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="overflow-x-auto">
+                    <table className="w-full">
+                      <thead>
+                        <tr className="border-b">
+                          <th className="text-left p-3 text-sm font-semibold">Nome</th>
+                          <th className="text-left p-3 text-sm font-semibold">Email</th>
+                          <th className="text-left p-3 text-sm font-semibold">Ações</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {(JSON.parse(localStorage.getItem('users') || '[]'))
+                          .filter(u => u.role === 'front_desk' && u.buildingId === user?.buildingId)
+                          .map(userItem => (
+                            <tr key={userItem.id} className="border-b hover:bg-gray-50">
+                              <td className="p-3 text-sm">{userItem.name}</td>
+                              <td className="p-3 text-sm">{userItem.email}</td>
+                              <td className="p-3">
+                                <Button
+                                  onClick={() => handleDeleteUser(userItem.id)}
+                                  variant="outline"
+                                  size="sm"
+                                  className="border-red-200 text-red-600 hover:bg-red-50"
+                                >
+                                  <Trash2 className="w-4 h-4" />
+                                </Button>
+                              </td>
+                            </tr>
+                          ))}
+                      </tbody>
+                    </table>
+                    {(JSON.parse(localStorage.getItem('users') || '[]'))
+                      .filter(u => u.role === 'front_desk' && u.buildingId === user?.buildingId).length === 0 && (
+                      <p className="text-center text-neutral-dark py-8">Nenhum porteiro cadastrado</p>
+                    )}
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        )}
+
         {/* Visitors History Tab */}
         {activeTab === 'visitors' && (
           <div>
